@@ -107,7 +107,7 @@ Data errors were handled with a causal rule. A trading day was flagged as an ano
 
 ### Covariates
 
-All models received the same information known in advance, so that any accuracy gain could not come merely from extra information. {tbl:covariates} lists the covariates. The networks used all of them. ARIMA used a subset as regressors, since the day-of-week pattern is captured by its seasonal differencing.
+ARIMA and the networks received the same information known in advance, so that a hybrid gain could not come merely from extra information. {tbl:covariates} lists the covariates. The networks used all of them. ARIMA used a subset as regressors, since the day-of-week pattern is captured by its seasonal differencing. ETS and the seasonal naive method are univariate benchmarks and use no covariates.
 
 ::: table id=tbl:covariates widths=4.2,6.8,2.4,2.4 size=8.5
 caption: Covariates known at the forecast origin
