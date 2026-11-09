@@ -330,7 +330,7 @@ Slicers for dataset, store, model and origin are shared across pages. Accessibil
 - line styles and data labels so that no information depends on colour alone;
 - alternative text on every visual;
 - a logical keyboard tab order;
-- a minimum font size of 12 points.
+- minimum font sizes of 12 points for text and 10 points for axis labels.
 
 The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests check every measure against acceptance values computed in Python from the same data.
 
