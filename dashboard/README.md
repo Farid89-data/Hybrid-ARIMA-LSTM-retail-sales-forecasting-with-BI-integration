@@ -66,7 +66,7 @@ Audience: planners.
 | Visual | Fields | Notes |
 |---|---|---|
 | Cards | `Forecast Sales (scored)`, `Safety Stock Proxy`, `Stock-out Risk Days`, `Overstock Risk Days` | Each card has a subtitle explaining the measure in one sentence |
-| Clustered column chart | Axis `dim_date[iso_week]`; legend none; values `Forecast Sales (scored)`, `Forecast Upper 95% (scored)` | Weekly view for ordering |
+| Clustered column chart | Axis hierarchy `dim_date[iso_week]` then `dim_date[date]`; values `Forecast Sales (scored)`, `Forecast Upper 95% (scored)` | Weekly view for ordering; drill down to days |
 | Bar chart | Axis `dim_series[series_id]`; value `Bias %` | Constant line at zero; positive values mean over-forecasting |
 
 The safety stock proxy is the gap between the upper bound of the 95% interval and the point forecast. It is a planning aid, not an optimised inventory policy.
@@ -115,5 +115,7 @@ Expected values come from `data/acceptance_values.json`, which `scripts/export_d
 | TP-11 | Best Model (MASE) | Clear the model slicer | Shows the model with the lowest MASE in the bar chart | | Not yet run |
 | TP-12 | Planning cards | One store, one origin | Safety stock proxy equals upper minus forecast summed over the 28 days | | Not yet run |
 | TP-13 | Accessibility | Checklist A1 to A8 | All checks pass | | Not yet run |
+| TP-14 | Drill-down | On page 3, drill down from a week to its days and back up | Daily values sum to the weekly value; drilling up restores the weekly view | | Not yet run |
+| TP-15 | Static review of DAX | Compare each measure in `dax_measures.md` with the Python definition in `src/evaluation.py` and `src/export_powerbi.py` | Same filter (scored days), same formula; differences documented | | Not yet run |
 
 The functional tests had not been executed when the dissertation was written, because the `.pbix` file had not yet been assembled. The dissertation reports them as pending.
