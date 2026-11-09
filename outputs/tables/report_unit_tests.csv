@@ -1,0 +1,33 @@
+Test file,Test,Result,Time (s)
+test_data_loader.py,test eligibility ignores records on or after cutoff,Passed,0.06
+test_data_loader.py,test eligibility still applies rules before cutoff,Passed,0.02
+test_data_loader.py,test test start matches split plan,Passed,0.00
+test_evaluation.py,test point metrics known values,Passed,0.01
+test_evaluation.py,test unscored days are ignored,Passed,0.01
+test_evaluation.py,test interval metrics known values,Passed,0.01
+test_evaluation.py,test conformal quantile uses finite sample rank,Passed,0.01
+test_evaluation.py,test dm identical forecasts not significant,Passed,0.00
+test_evaluation.py,test dm detects clearly better model,Passed,0.00
+test_evaluation.py,test dm hln matches manual calculation,Passed,0.00
+test_evaluation.py,test holm adjustment matches hand calculation,Passed,0.00
+test_hybrid_model.py,test residuals are aligned with calendar index,Passed,0.55
+test_hybrid_model.py,test burn in and missing days are masked,Passed,0.59
+test_hybrid_model.py,test residuals are causal,Passed,0.56
+test_hybrid_model.py,test hybrid combination adds destandardised correction,Passed,0.00
+test_hybrid_model.py,test multistep targets are actual minus path,Passed,0.00
+test_leakage.py,test training targets end before cutoff,Passed,0.00
+test_leakage.py,test early stopping block is later and disjoint,Passed,0.00
+test_leakage.py,test training windows unchanged by future perturbation,Passed,0.10
+test_leakage.py,test forecast inputs use only data before origin,Passed,0.01
+test_models.py,test seasonal naive repeats last valid week,Passed,0.01
+test_models.py,test arima forecast horizon and interval order,Passed,0.55
+test_models.py,test one pass paths equal per origin forecasts,Passed,1.10
+test_models.py,test ets handles missing days,Passed,3.87
+test_models.py,test network output shape matches horizon,Passed,11.87
+test_models.py,test masked loss ignores masked days,Passed,0.02
+test_preprocessing.py,test split plan is chronological and non overlapping,Passed,0.00
+test_preprocessing.py,test split plan rejects short series,Passed,0.00
+test_preprocessing.py,test anomaly rule is causal,Passed,0.01
+test_preprocessing.py,test evaluation mask excludes closures and zero sales,Passed,0.01
+test_preprocessing.py,test scaler uses training period only and inverts,Passed,0.01
+test_preprocessing.py,test seasonal naive scale matches hand calculation,Passed,0.00
