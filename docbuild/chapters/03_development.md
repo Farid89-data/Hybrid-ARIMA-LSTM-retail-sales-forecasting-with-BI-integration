@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 28 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 32 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -291,7 +291,8 @@ source: Author's own work. Test files are in the tests folder of the repository.
 | Leakage | 4 | Training targets end before the cut-off; early-stopping block later and disjoint; windows and forecast inputs unchanged when future data are perturbed |
 | Models | 6 | Seasonal naive repeats the last valid week; interval ordering; one-pass paths equal per-origin forecasts; ETS with missing days; output shape; masked loss |
 | Hybrid | 5 | Residual alignment; burn-in and missing days masked; causal residuals; correct combination; multi-step targets equal actual minus path |
-| Evaluation | 7 | Metrics on known values; unscored days ignored; interval metrics; conformal rank; DM test on identical, clearly different and hand-computed cases |
+| Evaluation | 8 | Metrics on known values; unscored days ignored; interval metrics; conformal rank; DM test on identical, clearly different and hand-computed cases; Holm adjustment |
+| Data loading | 3 | Rossmann store eligibility unchanged when records on or after the test start are altered; rules still applied before it; test start matches the split plan |
 :::
 
 ### Reproducibility
