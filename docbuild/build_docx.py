@@ -1082,10 +1082,14 @@ def build(out_path: Path = OUT_DOCX) -> dict:
     # Section 1 ends after the title page: no page number on it.
     b.section_break(page_format=None, start=None, footer=False)
     for name, blocks in front:
-        b.render(blocks, part=name)
+        if "abbrev" not in name:
+            b.render(blocks, part=name)
     b.field_list("Table of Contents", 'TOC \\o "1-3" \\h \\z \\u', "Table of contents: update fields in Word (F9).")
     b.field_list("List of Figures", 'TOC \\h \\z \\c "Figure"', "List of figures: update fields in Word (F9).")
     b.field_list("List of Tables", 'TOC \\h \\z \\c "Table"', "List of tables: update fields in Word (F9).")
+    for name, blocks in front:
+        if "abbrev" in name:  # the list of abbreviations follows the lists of figures and tables
+            b.render(blocks, part=name)
     b.section_break(page_format="lowerRoman", start=1, footer=True)
     for name, blocks in main:
         b.render(blocks, part=name)
