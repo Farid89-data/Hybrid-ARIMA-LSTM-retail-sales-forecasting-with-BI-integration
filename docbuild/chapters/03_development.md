@@ -12,7 +12,7 @@ source: Author's own work.
 | Increment | CRISP-DM phase | Main activities | Output |
 |---|---|---|---|
 | 1 | Business understanding | Read the handbook and proposal, define requirements, set up the environment | Compliance matrix; decisions log |
-| 2 | Data understanding | Integrity check of the raw files, exploratory analysis | Data check report; EDA figures |
+| 2 | Data understanding | Integrity check of the raw files, exploratory analysis | Data check report; exploratory figures |
 | 3 | Data preparation | Store-level series, closures, anomalies, covariates, chronological splits | Prepared panels; split plans; unit tests |
 | 4 | Modelling (benchmarks) | Seasonal naive, ARIMA, ETS with rolling-origin forecasts | Statistical forecasts; residual artefacts |
 | 5 | Modelling (networks and hybrids) | FFNN, LSTM and three hybrid variants; tuning and five-seed training | Neural forecasts; tuning logs |
@@ -160,7 +160,7 @@ The statistical model is a regression with seasonal ARIMA errors, shown in {eq:a
 
 $$y_t = \boldsymbol{\beta}^{\top}\mathbf{x}_t + u_t, \quad \phi(B)\,\Phi(B^7)\,(1-B)^d\,(1-B^7)\,u_t = \theta(B)\,\Theta(B^7)\,\varepsilon_t$$ {#eq:arima}
 
-where \(\mathbf{x}_t\) contains the regressors of {tbl:covariates}, \(B\) is the backshift operator, and \(\phi\), \(\Phi\), \(\theta\) and \(\Theta\) are polynomials of order \(p\), \(P\), \(q\) and \(Q\). Seasonal differencing at lag seven was imposed because every series showed a strong weekly cycle. The order of non-seasonal differencing \(d\) was chosen by a KPSS test on the seasonally differenced series. The orders \(p\) and \(q\) (up to three) and \(P\) and \(Q\) (up to two) were chosen by a stepwise search that minimised the corrected Akaike information criterion (AICc). The search started from four initial models and moved to neighbouring orders while the AICc improved.
+where \(\mathbf{x}_t\) contains the regressors of {tbl:covariates}, \(B\) is the backshift operator, and \(\phi\), \(\Phi\), \(\theta\) and \(\Theta\) are polynomials of order \(p\), \(P\), \(q\) and \(Q\). Seasonal differencing at lag seven was imposed because every series showed a strong weekly cycle. The order of non-seasonal differencing \(d\) was chosen by a Kwiatkowski-Phillips-Schmidt-Shin (KPSS) stationarity test on the seasonally differenced series. The orders \(p\) and \(q\) (up to three) and \(P\) and \(Q\) (up to two) were chosen by a stepwise search that minimised the corrected Akaike information criterion (AICc). The search started from four initial models and moved to neighbouring orders while the AICc improved.
 
 The model was implemented in the statsmodels state-space framework. The Kalman filter treats closures and anomalies as missing observations, so no imputation was needed. One-step-ahead residuals and multi-step forecasts are both produced by the same causal filter. A consistency check confirmed that the multi-step forecast paths used by the hybrids agreed with direct forecasts at every test origin.
 

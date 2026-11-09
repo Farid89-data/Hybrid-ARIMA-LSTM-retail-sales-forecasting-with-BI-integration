@@ -42,15 +42,15 @@ caption: Comparison of recent hybrid statistical-neural forecasting studies
 source: Author's own synthesis of the cited studies (2023 to 2026).
 | Study | Data | Coupling of the two components | Significance test | Main finding |
 |---|---|---|---|---|
-| @siamba2023 | Monthly TB cases (120) | ANN fitted to ARIMA residuals, added | Diebold-Mariano | MAPE 38.9% (seasonal ARIMA) to 36.0% |
+| @siamba2023 | Monthly tuberculosis cases (120) | ANN fitted to ARIMA residuals, added | Diebold-Mariano | MAPE 38.9% (seasonal ARIMA) to 36.0% |
 | @wan2023 | Daily disease cases (3,134) | EEMD-LSTM on ARIMA residuals, added | None | Plain ARIMA-LSTM less accurate than ARIMA |
 | @duan2023 | Daily air quality index, four cities | ARIMA for the linear part, CNN-LSTM for the non-linear part | None | Error reductions against nine benchmarks |
-| @linardatos2023 | Hourly CO2 sensor data | Average of ARIMA and transformer forecasts | Friedman with Holm | Significantly better in 13 of 20 RMSE cases |
+| @linardatos2023 | Hourly carbon dioxide sensor data | Average of ARIMA and transformer forecasts | Friedman with Holm | Significantly better in 13 of 20 RMSE cases |
 | @si2024 | Daily index spread (7,927) | GRU or LSTM on ARIMA residuals, added | None | MAE 0.384 to 0.346 |
 | @huang2025 | Daily tobacco sales (337) | CNN-LSTM on ARIMA residuals, added | None | MAPE 38.9% to 11.3% |
 | @du2025 | Monthly disease cases (120) | LSTM on ARIMA residuals, added | None | Hybrid MAPE 0.08%; seasonal naive beat ARIMA and LSTM |
-| @milli2025 | Hourly PM2.5, Beijing | LSTM on Prophet in-sample residuals, added | None (bootstrap intervals for metrics) | Lower MAE and RMSE than the compared models |
-| @vallejo2025 | Hourly air quality, Chile | ARIMA orders define ANN inputs | None | R2 above 0.90 |
+| @milli2025 | Hourly fine particulate matter, Beijing | LSTM on Prophet in-sample residuals, added | None (bootstrap intervals for metrics) | Lower MAE and RMSE than the compared models |
+| @vallejo2025 | Hourly air quality, Chile | ARIMA orders define ANN inputs | None | R² above 0.90 |
 | @gerakoudi2026 | Daily shipping stock prices | ARIMA-LSTM combination | None | Hybrid best at short horizons; LSTM beat ARIMA |
 | @mbodila2026 | Retail sales incl. Walmart | Gradient boosting, ANN and attention fused | Paired t-test | Lowest RMSE on Walmart data; time order of folds unclear |
 | @nathan2026 | Intermittent parts demand | Decomposed architecture versus single model | Wilcoxon | Feature engineering beat architectural complexity |
@@ -77,7 +77,7 @@ Forecast evaluation must respect time order. Rolling-origin evaluation "seems th
 No single error measure is sufficient, because each has a different weakness:
 
 - **RMSE** penalises large errors and is in the units of the series, but it is dominated by large series when averaged across a panel [@hewamalage2023].
-- **MAE** is "more interpretable than MSE or RMSE", because squared measures "inflate unsystematic error by squaring deviations" [@robeson2023].
+- **Mean absolute error (MAE)** is "more interpretable than MSE or RMSE", because squared measures "inflate unsystematic error by squaring deviations" [@robeson2023].
 - **MAPE** is intuitive for managers but produces "excessively large values" when actual values are close to zero [@hewamalage2023].
 - **MASE** scales the absolute error by the in-sample error of a naive benchmark. It is therefore scale-free and meaningful across series [@hewamalage2023].
 
@@ -135,7 +135,7 @@ source: Author's own work, derived from the proposal, the module handbook and th
 | ID | Requirement | Verification |
 |---|---|---|
 | FR1 | Load the raw Kaggle files and report their integrity: rows, columns, missing cells and checksums | Integrity report ({app:B}) |
-| FR2 | Build daily store-level series with known closures and causally flagged anomalies | Unit tests; EDA |
+| FR2 | Build daily store-level series with known closures and causally flagged anomalies | Unit tests; exploratory analysis |
 | FR3 | Produce 28-day forecasts from rolling origins for seasonal naive, ARIMA, ETS, FFNN, LSTM and hybrid models | Forecast files for every origin |
 | FR4 | Provide a 95% prediction interval for every model | Coverage on the test period |
 | FR5 | Compute RMSE, MAPE and MASE by model, series and horizon, and Diebold-Mariano tests | Metric tables; unit tests on known inputs |
@@ -146,7 +146,7 @@ source: Author's own work, derived from the proposal, the module handbook and th
 | NFR1 | Temporal integrity: no information after the forecast origin enters fitting or inputs | Perturbation tests must pass |
 | NFR2 | Reproducibility: fixed seeds, deterministic operations, pinned versions, one command per stage | Re-run comparison; repository guide |
 | NFR3 | Maintainability: modular package, type hints, docstrings, automated tests | Code review; test suite |
-| NFR4 | Feasibility: complete on a two-core laptop CPU without a GPU | Measured runtimes |
+| NFR4 | Feasibility: complete on a two-core laptop processor without a graphics processor | Measured runtimes |
 | NFR5 | Sustainability: runtime and estimated energy reported for every model | Cost table |
 | NFR6 | Usability: dashboard SUS score of 80 or more, interpreted as excellent [@hammad2026] | User study (approved, pending) |
 | NFR7 | Accessibility: readable without colour cues and in greyscale, keyboard operable, usable with a screen reader through alternative text [@choiseo2024; @nelli2024] | Accessibility checklist |
