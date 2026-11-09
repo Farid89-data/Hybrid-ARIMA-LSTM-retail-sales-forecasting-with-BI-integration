@@ -7,7 +7,7 @@ Every table is loaded from the CSV files that `scripts/export_dashboard.py` writ
 Create a text parameter called `DataFolder` (**Manage Parameters → New**). Set its value to the absolute path of `dashboard/data/`, ending with a backslash. For example:
 
 ```
-F:\_Arden (MSc Data Science)\6- Final Project\Calude Code\Code\dashboard\data\
+C:\path\to\Code\dashboard\data\
 ```
 
 ## Loading the tables
