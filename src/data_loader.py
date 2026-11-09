@@ -156,26 +156,41 @@ def load_m5_store_panel(raw_dir=None) -> Panel:
     )
 
 
-def eligible_rossmann_stores(train: pd.DataFrame, stores: pd.DataFrame) -> pd.DataFrame:
-    """Stores suitable for daily modelling (D-002).
+def eligible_rossmann_stores(train: pd.DataFrame, stores: pd.DataFrame,
+                             cutoff: pd.Timestamp | None = None) -> pd.DataFrame:
+    """Stores suitable for daily modelling (D-002, revised in D-025).
 
-    Criteria: complete daily history (942 records), never open on Sundays (so
-    every store follows the same Monday-to-Saturday trading pattern), at most
-    35 weekday closures (excludes long refurbishment closures), and no day that
-    is recorded as open with zero sales (recording anomalies).
+    Criteria: complete daily history, never open on Sundays (so every store
+    follows the same Monday-to-Saturday trading pattern), at most 35 weekday
+    closures (excludes long refurbishment closures), and no day recorded as
+    open with zero sales (recording anomalies).
+
+    Only records dated before ``cutoff`` (the first test day) are used, so the
+    selection of stores uses no information from the test period. Completeness
+    of the test-period records is a structural requirement of the panel and is
+    checked separately when the panel is built.
     """
+    if cutoff is not None:
+        train = train[pd.to_datetime(train["Date"]) < pd.Timestamp(cutoff)]
     counts = train.groupby("Store").size()
     complete = counts[counts == counts.max()].index
     sunday_open = train[train["DayOfWeek"] == 7].groupby("Store")["Open"].max()
     never_sunday = sunday_open[sunday_open == 0].index
     weekday_closures = (
         train[(train["Open"] == 0) & (train["DayOfWeek"] != 7)].groupby("Store").size()
+        .reindex(counts.index, fill_value=0)
     )
     few_closures = weekday_closures[weekday_closures <= 35].index
     zero_open = train[(train["Open"] == 1) & (train["Sales"] == 0)]["Store"].unique()
     keep = set(complete) & set(never_sunday) & set(few_closures)
     keep -= set(zero_open)
     return stores[stores["Store"].isin(keep)].copy()
+
+
+def rossmann_test_start(dates: pd.DatetimeIndex) -> pd.Timestamp:
+    """First day of the Rossmann test period under the configured split plan."""
+    cfg = config.ROSSMANN_CONFIG
+    return dates[len(dates) - cfg.n_test_origins * config.HORIZON]
 
 
 def sample_rossmann_stores(eligible: pd.DataFrame, n: int, seed: int) -> list[int]:
@@ -214,10 +229,10 @@ def load_rossmann_panel(raw_dir=None, n_stores: int | None = None, seed: int | N
     seed = cfg.sample_seed if seed is None else seed
     train = pd.read_csv(raw_dir / "train.csv", parse_dates=["Date"], dtype={"StateHoliday": str})
     stores = pd.read_csv(raw_dir / "store.csv")
-    eligible = eligible_rossmann_stores(train, stores)
+    dates = pd.date_range(train["Date"].min(), train["Date"].max(), freq="D")
+    eligible = eligible_rossmann_stores(train, stores, cutoff=rossmann_test_start(dates))
     chosen = sample_rossmann_stores(eligible, n_stores, seed)
 
-    dates = pd.date_range(train["Date"].min(), train["Date"].max(), freq="D")
     sub = train[train["Store"].isin(chosen)].copy()
     sub["StateHolidayAny"] = (sub["StateHoliday"] != "0").astype(float)
 

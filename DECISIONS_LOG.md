@@ -329,3 +329,18 @@ The primary hybrid is the variant with the best validation MASE; the others are 
 - Diebold-Mariano tests (HLN correction, h = 28) compare the primary hybrid with each of the other seven models, using both absolute and squared scaled losses.
 - For each hybrid seed and loss, the seven p-values form one family and are adjusted with the Holm step-down method (`src/statistical_tests.holm_adjust`, unit-tested).
 - A difference is called robust only if it is significant after adjustment for all five seeds.
+
+## D-025: Rossmann eligibility uses pre-test data only (DECIDED 10 Nov 2026, audit finding A01)
+
+- **Problem.** Store eligibility (complete history, no Sunday trading, at most 35 weekday closures, no open day with zero sales) was judged on all 942 days, including the test period. Fourteen stores (123, 292, 308, 674, 699, 764, 803, 870, 876, 894, 947, 964, 971, 1021) were excluded only because of events in the test period: a mild selection look-ahead.
+- **Fix.** `eligible_rossmann_stores` now uses only records dated before the first test day (17 January 2015). Completeness of the test-period records remains a structural requirement of the panel (checked when the panel is built). Stores with no weekday closure are now handled explicitly (count 0); this changed no eligibility result. Unit tests in `tests/test_data_loader.py` show that changing any record on or after the cut-off does not change eligibility.
+- **Effect.** Eligible stores: 836 → 850. Re-drawn sample (same stratified rule, seed 2026):
+
+| | Stores |
+|---|---|
+| Old sample (v1) | 17, 146, 173, 254, 293, 390, 395, 421, 527, 691, 709, 748, 776, 777, 796, 891, 924, 929, 939, 987 |
+| New sample | 17, 146, 176, 254, 293, 390, 400, 421, 527, 691, 718, 776, 777, 792, 796, 891, 929, 936, 939, 987 |
+| Removed | 173, 395, 709, 748, 924 |
+| Added | 176, 400, 718, 792, 936 |
+
+- The Rossmann statistical stage was re-run on the new sample. The v1 outputs and their experiment-log rows were moved to `outputs/archive/rossmann_sample_v1/`; nothing was deleted.

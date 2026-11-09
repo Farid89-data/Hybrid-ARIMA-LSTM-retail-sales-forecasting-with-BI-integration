@@ -18,3 +18,6 @@ data/raw/
 # Local-only material (contains personal details from the proposal)
 docbuild/baseline/
 docbuild/build/
+
+# Superseded runs kept for the record (large intermediate files only)
+outputs/archive/*/interim/
