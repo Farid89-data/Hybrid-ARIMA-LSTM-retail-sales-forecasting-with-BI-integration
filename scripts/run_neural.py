@@ -171,9 +171,30 @@ def main() -> None:
         task = experiment.NeuralTask(prep, arts, "hyb_z", "tune")
         table, info, _ = task.train_and_forecast(params, seed=config.PRIMARY_SEED)
         table.to_csv(config.FORECAST_DIR / f"{args.dataset}_hyb_z_validation.csv.gz", index=False)
-        utils.save_json({"best_params": params, "best_value": experiment.validation_mase(table),
+        score = experiment.validation_mase(table)
+        utils.save_json({"best_params": params, "best_value": score,
                          "source": "hyb_d tuning (shared configuration)"},
                         config.METRIC_DIR / f"{args.dataset}_hyb_z_best_params.json")
+        # A11: the validation run is part of the cost of hyb_z, so it is logged like a tuning trial.
+        utils.log_experiment(
+            {
+                "run_id": f"{prep.name}-hyb_z-validation",
+                "phase": "tuning",
+                "dataset": prep.name,
+                "series_set": f"{prep.panel.n_series} series",
+                "model": "hyb_z",
+                "parameters_json": json.dumps(params),
+                "seed": config.PRIMARY_SEED,
+                "split_scheme": f"fit before validation; {len(prep.plan.val_origins)} validation origins",
+                "origin_id": "validation",
+                "horizon_days": prep.plan.horizon,
+                "runtime_s": round(info["train_seconds"], 2),
+                "energy_est_kwh": f"{utils.energy_kwh(info['train_seconds']):.6f}",
+                "mase": round(score, 5),
+                "script": "scripts/run_neural.py",
+                "notes": "configuration shared with hyb_d; single validation run for interval calibration",
+            }
+        )
     elif args.skip_tuning:
         params = utils.load_json(config.METRIC_DIR / f"{args.dataset}_{args.model}_best_params.json")["best_params"]
     else:

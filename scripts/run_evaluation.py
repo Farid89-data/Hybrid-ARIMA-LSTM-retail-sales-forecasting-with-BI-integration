@@ -196,7 +196,13 @@ def cost_table(name: str) -> pd.DataFrame:
             "total_seconds": tune + final.sum(),
             "energy_kwh_total": utils.energy_kwh(tune + final.sum()),
         })
-    return pd.DataFrame(rows)
+    out = pd.DataFrame(rows)
+    # A11: the hybrids need the ARIMA stage (residuals and forecast paths), so their full cost includes it.
+    arima_total = float(out.loc[out["model"] == "arima", "total_seconds"].sum()) if not out.empty else 0.0
+    out["total_with_arima_seconds"] = np.where(out["model"].str.startswith("hyb"),
+                                               out["total_seconds"] + arima_total, out["total_seconds"])
+    out["energy_with_arima_kwh"] = [utils.energy_kwh(s) for s in out["total_with_arima_seconds"]]
+    return out
 
 
 def fig_by_horizon(test, name):
