@@ -1,0 +1,10 @@
+# Conda alternative to requirements.txt. The dissertation results were produced with
+# a pip virtual environment on Python 3.13.14; this file mirrors those pins.
+name: hybrid-forecast
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - -r requirements.txt

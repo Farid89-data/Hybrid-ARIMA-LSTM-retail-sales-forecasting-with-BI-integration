@@ -1,0 +1,11 @@
+# SHA-256 checksums of the Kaggle files used in the dissertation (checked 2026-11-08T23:50:37+00:00).
+# Paths are relative to the raw data folder (default: ../Dataset; override with RAW_DATA_DIR).
+d12b5914ef03e66649adf5dd9e996e6602251c22b7a6af8f1f7e3aa12f8860f5  m5-forecasting-accuracy/calendar.csv
+f368e66ed1dbecb48b2cc8fc589bf68b3deddbbb36bf5c88b4d6d0a09b9b6724  m5-forecasting-accuracy/sales_train_validation.csv
+4b4a47c44c38380d2a9168216fea8c9ff2f31b1ddb772f8a0995952a038b8aa0  m5-forecasting-accuracy/sales_train_evaluation.csv
+9da3ad1f8b8ccacdbdc70612191dd375ec24a4ac6625c24b75b3bc60b0bed2ef  m5-forecasting-accuracy/sell_prices.csv
+eb7597afbec367475ef25dc6dbbc009b8faa47fa2107252c72a029e3cdf72343  m5-forecasting-accuracy/sample_submission.csv
+f6e4597c142d7d909a13d53b68a8e85c00b9a4c7b5ff40adbb37d6829cc1f4cc  rossmann-store-sales/train.csv
+e75f79972de046d88c2fd55da19df627f5ca654aaf418090d4d30c60ea7dbe26  rossmann-store-sales/test.csv
+f56bd124a2849489e6bbb5c000f5fc9640204355e316475c918ae4d089afb344  rossmann-store-sales/store.csv
+592d892eb07072ddfa3773f13c4822ce5d01981243134c8d512ae30f016805db  rossmann-store-sales/sample_submission.csv

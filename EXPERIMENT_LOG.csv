@@ -1,0 +1,1 @@
+run_id,timestamp_utc,phase,dataset,series_set,model,parameters_json,seed,split_scheme,origin_id,horizon_days,runtime_s,energy_est_kwh,rmse,mape,mase,pi95_coverage,output_path,script,git_commit,notes
