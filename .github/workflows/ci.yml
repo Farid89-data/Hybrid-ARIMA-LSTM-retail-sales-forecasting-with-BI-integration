@@ -21,4 +21,5 @@ jobs:
         env:
           TF_ENABLE_ONEDNN_OPTS: "0"
           TF_CPP_MIN_LOG_LEVEL: "2"
+          PYTHONHASHSEED: "0"
         run: python -m pytest -q
