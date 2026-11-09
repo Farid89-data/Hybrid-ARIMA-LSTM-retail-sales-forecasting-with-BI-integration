@@ -24,7 +24,7 @@ Results are added here from `outputs/tables/` after the final evaluation run.
 | `src/` | Python package: data loading, preprocessing, statistical models, networks, hybrids, evaluation, statistical tests, Power BI export |
 | `scripts/` | Command-line entry points for each stage (see below) |
 | `tests/` | pytest suite, including leakage tests |
-| `notebooks/` | Nine executed walkthrough notebooks that read the pipeline outputs |
+| `notebooks/` | Nine walkthrough notebooks that read the pipeline outputs; generated and executed by `scripts/make_notebooks.py` after the evaluation has run |
 | `dashboard/` | Power BI data model: data dictionary, Power Query, DAX measures, build guide and test plan |
 | `docbuild/` | Builds the dissertation Word file from Markdown chapters in the university template |
 | `data/` | Instructions for obtaining the Kaggle files and their reference checksums (no raw data) |
