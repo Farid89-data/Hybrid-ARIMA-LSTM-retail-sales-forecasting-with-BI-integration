@@ -1,0 +1,3 @@
+Dataset,Series,Days,Period,Mean daily sales,Coefficient of variation,Closure days (share),Anomalies flagged,Training days (final),Validation days,Test days,Unit
+M5 (Walmart),10,1941,29 Jan 2011 to 22 May 2016,"3,457",0.25,0.3%,1,1549,140,392,items sold
+Rossmann,20,942,01 Jan 2013 to 31 Jul 2015,"6,949",0.27,17.1%,0,746,140,196,euros

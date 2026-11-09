@@ -1,0 +1,10 @@
+File,Size (MB),Rows,Columns,Missing cells,Status,SHA-256 (first 16)
+m5-forecasting-accuracy/calendar.csv,0.10,"1,969",14,"7,542",OK,d12b5914ef03e666
+m5-forecasting-accuracy/sales_train_validation.csv,120.01,"30,490",1919,0,OK,f368e66ed1dbecb4
+m5-forecasting-accuracy/sales_train_evaluation.csv,121.74,"30,490",1947,0,OK,4b4a47c44c38380d
+m5-forecasting-accuracy/sell_prices.csv,203.40,"6,841,121",4,0,OK,9da3ad1f8b8ccacd
+m5-forecasting-accuracy/sample_submission.csv,5.23,"60,980",29,0,OK,eb7597afbec36747
+rossmann-store-sales/train.csv,38.06,"1,017,209",9,0,OK,f6e4597c142d7d90
+rossmann-store-sales/test.csv,1.43,"41,088",8,11,OK,e75f79972de046d8
+rossmann-store-sales/store.csv,0.05,"1,115",10,"2,343",OK,f56bd124a2849489
+rossmann-store-sales/sample_submission.csv,0.32,"41,088",2,0,OK,592d892eb07072dd

@@ -1,0 +1,6 @@
+# Optional: building the Word report (Windows with Microsoft Word for field update and PDF export).
+python-docx==1.2.0
+lxml==6.1.2
+latex2mathml==3.81.1
+pymupdf==1.28.2
+pywin32==312; sys_platform == "win32"

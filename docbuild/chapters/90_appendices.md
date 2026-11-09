@@ -1,0 +1,267 @@
+# Appendix A: Declaration on the Use of Generative AI {#app:A .appendix letter=A}
+
+[[PENDING: check this declaration against Arden University's current policy on generative AI, and complete any official declaration form that the policy requires.]]
+
+Generative AI was used extensively in this project. The tool was Claude Code, an AI coding assistant from Anthropic, running the Claude Opus 5.5 model inside Visual Studio Code. It worked on the author's computer, within the project folders and under the author's instructions. {tbl:aiuse} sets out how it was used, what the author did and which safeguards applied.
+
+::: table id=tbl:aiuse widths=3.0,4.6,3.8,4.2 size=8.5
+caption: Use of generative AI by task
+source: Author's own work, based on the project's decisions log.
+| Task | Role of the AI assistant | Role of the author | Safeguard |
+|---|---|---|---|
+| Project definition | [[PENDING: author to state any AI use in the proposal]] | Wrote the approved proposal: aim, objectives and outline method | Supervisor approval of the proposal |
+| Literature search and review | Queried OpenAlex and Crossref, screened records, read full texts on publisher pages and wrote reading notes | Approved the discovery route after automated Google Scholar searching proved impossible | Every source checked against its DOI record and full text; claims checked against reading notes |
+| Data | Checked the integrity of the files and prepared the series | Downloaded the datasets from Kaggle | Checksums and an integrity report before any experiment |
+| Code and experiments | Wrote the code and tests, and ran the experiments | [[PENDING: author to describe their review of the code]] | Automated tests, leakage tests and an experiment log; every reported number produced by executed code |
+| Report | Drafted the text, tables and figures in the template | [[PENDING: author to describe their review and editing]] | Citation audit; numbers in tables generated from result files |
+| Decisions | Proposed options with justifications in the decisions log | Took the decisions at the review points (data, literature route, format, ethics) | Decisions log with dates |
+:::
+
+[[PENDING: the author must confirm that they have reviewed the report and the code and that they take responsibility for their content.]]
+
+# Appendix B: Datasets and Provenance {#app:B .appendix letter=B}
+
+## Sources
+
+Both datasets were downloaded by the author from the Kaggle competition pages and were used without modification:
+
+- M5 Forecasting - Accuracy [@kaggle2020m5]: <https://www.kaggle.com/competitions/m5-forecasting-accuracy/data>
+- Rossmann Store Sales [@kaggle2015rossmann]: <https://www.kaggle.com/competitions/rossmann-store-sales/data>
+
+The files were checked on 8 November 2026 before any experiment was run. {tbl:rawcheck} lists the result. All nine files opened completely. The missing cells are expected: in the M5 calendar they are the four event columns on days without an event; in the Rossmann store file they are competition and Promo2 dates for stores without that information; and in the Rossmann test file they are 11 missing opening flags. Neither test file was used, because the test periods of both competitions have no published sales.
+
+::: table id=tbl:rawcheck csv=outputs/tables/report_raw_data_check.csv size=7.5 widths=5.6,1.4,1.6,1.4,1.6,1.2,2.8
+caption: Integrity check of the raw Kaggle files
+source: Author's own check of the downloaded files (outputs/data_check/raw_data_check.md).
+:::
+
+## Rossmann sample
+
+{tbl:stores} lists the 20 sampled stores. The sample was drawn from the 836 eligible stores in proportion to the store type and assortment strata, with at least two stores per stratum and a fixed seed of 2026.
+
+::: table id=tbl:stores csv=outputs/tables/report_rossmann_stores.csv size=8.5 widths=2.2,2.6,2.6,4.0,2.2
+caption: Sampled Rossmann stores and their attributes
+source: Author's own sample from the Rossmann store file [@kaggle2015rossmann].
+:::
+
+# Appendix C: Literature Matrix {#app:C .appendix letter=C}
+
+{tbl:litmatrix} lists the 47 journal articles that met the inclusion criteria of {sec:reviewmethod}, with their focus and the sections of this report in which they are cited.
+
+::: table id=tbl:litmatrix csv=outputs/tables/report_literature_matrix.csv size=7.5 widths=3.6,4.0,6.0,2.0
+caption: Literature matrix of the reviewed articles
+source: Author's own synthesis.
+:::
+
+# Appendix D: Model Specifications and Extended Results {#app:D .appendix letter=D}
+
+## Statistical models
+
+{tbl:specsm5} and {tbl:specsross} list the ARIMA and ETS specifications selected for each series on the tuning-stage training period.
+
+::: table id=tbl:specsm5 csv=outputs/tables/report_stat_specs_m5.csv size=8.5
+caption: Selected statistical models for the M5 stores
+source: Author's own results (outputs/metrics/m5_statistical_specs.json).
+:::
+
+::: table id=tbl:specsross csv=outputs/tables/report_stat_specs_rossmann.csv size=8.5
+caption: Selected statistical models for the Rossmann stores
+source: Author's own results (outputs/metrics/rossmann_statistical_specs.json).
+:::
+
+## Neural networks
+
+{tbl:bestparams} lists the hyperparameters selected by the tuning stage and the corresponding validation MASE.
+
+::: table id=tbl:bestparams csv=outputs/tables/report_best_params.csv size=8
+caption: Selected hyperparameters of the neural and hybrid models
+source: Author's own results (outputs/metrics/*_best_params.json).
+:::
+
+# Appendix E: Test Plan and Results {#app:E .appendix letter=E}
+
+## Automated tests
+
+{tbl:unittests} lists every automated test with its result in the final run.
+
+::: table id=tbl:unittests csv=outputs/tables/report_unit_tests.csv size=8 widths=3.6,9.0,1.6,1.4
+caption: Automated tests and results
+source: Author's own test run (pytest).
+:::
+
+## Dashboard functional tests
+
+{tbl:dashtests} is the functional test plan for the dashboard. The expected values are computed in Python and stored with the exported data, so that the dashboard measures can be checked against the figures in this report. The tests had not been run when this report was written, because the dashboard file had not yet been assembled in Power BI Desktop.
+
+::: table id=tbl:dashtests widths=1.5,3.4,5.6,5.1 size=8
+caption: Functional test plan for the dashboard
+source: Author's own work (dashboard/README.md).
+| ID | Test | Steps | Expected result |
+|---|---|---|---|
+| TP-01 | Data load | Refresh all queries | Six tables load without errors; row counts equal those printed by the export |
+| TP-02 | Relationships | Open the model view | Seven many-to-one, single-direction relationships |
+| TP-03 | Sort orders | Show weekday and month | Monday to Sunday; January to December |
+| TP-04 | Dataset slicer | Select M5, then Rossmann | Every visual changes; stores of one dataset never appear under the other |
+| TP-05 | Store slicer | Select one store | Page 1 shows that store only |
+| TP-06 | Model and origin slicers | Select one model and one origin | Page 1 shows 28 days from that origin |
+| TP-07 | Actual sales measure | One dataset and model, all stores and origins | Equals the acceptance value for total actual sales |
+| TP-08 | Forecast sales measure | As TP-07 | Equals the acceptance value for total forecast |
+| TP-09 | MAE measure | As TP-07 | Equals the acceptance value for mean absolute error |
+| TP-10 | Coverage measure | As TP-07 | Equals the acceptance value for interval coverage |
+| TP-11 | Best model card | Clear the model slicer | Shows the model with the lowest MASE |
+| TP-12 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days |
+| TP-13 | Accessibility | Checklist in {tbl:a11y} | All checks pass |
+:::
+
+# Appendix F: Dashboard Specification {#app:F .appendix letter=F}
+
+## Pages
+
+The dashboard has three pages that share slicers for dataset, store, model and forecast origin. {fig:wireforecast}, {fig:wiremodels} and {fig:wireplanning} are design wireframes of the pages; they are drawings of the specification, not screenshots of a built report.
+
+::: figure id=fig:wireforecast file=outputs/figures/dash_wireframe_forecast.png width=15
+caption: Design wireframe of the forecast page
+source: Author's own design.
+alt: Wireframe with four slicers at the top, a large line chart of actual and forecast sales with a 95% band, two cards for MASE and interval coverage, a column chart of error by horizon and a detail table.
+:::
+
+::: figure id=fig:wiremodels file=outputs/figures/dash_wireframe_models.png width=15
+caption: Design wireframe of the model comparison page
+source: Author's own design.
+alt: Wireframe with a bar chart of MASE by model, a line chart of error by horizon for each model, a matrix of MASE by store and model, a best-model card and a bar chart of interval coverage by model.
+:::
+
+::: figure id=fig:wireplanning file=outputs/figures/dash_wireframe_planning.png width=15
+caption: Design wireframe of the planning page
+source: Author's own design.
+alt: Wireframe with four cards for forecast sales, safety stock proxy, stock-out risk days and overstock risk days, a weekly column chart of forecast and upper bound, and a bar chart of bias by store.
+:::
+
+## Measures
+
+The main Data Analysis Expressions (DAX) measures are listed below. Every accuracy measure is restricted to scored days, so that the dashboard reproduces the figures in this report.
+
+```
+MASE =
+AVERAGEX ( FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
+    DIVIDE ( ABS ( fact_forecast[actual] - fact_forecast[forecast] ), fact_forecast[scale] ) )
+
+Interval Coverage % =
+AVERAGEX ( FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
+    IF ( fact_forecast[actual] >= fact_forecast[lower]
+         && fact_forecast[actual] <= fact_forecast[upper], 1, 0 ) )
+
+Safety Stock Proxy =
+[Forecast Upper 95% (scored)] - [Forecast Sales (scored)]
+
+Stock-out Risk Days =
+COUNTROWS ( FILTER ( fact_forecast,
+    fact_forecast[scored] = 1 && fact_forecast[actual] > fact_forecast[upper] ) )
+
+Best Model (MASE) =
+VAR scores = ADDCOLUMNS ( VALUES ( dim_model[model_label] ), "@mase", [MASE] )
+RETURN MAXX ( TOPN ( 1, scores, [@mase], ASC ), dim_model[model_label] )
+```
+
+The complete set of measures, the Power Query scripts and the build steps are in the dashboard folder of the repository.
+
+## Accessibility checklist
+
+::: table id=tbl:a11y widths=1.2,7.4,7.0 size=8.5
+caption: Accessibility checklist for the dashboard
+source: Author's own work, based on @choiseo2024 and @nelli2024.
+| # | Check | How it is verified |
+|---|---|---|
+| A1 | Text contrast at least 4.5:1 against the background | Theme colours checked in a contrast checker |
+| A2 | Every chart readable in greyscale | Greyscale export or a colour-vision simulator |
+| A3 | No information carried by colour alone | Models differ by line style or marker as well as colour |
+| A4 | Alternative text on every visual | Format pane of each visual |
+| A5 | Logical keyboard tab order | Tab through each page |
+| A6 | All slicers usable with the keyboard | Operate each slicer with Tab, arrow keys and Enter |
+| A7 | Minimum font sizes of 12 points for text and 10 points for axis labels | Visual formatting |
+| A8 | Report usable with a high-contrast theme | Reopen the report under a high-contrast theme |
+:::
+
+# Appendix G: User Study Materials {#app:G .appendix letter=G}
+
+**Status: ethical approval granted; study not yet conducted. No participant data exist, and no usability results are reported.**
+
+## Protocol
+
+The proposal set out the design of the study, and ethical approval for a study involving participants has been granted. The commitments below are taken from the proposal. The tasks and interview questions are the instruments prepared for the study.
+
+[[PENDING: align the tasks, questions and data-handling details with the protocol approved by the Arden Research Ethics Committee.]]
+
+- **Participants:** a small purposive sample of three to five people with experience in retail or supply-chain analytics, recruited from professional networks.
+- **Procedure:** each participant completes short structured tasks on the dashboard, then the System Usability Scale (SUS) questionnaire and a brief semi-structured interview.
+- **Tasks:**
+  1. Find the forecast for a named store for the next four weeks and read the expected sales for the first week.
+  2. State whether actual sales stayed within the 95% range in a named week.
+  3. Identify which model was most accurate for a named store.
+  4. Read the safety stock proxy and explain in your own words what it means.
+  5. Find the store with the largest over-forecasting bias.
+- **Measures:** task completion, errors, the SUS score (target 80 or more, interpreted as excellent usability [@hammad2026]) and interview themes.
+- **Interview questions:**
+  1. Which information on the dashboard would you use in your work, and for which decision?
+  2. Was anything unclear or misleading?
+  3. How far would you trust these forecasts, and what would increase your trust?
+  4. What is missing?
+
+## System Usability Scale
+
+Participants rate each statement from 1 (strongly disagree) to 5 (strongly agree). Odd-numbered items score the rating minus one; even-numbered items score five minus the rating; the sum is multiplied by 2.5 to give a score from 0 to 100.
+
+1. I think that I would like to use this system frequently.
+2. I found the system unnecessarily complex.
+3. I thought the system was easy to use.
+4. I think that I would need the support of a technical person to be able to use this system.
+5. I found the various functions in this system were well integrated.
+6. I thought there was too much inconsistency in this system.
+7. I would imagine that most people would learn to use this system very quickly.
+8. I found the system very cumbersome to use.
+9. I felt very confident using the system.
+10. I needed to learn a lot of things before I could get going with this system.
+
+[[PENDING: cite the original source of the System Usability Scale once a pre-2023 exception is approved, or replace it with the version required by the ethics approval.]]
+
+## Consent and data handling
+
+As stated in the proposal, participants provide written informed consent. Interview notes and questionnaire responses are pseudonymised at the point of capture, stored separately from the consent forms on Arden-approved storage, and deleted six months after submission in line with the Arden ethics policy. Only aggregated results will be reported.
+
+# Appendix H: Project Plan and Increments {#app:H .appendix letter=H}
+
+[[PENDING: project plan table to be completed from the decisions and experiment logs]]
+
+# Appendix I: Repository and Reproduction Guide {#app:I .appendix letter=I}
+
+## Structure
+
+The repository contains the code, tests, documentation and generated outputs of the project. The raw Kaggle files are not included. {tbl:repo} describes the main folders.
+
+::: table id=tbl:repo widths=3.6,12.0 size=8.5
+caption: Main folders of the repository
+source: Author's own work.
+| Folder or file | Content |
+|---|---|
+| src | Python package: data loading, preprocessing, models, hybrids, evaluation, tests of predictive accuracy, dashboard export |
+| scripts | One command-line script per stage, the experiment queue and the report-table generator |
+| tests | Automated tests, including the leakage tests |
+| notebooks | Nine executed notebooks that walk through the outputs of each stage |
+| dashboard | Data dictionary, Power Query scripts, DAX measures, build guide and test plan |
+| docbuild | Builder of this report from Markdown chapters in the university template |
+| data | Download instructions and reference checksums of the Kaggle files |
+| outputs | Forecasts, metrics, tables, figures and logs written by the pipeline |
+| DECISIONS_LOG.md | Design decisions with alternatives and justifications |
+| EXPERIMENT_LOG.csv | One row per tuning trial and final run, with parameters, seed, runtime, energy estimate and metrics |
+:::
+
+## Reproduction
+
+The results can be reproduced with Python 3.13 and the package versions pinned in the repository. The steps are:
+
+1. Create a virtual environment and install the pinned requirements.
+2. Download the two Kaggle datasets, place them as described in the data folder and confirm their checksums with the data-check script.
+3. Run the stages in order: exploratory analysis, statistical models, neural and hybrid models, evaluation, dashboard export and report tables. Each stage checkpoints its progress and can be restarted after an interruption.
+4. Run the automated tests.
+
+The networks were trained on a central processing unit only, with deterministic operations and fixed seeds. Results on other hardware or library versions may differ slightly in the last digits, because floating-point operations are not guaranteed to be identical across platforms.

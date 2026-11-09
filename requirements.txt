@@ -1,0 +1,16 @@
+# Pinned versions used for every result in the dissertation (Python 3.13.14, Windows 10).
+# Core pipeline
+numpy==2.4.2
+pandas==3.0.0
+scipy==1.17.0
+statsmodels==0.15.0
+scikit-learn==1.8.0
+tensorflow==2.21.0
+keras==3.15.0
+optuna==5.0.0
+SQLAlchemy==2.1.8
+alembic==1.20.1
+matplotlib==3.10.8
+seaborn==0.13.2
+# Testing
+pytest==9.0.2
