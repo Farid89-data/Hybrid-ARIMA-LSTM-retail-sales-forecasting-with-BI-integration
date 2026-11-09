@@ -177,7 +177,7 @@ def dm_tests(name: str) -> None:
 
 def cost() -> None:
     rows = [["Dataset", "Model", "Tuning runs", "Tuning time (min)", "Time per final run (min)",
-             "Total time (min)", "Estimated energy (Wh)"]]
+             "Total time (min)", "Total incl. ARIMA (min)", "Estimated energy (Wh)"]]
     found = False
     for name in ("m5", "rossmann"):
         src = TABLE_DIR / f"{name}_cost.csv"
@@ -189,7 +189,8 @@ def cost() -> None:
             r = df.loc[m]
             rows.append([DATASET_LABEL[name], LABELS[m], str(int(r["tuning_runs"])),
                          fmt(r["tuning_seconds"] / 60, 1), fmt(r["final_seconds_per_run"] / 60, 1),
-                         fmt(r["total_seconds"] / 60, 1), fmt(r["energy_kwh_total"] * 1000, 1)])
+                         fmt(r["total_seconds"] / 60, 1), fmt(r["total_with_arima_seconds"] / 60, 1),
+                         fmt(r["energy_kwh_total"] * 1000, 1)])
     if found:
         write(rows, "cost")
 
