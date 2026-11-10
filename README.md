@@ -1,6 +1,8 @@
 # Hybrid ARIMA-LSTM retail sales forecasting with BI integration
 
-Code, tests and documentation for the MSc Data Science project *A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration* (Arden University, COM7014).
+Code, tests and documentation for the M.Sc. Data Science project *A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration* (Arden University, COM7014 - Advanced Computing Project).
+
+Author: Farid Negahbani (student number 24154844). Tutor: Mohammad Amin Mohammadibanadaki.
 
 The project benchmarks eight forecasting models on daily store-level sales:
 
