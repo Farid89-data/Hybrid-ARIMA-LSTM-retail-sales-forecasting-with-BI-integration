@@ -47,7 +47,7 @@ Before any modelling, every file was opened and checked: number of rows and colu
 
 ### Exploratory analysis
 
-The analysis focused on the properties that determine model design. {fig:m5series} shows the ten M5 store series as seven-day moving averages, which remove the weekly cycle. The series share a slow upward trend and a regular monthly rhythm. The rhythm is linked to SNAP payment days, on which mean sales were 12% higher than on other days (between 2% and 32% across stores). Mean daily sales differ between stores by a factor of 2.7. Every store recorded almost no sales on Christmas Day, when the stores are closed. The Rossmann stores ({fig:rossseries}) show a different pattern: no trading on Sundays or public holidays, a strong promotional cycle and peaks before Christmas. In the sample, mean sales were 39% higher on promotion days than on other trading days, and 27% higher from 1 to 24 December than over the year as a whole.
+The analysis focused on the properties that determine model design. {fig:m5series} shows the ten M5 store series as seven-day moving averages, which remove the weekly cycle. The series share a slow upward trend and a regular monthly rhythm. The rhythm is linked to SNAP payment days, on which mean sales were 12% higher than on other days (between 2% and 32% across stores). Mean daily sales differ between stores by a factor of 2.7. Every store recorded almost no sales on Christmas Day, when the stores are closed. The Rossmann stores ({fig:rossseries}) show a different pattern: no trading on Sundays or public holidays, a strong promotional cycle and peaks before Christmas. In the sample, mean sales were 40% higher on promotion days than on other trading days, and 29% higher from 1 to 24 December than over the year as a whole.
 
 ::: figure id=fig:m5series file=outputs/figures/eda_m5_store_series.png width=15.5
 caption: Seven-day moving average of daily unit sales in the ten M5 stores
@@ -93,7 +93,7 @@ For Rossmann, a sample of 20 stores was drawn so that the experiments could be c
 - it had at most 35 closures on weekdays, which excludes long refurbishment closures;
 - it had no day recorded as open with zero sales, which would indicate a recording error.
 
-Of the 1,115 stores, 836 met these conditions. The sample was stratified by store type and assortment, with allocation proportional to stratum size and at least two stores per stratum, and drawn with a fixed random seed (2026). Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
+Of the 1,115 stores, 850 met these conditions. The sample was stratified by store type and assortment, with allocation proportional to stratum size and at least two stores per stratum, and drawn with a fixed random seed (2026). Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
 
 ### Closures, anomalies and missing values
 
@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 32 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 40 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -293,6 +293,8 @@ source: Author's own work. Test files are in the tests folder of the repository.
 | Hybrid | 5 | Residual alignment; burn-in and missing days masked; causal residuals; correct combination; multi-step targets equal actual minus path |
 | Evaluation | 8 | Metrics on known values; unscored days ignored; interval metrics; conformal rank; DM test on identical, clearly different and hand-computed cases; Holm adjustment |
 | Data loading | 3 | Rossmann store eligibility unchanged when records on or after the test start are altered; rules still applied before it; test start matches the split plan |
+| Power BI export | 4 | Acceptance values equal a hand calculation; risk-day counts; store-average MASE differs from the pooled value; week start is a Monday and unique across years |
+| Title page | 4 | Identity configuration keys; title page matches the identity file; names appear only where expected; applying the identity twice changes nothing |
 :::
 
 ### Reproducibility
