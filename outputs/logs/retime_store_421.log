@@ -1,0 +1,19 @@
+{
+  "series_id": "store_421",
+  "arima_order": [
+    3,
+    0,
+    3
+  ],
+  "arima_seasonal_order": [
+    1,
+    1,
+    1,
+    7
+  ],
+  "same_order_as_saved": true,
+  "arima_select_seconds": 123.34291439992376,
+  "arima_refit_seconds": 9.504809399833903,
+  "saved_arima_select_seconds": 65657.3639961998,
+  "saved_arima_refit_seconds": 26.787273900117725
+}
