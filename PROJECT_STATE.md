@@ -8,6 +8,20 @@
 | Current phase | **Experiments running; report drafted except result-dependent sections** |
 | Last updated | 9 November 2026 (late evening) |
 
+## Identity
+
+| Field | Value |
+|---|---|
+| Student name | Farid Negahbani |
+| Student number | 24154844 |
+| University | Arden University |
+| Programme | Master of Science Data Science (M.Sc. Data Science) |
+| Module | COM7014 - Advanced Computing Project |
+| Tutor name | Mohammad Amin Mohammadibanadaki |
+| Title | A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration |
+
+Single source of truth for the build: `docbuild/identity.json`.
+
 ## Gate A answers (9 Nov 2026)
 
 Literature through scholarly APIs (OpenAlex, Crossref) with publisher verification; Kaggle files supplied by the student in `Dataset\` (no other downloads); handbook format with the template's look; ethics approved including participants (study not yet run); report to replace everything after the title page.
@@ -44,7 +58,7 @@ Literature through scholarly APIs (OpenAlex, Crossref) with publisher verificati
 | 1 | Arden Harvard guide not supplied: reference format is provisional (comment in the document) |
 | 2 | Arden generative-AI policy not supplied: Appendix A must be checked and completed by the student |
 | 3 | Word-count policy not supplied |
-| 4 | Title page kept unchanged as instructed; it still reads "(Project Proposal)" and "1767" words |
+| 4 | Title page: Student Name row added (D01); "(Project Proposal)" and "1767" are replaced only in the final build (`build_docx.py --final`) |
 | 5 | Exception Register for pre-2023 sources not approved: no pre-2023 source is cited (SUS original source pending) |
 | 6 | Dashboard `.pbix` must be assembled in Power BI Desktop and the functional tests run |
-| 7 | LICENSE and CITATION.cff use the Git identity (Farid Negahbani); confirm |
+| 7 | LICENSE and CITATION.cff use Farid Negahbani: confirmed (identity facts, 10 November 2026) |
