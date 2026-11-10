@@ -1081,6 +1081,26 @@ class Builder:
             set_table_title(self.doc.tables[0], "Title page",
                             "Awarding body, programme, module, assessment title, student number, tutor and word count")
 
+    def finalise_title_page(self, main_word_count: int) -> None:
+        """Final build only (D03): module line without "(Project Proposal)" and the real word count."""
+        table = self.doc.tables[0]
+        for row in table.rows:
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    text = "".join(r.text for r in para.runs)
+                    if "(Project Proposal)" in text:
+                        drop = False
+                        for run in para.runs:
+                            if run.text.strip() == "(" or run.text.endswith(" ("):
+                                run.text = run.text[: -len(" (")] if run.text.endswith(" (") else ""
+                                drop = True
+                            elif drop:
+                                run.text = ""
+                    if text.strip() == "1767":
+                        for run in para.runs:
+                            if run.text.strip() == "1767":
+                                run.text = f"{main_word_count:,}"
+
     def settings(self):
         st = self.doc.settings.element
         uf = st.find(qn("w:updateFields"))
@@ -1097,7 +1117,15 @@ def load_chapters() -> list[tuple[str, list[Block]]]:
     return [(f.stem, parse_markdown(f.read_text(encoding="utf-8"))) for f in files]
 
 
-def build(out_path: Path = OUT_DOCX) -> dict:
+MAIN_PARTS = ("01", "02", "03", "04", "05")
+
+
+def main_word_count(word_counts: dict) -> int:
+    """Words in the body text of Chapters 1 to 5 (tables, captions, references and appendices excluded)."""
+    return sum(n for part, n in word_counts.items() if part[:2] in MAIN_PARTS)
+
+
+def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
     chapters = load_chapters()
     front = [c for c in chapters if c[0].startswith("00")]
     main = [c for c in chapters if c[0][:2].isdigit() and 1 <= int(c[0][:2]) < 90]
@@ -1132,6 +1160,8 @@ def build(out_path: Path = OUT_DOCX) -> dict:
             author="Dissertation build", initials="DB")
     except Exception as exc:  # noqa: BLE001 - comments are a convenience, not essential
         b.warnings.append(f"Could not add comment: {exc}")
+    if final:
+        b.finalise_title_page(main_word_count(b.word_counts))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     b.doc.save(str(out_path))
     return {"out": str(out_path), "cited": b.cited, "word_counts": b.word_counts,
@@ -1139,10 +1169,34 @@ def build(out_path: Path = OUT_DOCX) -> dict:
             "citations_by_part": b.citations_by_part, "cite_sections": b.cite_sections}
 
 
+def check_fields_updated(docx_path: Path) -> list[str]:
+    """Return any field placeholder text left in the document after the Word update (D05)."""
+    import zipfile
+
+    xml = zipfile.ZipFile(docx_path).read("word/document.xml").decode("utf-8")
+    return sorted(set(re.findall(r"(Table of contents|List of figures|List of tables): update fields in Word", xml)))
+
+
 if __name__ == "__main__":
+    import argparse
     import json
 
-    info = build()
+    parser = argparse.ArgumentParser(description="Build the dissertation .docx")
+    parser.add_argument("--final", action="store_true",
+                        help="final build: update the title page and run Word to update all fields and export the PDF")
+    parser.add_argument("--no-word", action="store_true", help="skip the Word field update (draft builds only)")
+    args = parser.parse_args()
+    info = build(final=args.final)
+    info["main_word_count"] = main_word_count(info["word_counts"])
+    if not args.no_word:
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from word_automation import update_and_export  # noqa: PLC0415
+
+        info["word"] = update_and_export(Path(info["out"]))
+        leftovers = check_fields_updated(Path(info["out"]))
+        if leftovers:
+            raise SystemExit(f"Fields not updated: {leftovers}")
+        info["fields_updated"] = True
     build_dir = CODE_DIR / "docbuild" / "build"
     build_dir.mkdir(parents=True, exist_ok=True)
     (build_dir / "build_info.json").write_text(json.dumps(info, indent=2), encoding="utf-8")
