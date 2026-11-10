@@ -93,7 +93,7 @@ def docx_checks() -> dict:
     ref_anchors = [a for a in anchors if a.startswith("ref_")]
     ref_bookmarks = {b for b in bookmarks if b and b.startswith("ref_")}
     instr = " ".join(t.text or "" for t in root.iter(f"{{{W}}}instrText"))
-    ref_fields = re.findall(r"REF\s+(\S+)", instr)
+    ref_fields = re.findall(r"(?<![A-Z])REF\s+(\S+)", instr)  # excludes STYLEREF and PAGEREF
     text = "\n".join("".join(t.text or "" for t in p.iter(f"{{{W}}}t")) for p in root.iter(f"{{{W}}}p"))
     contexts = []
     for p in root.iter(f"{{{W}}}p"):

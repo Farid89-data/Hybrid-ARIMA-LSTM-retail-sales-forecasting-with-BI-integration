@@ -1120,6 +1120,22 @@ def load_chapters() -> list[tuple[str, list[Block]]]:
 MAIN_PARTS = ("01", "02", "03", "04", "05")
 
 
+def back_citation_keys(back: list, lib: dict) -> list[str]:
+    """Library keys cited in the back matter, including CSV tables referenced there."""
+    texts = []
+    for _, blocks in back:
+        for blk in blocks:
+            texts.append(blk.text or "")
+            texts.extend(blk.lines or [])
+            if blk.attrs.get("csv") and (CODE_DIR / blk.attrs["csv"]).exists():
+                texts.append((CODE_DIR / blk.attrs["csv"]).read_text(encoding="utf-8"))
+    found = []
+    for key in re.findall(r"@([A-Za-z][A-Za-z0-9_]*)", "\n".join(texts)):
+        if key in lib and key not in found:
+            found.append(key)
+    return found
+
+
 def main_word_count(word_counts: dict) -> int:
     """Words in the body text of Chapters 1 to 5 (tables, captions, references and appendices excluded)."""
     return sum(n for part, n in word_counts.items() if part[:2] in MAIN_PARTS)
@@ -1148,6 +1164,11 @@ def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
     b.section_break(page_format="lowerRoman", start=1, footer=True)
     for name, blocks in main:
         b.render(blocks, part=name)
+    # The reference list precedes the appendices, so keys cited only in appendices (text or
+    # generated CSV tables) are collected first; otherwise their links would have no target.
+    for key in back_citation_keys(back, b.lib):
+        if key not in b.cited:
+            b.cited.append(key)
     ref_run = b.references()
     for name, blocks in back:
         b.render(blocks, part=name)
