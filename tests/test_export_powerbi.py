@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from src.export_powerbi import acceptance_values
+from src.export_powerbi import acceptance_values, build_dim_date
 
 
 def frame():
@@ -46,3 +46,12 @@ def test_store_average_differs_from_pooled_mase():
     pooled = ((f["actual"] - f["forecast"]).abs() / f["scale"]).mean()
     assert v["mase_store_average"] == pytest.approx((1.0 + (2.0 + 4.0) / 2) / 2)
     assert v["mase_store_average"] != pytest.approx(pooled)
+
+
+def test_week_start_is_monday_and_unique_across_years():
+    dim = build_dim_date(pd.date_range("2014-12-25", "2016-01-10", freq="D"))
+    assert (dim["week_start"].dt.dayofweek == 0).all()
+    assert ((dim["date"] - dim["week_start"]).dt.days.between(0, 6)).all()
+    # ISO week 1 occurs in two different years here, but its week_start values differ
+    week1 = dim[dim["iso_week"] == 1]["week_start"].unique()
+    assert len(week1) == 2

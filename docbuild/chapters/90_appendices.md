@@ -112,7 +112,7 @@ source: Author's own work (dashboard/README.md).
 | TP-12 | Best model card | Clear the model slicer | Shows the model with the lowest MASE |
 | TP-13 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days; stock-out and overstock risk days equal their acceptance values |
 | TP-14 | Accessibility | Checklist in {tbl:a11y} | All checks pass |
-| TP-15 | Drill-down | Drill from a week to its days and back | Daily values sum to the weekly value |
+| TP-15 | Drill-down | Drill from a week (week start date) to its days and back | Daily values sum to the weekly value |
 | TP-16 | Static review of measures | Compare each DAX measure with its Python definition | Same scored-day filter and formula |
 :::
 

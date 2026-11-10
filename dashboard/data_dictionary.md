@@ -8,7 +8,8 @@ All files are UTF-8 CSV written by `scripts/export_dashboard.py`. Dates use ISO 
 |---|---|---|
 | date | date | Calendar day (both datasets) |
 | year, month, month_name | int / text | Calendar attributes |
-| iso_week | int | ISO week number |
+| iso_week | int | ISO week number (repeats every year; not used for drill-down) |
+| week_start | date | Monday of the week; week level of the date hierarchy for drill-down |
 | weekday, weekday_number | text / int | Day name and number (Monday = 1) |
 
 ## dim_series

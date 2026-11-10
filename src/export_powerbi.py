@@ -29,6 +29,20 @@ MODEL_FAMILY = {
 }
 
 
+def build_dim_date(dates: pd.Series) -> pd.DataFrame:
+    """Calendar dimension. ``week_start`` (the Monday of each week) is the week level for
+    drill-down; unlike ``iso_week`` it does not repeat from year to year (D08)."""
+    dim = pd.DataFrame({"date": pd.to_datetime(pd.Series(dates))}).drop_duplicates().sort_values("date")
+    dim["year"] = dim["date"].dt.year
+    dim["month"] = dim["date"].dt.month
+    dim["month_name"] = dim["date"].dt.strftime("%b")
+    dim["iso_week"] = dim["date"].dt.isocalendar().week.astype(int)
+    dim["week_start"] = dim["date"] - pd.to_timedelta(dim["date"].dt.dayofweek, unit="D")
+    dim["weekday"] = dim["date"].dt.strftime("%a")
+    dim["weekday_number"] = dim["date"].dt.dayofweek + 1
+    return dim.reset_index(drop=True)
+
+
 def acceptance_values(scored: pd.DataFrame) -> dict:
     """Reference values that the dashboard measures must reproduce (test plan TP-07 to TP-13).
 
@@ -89,13 +103,7 @@ def export(primary_seed: int = config.PRIMARY_SEED) -> dict:
                             "width_scaled"]])
         scored = test[test["scored"] == 1]
         acceptance[label] = acceptance_values(scored)
-    dim_date = pd.concat(dates).drop_duplicates().sort_values("date")
-    dim_date["year"] = dim_date["date"].dt.year
-    dim_date["month"] = dim_date["date"].dt.month
-    dim_date["month_name"] = dim_date["date"].dt.strftime("%b")
-    dim_date["iso_week"] = dim_date["date"].dt.isocalendar().week.astype(int)
-    dim_date["weekday"] = dim_date["date"].dt.strftime("%a")
-    dim_date["weekday_number"] = dim_date["date"].dt.dayofweek + 1
+    dim_date = build_dim_date(pd.concat(dates)["date"])
     dim_model = pd.DataFrame({
         "model": list(experiment.MODEL_LABELS),
         "model_label": list(experiment.MODEL_LABELS.values()),

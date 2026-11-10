@@ -70,7 +70,7 @@ let
     Source = fnLoadCsv("dim_date.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
         {"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text},
-        {"iso_week", Int64.Type}, {"weekday", type text}, {"weekday_number", Int64.Type}}, "en-GB")
+        {"iso_week", Int64.Type}, {"week_start", type date}, {"weekday", type text}, {"weekday_number", Int64.Type}}, "en-GB")
 in
     Typed
 ```

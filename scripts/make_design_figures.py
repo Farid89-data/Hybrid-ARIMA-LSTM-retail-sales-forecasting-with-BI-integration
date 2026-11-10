@@ -49,7 +49,7 @@ def star_schema():
     ax.set_ylim(0, 8.2)
     ax.axis("off")
     ax.grid(False)
-    d_date = table_box(ax, 0.2, 8.0, 3.4, "dim_date", ["date (key)", "year, month, month_name", "iso_week",
+    d_date = table_box(ax, 0.2, 8.0, 3.4, "dim_date", ["date (key)", "year, month, month_name", "iso_week, week_start",
                                                         "weekday, weekday_number"], DIM_FILL)
     d_series = table_box(ax, 4.3, 8.0, 3.4, "dim_series", ["series_key (key)", "dataset, series_id", "state (M5)",
                                                             "Rossmann: StoreType, Assortment"], DIM_FILL)
