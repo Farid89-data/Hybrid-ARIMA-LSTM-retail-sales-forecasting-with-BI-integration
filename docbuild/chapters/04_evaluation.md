@@ -22,7 +22,7 @@ source: Author's own assessment against the evidence cited.
 | FR9 | Met | Experiment log with parameters, seed, runtime, energy estimate and metrics |
 | NFR1 | Met | Perturbation tests show no use of data after the cut-off, including store selection |
 | NFR2 | Partly met | Fixed seeds, deterministic operations, pinned versions and checkpoints; an independent re-run has not been made |
-| NFR3 | Met | Modular package with docstrings and 32 automated tests |
+| NFR3 | Met | Modular package with docstrings and 40 automated tests |
 | NFR4 | [[PENDING: status]] | [[PENDING: measured runtimes of all stages]] |
 | NFR5 | [[PENDING: status]] | [[PENDING: cost table]] |
 | NFR6 | Not assessed | User study approved but not yet conducted |
