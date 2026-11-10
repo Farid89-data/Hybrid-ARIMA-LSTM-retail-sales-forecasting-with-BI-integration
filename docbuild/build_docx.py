@@ -184,6 +184,25 @@ def external_link(paragraph, url: str, text: str):
     paragraph._p.append(hl)
 
 
+def set_table_title(table, title: str, description: str = "") -> None:
+    """Give a table its own accessible title (w:tblCaption) and description.
+
+    Word and tagged PDF export otherwise associate captions with tables by
+    position only, which can attach a caption to the wrong table (D04).
+    """
+    tbl_pr = table._tbl.tblPr
+    for tag in ("w:tblCaption", "w:tblDescription"):
+        for old in tbl_pr.findall(qn(tag)):
+            tbl_pr.remove(old)
+    cap = OxmlElement("w:tblCaption")
+    cap.set(qn("w:val"), title[:255])
+    tbl_pr.append(cap)
+    if description:
+        desc = OxmlElement("w:tblDescription")
+        desc.set(qn("w:val"), description[:1000])
+        tbl_pr.append(desc)
+
+
 def latex_to_omml(latex: str):
     mathml = latex2mathml.converter.convert(latex)
     xslt = etree.XSLT(etree.parse(str(MML2OMML)))
@@ -855,6 +874,9 @@ class Builder:
         n_cols = len(rows[0])
         table = self.doc.add_table(rows=len(rows), cols=n_cols)
         table.style = self.doc.styles["Table Grid"]
+        label = self.labels[b.attrs["id"]].number if "id" in b.attrs else ""
+        set_table_title(table, f"Table {label}: {b.attrs.get('caption', '')}".strip(),
+                        b.attrs.get("alt", b.attrs.get("caption", "")))
         widths = [float(w) for w in b.attrs["widths"].split(",")] if "widths" in b.attrs else None
         size = float(b.attrs.get("size", 9.5))
         aligns = b.attrs.get("align", "")
@@ -1053,6 +1075,11 @@ class Builder:
         for child in children[TITLE_PAGE_ELEMENTS:]:
             if child.tag != qn("w:sectPr"):
                 body.remove(child)
+        # The title-page table is not a numbered table: give it its own title so that no
+        # caption is associated with it (D04).
+        if self.doc.tables:
+            set_table_title(self.doc.tables[0], "Title page",
+                            "Awarding body, programme, module, assessment title, student number, tutor and word count")
 
     def settings(self):
         st = self.doc.settings.element
