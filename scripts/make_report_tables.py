@@ -231,6 +231,35 @@ def residual_diagnostics_report(name: str) -> None:
     write(rows, f"residual_diagnostics_{name}")
 
 
+def cross_dataset() -> None:
+    """G04: one row per model, accuracy and coverage for M5 and Rossmann side by side."""
+    frames = {}
+    for name in ("m5", "rossmann"):
+        src = TABLE_DIR / f"{name}_test_summary.csv"
+        if src.exists():
+            frames[name] = pd.read_csv(src).set_index("model")
+        else:
+            print(f"skip cross_dataset {name}: {src.name} missing")
+    if len(frames) < 2:
+        print("skip cross_dataset: needs both datasets")
+        return
+    header = ["Model"]
+    for name in frames:
+        d = DATASET_LABEL[name]
+        header += [f"{d} MASE", f"{d} RMSE", f"{d} MAPE (%)", f"{d} coverage"]
+    rows = [header]
+    for m in [m for m in ORDER if any(m in f.index for f in frames.values())]:
+        line = [LABELS[m]]
+        for f in frames.values():
+            if m in f.index:
+                r = f.loc[m]
+                line += [fmt(r["mase"], 3), fmt(r["rmse"], 0), fmt(r["mape"], 2), pct(r["coverage"])]
+            else:
+                line += ["n/a"] * 4
+        rows.append(line)
+    write(rows, "cross_dataset")
+
+
 def cost() -> None:
     rows = [["Dataset", "Model", "Tuning runs", "Tuning time (min)", "Time per final run (min)",
              "Total time (min)", "Total incl. ARIMA (min)", "Estimated energy (Wh)"]]
@@ -308,6 +337,7 @@ def main() -> None:
         residual_diagnostics_report(name)
     best_params()
     cost()
+    cross_dataset()
     unit_tests()
     literature_matrix(args.cite_map)
 
