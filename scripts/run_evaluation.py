@@ -20,7 +20,9 @@ Steps:
 
 from __future__ import annotations
 
+import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 
@@ -33,6 +35,7 @@ import pandas as pd  # noqa: E402
 from src import config, evaluation as ev, experiment, statistical_tests as st, utils  # noqa: E402
 from src.visualisation import LABELS, STYLES, apply_style, save  # noqa: E402
 
+LOGGER = logging.getLogger(__name__)
 TABLE_DIR = config.OUTPUT_DIR / "tables"
 NEURAL = ["ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"]
 ORDER = ["snaive", "arima", "ets", "ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"]
@@ -49,6 +52,14 @@ def load_forecasts(name: str) -> tuple[pd.DataFrame, pd.DataFrame]:
             val.append(pd.read_csv(vpath))
             test.append(pd.read_csv(tpath))
     return pd.concat(val, ignore_index=True), pd.concat(test, ignore_index=True)
+
+
+def missing_forecasts(name: str) -> list[str]:
+    """Names of the forecast files that are not (yet) available for a dataset."""
+    files = [f"{name}_statistical.csv.gz"]
+    for kind in NEURAL:
+        files += [f"{name}_{kind}_validation.csv.gz", f"{name}_{kind}_test.csv.gz"]
+    return [f for f in files if not (config.FORECAST_DIR / f).exists()]
 
 
 def add_intervals(val: pd.DataFrame, test: pd.DataFrame, horizon: int) -> pd.DataFrame:
@@ -187,11 +198,15 @@ def cost_table(name: str) -> pd.DataFrame:
         if g.empty:
             continue
         tune = g[g["phase"] == "tuning"]["runtime_s"].sum()
+        # hyb_z reuses the hyb_d hyperparameter search (no tuning runs of its own), so its own tuning
+        # cost is zero; the reused search is added in tuning_incl_reused_seconds.
+        reused = log[(log["model"] == "hyb_d") & (log["phase"] == "tuning")]["runtime_s"].sum()             if model == "hyb_z" else 0.0
         final = g[g["phase"] == "final"]["runtime_s"]
         rows.append({
             "model": model,
             "tuning_runs": int((g["phase"] == "tuning").sum()),
             "tuning_seconds": tune,
+            "tuning_incl_reused_seconds": tune + reused,
             "final_seconds_per_run": final.mean(),
             "total_seconds": tune + final.sum(),
             "energy_kwh_total": utils.energy_kwh(tune + final.sum()),
@@ -301,11 +316,19 @@ def fig_error_growth(prep, arts, name):
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dataset", choices=["m5", "rossmann", "all"], default="all",
+                        help="dataset to evaluate (default: all; datasets with missing forecasts are skipped)")
+    args = parser.parse_args()
     utils.setup_logging()
     apply_style()
     TABLE_DIR.mkdir(parents=True, exist_ok=True)
     results = {}
-    for name in ("m5", "rossmann"):
+    for name in (("m5", "rossmann") if args.dataset == "all" else (args.dataset,)):
+        missing = missing_forecasts(name)
+        if missing:
+            LOGGER.warning("Skipping %s: forecast files missing: %s", name, ", ".join(missing))
+            continue
         prep = experiment.prepare(name)
         arts = experiment.load_stat_artifacts(prep)
         val, test = load_forecasts(name)
