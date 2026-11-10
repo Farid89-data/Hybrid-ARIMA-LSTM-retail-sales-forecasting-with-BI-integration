@@ -193,7 +193,15 @@ def horizon_table(test: pd.DataFrame) -> pd.DataFrame:
 
 def cost_table(name: str) -> pd.DataFrame:
     log = pd.read_csv(config.EXPERIMENT_LOG)
-    log = log[log["dataset"] == name]
+    log = log[(log["dataset"] == name) & ~log["notes"].fillna("").str.contains("superseded")].copy()
+    # D-026: a fit time that absorbed a machine sleep is replaced by a stand-alone re-timing
+    # (scripts/retime_arima.py; same order selected, forecasts unchanged).
+    for path in sorted(config.METRIC_DIR.glob(f"{name}_arima_retime_*.json")):
+        r = utils.load_json(path)
+        delta = (r["arima_select_seconds"] + r["arima_refit_seconds"]
+                 - r["saved_arima_select_seconds"] - r["saved_arima_refit_seconds"])
+        sel = (log["model"] == "arima") & (log["phase"] == "final")
+        log.loc[sel, "runtime_s"] = log.loc[sel, "runtime_s"] + delta
     rows = []
     for model in ORDER:
         g = log[log["model"] == model]
@@ -202,7 +210,8 @@ def cost_table(name: str) -> pd.DataFrame:
         tune = g[g["phase"] == "tuning"]["runtime_s"].sum()
         # hyb_z reuses the hyb_d hyperparameter search (no tuning runs of its own), so its own tuning
         # cost is zero; the reused search is added in tuning_incl_reused_seconds.
-        reused = log[(log["model"] == "hyb_d") & (log["phase"] == "tuning")]["runtime_s"].sum()             if model == "hyb_z" else 0.0
+        reused = (log[(log["model"] == "hyb_d") & (log["phase"] == "tuning")]["runtime_s"].sum()
+                  if model == "hyb_z" else 0.0)
         final = g[g["phase"] == "final"]["runtime_s"]
         rows.append({
             "model": model,

@@ -344,3 +344,10 @@ The primary hybrid is the variant with the best validation MASE; the others are 
 | Added | 176, 400, 718, 792, 936 |
 
 - The Rossmann statistical stage was re-run on the new sample. The v1 outputs and their experiment-log rows were moved to `outputs/archive/rossmann_sample_v1/`; nothing was deleted.
+
+## D-026 Rossmann statistical stage: concurrent duplicate run and an invalid fit time (10 November 2026)
+
+- The run started at 00:54 was not stopped when the machine went to sleep; it continued after waking. The resumed run started at 19:39 therefore ran alongside it, and both processed the remaining stores and wrote final rows to `EXPERIMENT_LOG.csv` (19:44:48 and 19:45:06 UTC).
+- The saved forecasts (`outputs/forecasts/rossmann_statistical.csv.gz`) and specifications come from the later process. Its rows are the valid ones (ARIMA test MASE 0.3588, ETS 0.7251, seasonal naive 0.7673). The earlier rows (ARIMA 0.3576) are kept and marked "superseded" in the notes column; the evaluation ignores them. The small ARIMA difference between the two processes shows that the optimiser is not bit-for-bit reproducible when two fits compete for the processor; this is disclosed as a limitation.
+- The ARIMA search time for store 421 (65,657 s) includes the sleep. The search was re-timed on its own with `scripts/retime_arima.py`: 123 s (refit 9.5 s), with the same order as saved, so the forecasts are unchanged. `run_evaluation.cost_table` replaces the invalid time with the re-timed one (`outputs/metrics/rossmann_arima_retime_store_421.json`). Fit times of the stores processed by both runs at once may be inflated by contention; this is disclosed with the cost results.
+- The remaining stages run one at a time through `scripts/run_pipeline_rest.sh`, with the system kept awake while the pipeline runs.
