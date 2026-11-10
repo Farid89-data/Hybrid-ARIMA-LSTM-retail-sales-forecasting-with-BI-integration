@@ -1,0 +1,95 @@
+{
+  "m5": {
+    "store_mean_min": 2160.3997933884298,
+    "store_mean_max": 5869.590909090909,
+    "store_mean_ratio": 2.7169003288437104,
+    "weekday_profile_mon_to_sun": [
+      0.9503,
+      0.8838,
+      0.8749,
+      0.8815,
+      1.0007,
+      1.2104,
+      1.1963
+    ],
+    "zero_sales_trading_days": 0,
+    "anomalies": [
+      {
+        "series": "TX_2",
+        "date": "2015-03-24",
+        "sales": 131.0,
+        "median_previous_28": 3519.0
+      }
+    ],
+    "snap_ratio_mean": 1.1212000900730181,
+    "snap_ratio_min": 1.0197508321101487,
+    "snap_ratio_max": 1.3237788241039579,
+    "products_total": 3049,
+    "weekend_peak_ratio": 1.2104,
+    "monday_peak_ratio": 0.9503
+  },
+  "rossmann": {
+    "store_mean_min": 3005.9833119383825,
+    "store_mean_max": 11568.65641025641,
+    "store_mean_ratio": 3.8485431254095888,
+    "weekday_profile_mon_to_sun": [
+      1.192,
+      1.017,
+      0.9621,
+      0.9628,
+      1.0208,
+      0.8516,
+      0.0
+    ],
+    "zero_sales_trading_days": 0,
+    "anomalies": [],
+    "promo_ratio": 1.3980965791540907,
+    "december_1_24_ratio": 1.2922255512722454,
+    "stores_total": 1115,
+    "stores_eligible": 850,
+    "strata": [
+      {
+        "store_type": "a",
+        "assortment": "a",
+        "eligible": 294,
+        "sampled": 5
+      },
+      {
+        "store_type": "a",
+        "assortment": "c",
+        "eligible": 179,
+        "sampled": 4
+      },
+      {
+        "store_type": "c",
+        "assortment": "a",
+        "eligible": 61,
+        "sampled": 2
+      },
+      {
+        "store_type": "c",
+        "assortment": "c",
+        "eligible": 60,
+        "sampled": 2
+      },
+      {
+        "store_type": "d",
+        "assortment": "a",
+        "eligible": 86,
+        "sampled": 3
+      },
+      {
+        "store_type": "d",
+        "assortment": "c",
+        "eligible": 170,
+        "sampled": 4
+      }
+    ],
+    "type_b_stores": 17,
+    "type_b_open_on_some_sunday": 17,
+    "type_b_eligible": 0,
+    "type_b_in_sample": 0,
+    "weekend_peak_ratio": 0.8516,
+    "monday_peak_ratio": 1.192
+  }
+}
