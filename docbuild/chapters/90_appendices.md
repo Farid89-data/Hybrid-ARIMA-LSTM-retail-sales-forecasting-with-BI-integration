@@ -108,11 +108,12 @@ source: Author's own work (dashboard/README.md).
 | TP-08 | Forecast sales measure | As TP-07 | Equals the acceptance value for total forecast |
 | TP-09 | MAE measure | As TP-07 | Equals the acceptance value for mean absolute error |
 | TP-10 | Coverage measure | As TP-07 | Equals the acceptance value for interval coverage |
-| TP-11 | Best model card | Clear the model slicer | Shows the model with the lowest MASE |
-| TP-12 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days |
-| TP-13 | Accessibility | Checklist in {tbl:a11y} | All checks pass |
-| TP-14 | Drill-down | Drill from a week to its days and back | Daily values sum to the weekly value |
-| TP-15 | Static review of measures | Compare each DAX measure with its Python definition | Same scored-day filter and formula |
+| TP-11 | MASE measure | As TP-07 | Store-average MASE equals the acceptance value |
+| TP-12 | Best model card | Clear the model slicer | Shows the model with the lowest MASE |
+| TP-13 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days; stock-out and overstock risk days equal their acceptance values |
+| TP-14 | Accessibility | Checklist in {tbl:a11y} | All checks pass |
+| TP-15 | Drill-down | Drill from a week to its days and back | Daily values sum to the weekly value |
+| TP-16 | Static review of measures | Compare each DAX measure with its Python definition | Same scored-day filter and formula |
 :::
 
 # Appendix F: Dashboard Specification {#app:F .appendix letter=F}
