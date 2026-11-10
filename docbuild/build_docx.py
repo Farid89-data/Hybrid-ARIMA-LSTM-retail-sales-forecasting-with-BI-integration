@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import copy
 import csv
+import json
 import re
 import shutil
 import sys
@@ -47,6 +48,7 @@ import citations  # noqa: E402
 
 CODE_DIR = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = CODE_DIR.parent
+IDENTITY_JSON = CODE_DIR / "docbuild" / "identity.json"
 TEMPLATE = PROJECT_ROOT / "Input" / (
     "A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration.docx")
 OUT_DOCX = PROJECT_ROOT / "Doc" / "Dissertation_Hybrid_ARIMA-LSTM.docx"
@@ -1081,6 +1083,22 @@ class Builder:
             set_table_title(self.doc.tables[0], "Title page",
                             "Awarding body, programme, module, assessment title, student number, tutor and word count")
 
+    def apply_identity(self, identity: dict) -> None:
+        """Write the config values into title-page rows 0 to 5, keeping the run formatting."""
+        values = [identity["university"], identity["programme"], identity["module"],
+                  identity["title"], identity["student_number"], identity["tutor_name"]]
+        table = self.doc.tables[0]
+        for row, value in zip(table.rows, values):
+            for para in row.cells[0].paragraphs:
+                runs = [r for r in para.runs if r.text]
+                if not runs:
+                    continue
+                # Anything from the " (" of "(Project Proposal)" onward is the template's suffix.
+                cut = next((i for i, r in enumerate(runs) if r.text.endswith(" (")), len(runs))
+                runs[0].text = value
+                for r in runs[1:cut]:
+                    r.text = ""
+
     def finalise_title_page(self, main_word_count: int) -> None:
         """Final build only (D03): module line without "(Project Proposal)" and the real word count."""
         table = self.doc.tables[0]
@@ -1108,6 +1126,17 @@ class Builder:
             uf = OxmlElement("w:updateFields")
             st.append(uf)
         uf.set(qn("w:val"), "true")
+
+
+def load_identity(path: Path = IDENTITY_JSON) -> dict:
+    """The student's identity details: the single source for the title page (D11)."""
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def title_page_values(docx_path: Path) -> list[str]:
+    """Visible value text of each title-page table row (label images carry no text)."""
+    table = docx.Document(str(docx_path)).tables[0]
+    return ["".join(r.text for p in row.cells[0].paragraphs for r in p.runs).strip() for row in table.rows]
 
 
 def load_chapters() -> list[tuple[str, list[Block]]]:
@@ -1149,6 +1178,7 @@ def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
     b = Builder(TEMPLATE, REFS_JSON)
     b.assign_numbers(front + main + back)
     b.strip_body_after_title_page()
+    b.apply_identity(load_identity())
     b.settings()
     # Section 1 ends after the title page: no page number on it.
     b.section_break(page_format=None, start=None, footer=False)
