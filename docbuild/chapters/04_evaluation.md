@@ -2,6 +2,38 @@
 
 [[PENDING: results sections (accuracy, significance, horizon, intervals, stability, cost, research questions) are written from the final evaluation outputs.]]
 
+## Evaluation against the Requirements {#sec:reqeval}
+
+{tbl:reqstatus} traces each requirement of {tbl:requirements} to the evidence that it has been met. Most functional and data requirements are met and verified by automated tests or generated reports. The main gaps concern the user-facing part of the artefact: the dashboard file has not been assembled, so its functional and accessibility checks have not been run, and the usability requirement cannot be assessed without the user study.
+
+::: table id=tbl:reqstatus widths=1.5,2.4,11.7 size=8.5
+caption: Status of the requirements
+source: Author's own assessment against the evidence cited.
+| ID | Status | Evidence |
+|---|---|---|
+| FR1 | Met | Integrity report for all nine files with checksums ({app:B}); checksum verification script |
+| FR2 | Met | Preprocessing and data-loading tests; exploratory analysis ({sec:data}) |
+| FR3 | [[PENDING: status]] | [[PENDING: forecasts for every model, origin and dataset]] |
+| FR4 | [[PENDING: status]] | Implemented and unit-tested (conformal rank); [[PENDING: coverage on the test period]] |
+| FR5 | [[PENDING: status]] | Metrics, DM test and Holm adjustment checked against hand calculations; [[PENDING: result tables]] |
+| FR6 | Met | Tuning uses data before the validation period only; leakage tests pass |
+| FR7 | [[PENDING: status]] | Export script and acceptance values implemented; [[PENDING: export after evaluation]] |
+| FR8 | Not yet met | Pages specified and wireframed ({app:F}); dashboard file not assembled |
+| FR9 | Met | Experiment log with parameters, seed, runtime, energy estimate and metrics |
+| NFR1 | Met | Perturbation tests show no use of data after the cut-off, including store selection |
+| NFR2 | Partly met | Fixed seeds, deterministic operations, pinned versions and checkpoints; an independent re-run has not been made |
+| NFR3 | Met | Modular package with docstrings and 32 automated tests |
+| NFR4 | [[PENDING: status]] | [[PENDING: measured runtimes of all stages]] |
+| NFR5 | [[PENDING: status]] | [[PENDING: cost table]] |
+| NFR6 | Not assessed | User study approved but not yet conducted |
+| NFR7 | Partly met | Greyscale-safe figures and checklist specified ({tbl:a11y}); not yet checked in Power BI |
+| DR1 | Met | M5: 1,941 days; Rossmann: 942 days ({tbl:datasummary}) |
+| DR2 | Met | Covariates restricted to calendar, event and promotion information known in advance ({tbl:covariates}) |
+| DR3 | Met | Store-level data only; data dictionary contains no personal data |
+| SR1 | Met | Raw data excluded from the repository; download and checksum instructions provided |
+| SR2 | Partly met | Consent and data-handling commitments documented ({app:G}); no participant data collected yet |
+:::
+
 ## Evaluation of the Process {#sec:process}
 
 ### Methodology
