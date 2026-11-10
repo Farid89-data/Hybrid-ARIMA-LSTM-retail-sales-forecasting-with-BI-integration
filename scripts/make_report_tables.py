@@ -175,6 +175,62 @@ def dm_tests(name: str) -> None:
     write(rows, f"dm_{name}")
 
 
+def _ptxt(p) -> str:
+    return "n/a" if pd.isna(p) else ("< 0.001" if p < 0.001 else f"{p:.3f}")
+
+
+def dm_matrix_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_dm_matrix.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip dm_matrix {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    df = df[df["loss"] == "squared"]
+    models = [m for m in ORDER if m in set(df["row"])]
+    rows = [["Row model (vs column)"] + [LABELS[m] for m in models]]
+    for a in models:
+        line = [LABELS[a]]
+        for b in models:
+            r = df[(df["row"] == a) & (df["col"] == b)]
+            if a == b or r.empty:
+                line.append("-")
+                continue
+            r = r.iloc[0]
+            star = "*" if r["p_holm"] < 0.05 else ""
+            line.append(f"{r['dm_stat']:.2f}{star}")
+        rows.append(line)
+    write(rows, f"dm_matrix_{name}")
+
+
+def hybrid_ablation_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_hybrid_ablation.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip hybrid_ablation {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    rows = [["Hybrid", "MASE hybrid", "MASE ARIMA", "MASE LSTM", "Change vs ARIMA (%)", "Change vs LSTM (%)",
+             "DM vs ARIMA", "Holm p vs ARIMA", "DM vs LSTM", "Holm p vs LSTM"]]
+    for _, r in df.iterrows():
+        rows.append([LABELS[r["hybrid"]], fmt(r["mase_hybrid"]), fmt(r["mase_arima"]), fmt(r["mase_lstm"]),
+                     f"{r['pct_change_vs_arima']:+.1f}", f"{r['pct_change_vs_lstm']:+.1f}",
+                     fmt(r["dm_stat_vs_arima"], 2), _ptxt(r["p_holm_vs_arima"]),
+                     fmt(r["dm_stat_vs_lstm"], 2), _ptxt(r["p_holm_vs_lstm"])])
+    write(rows, f"hybrid_ablation_{name}")
+
+
+def residual_diagnostics_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_residual_diagnostics.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip residual_diagnostics {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    rows = [["Test", "Stores tested", "Share of stores with p < 0.05"]]
+    for col, label in (("lb7_p", "Ljung-Box, lag 7"), ("lb14_p", "Ljung-Box, lag 14"), ("bds_p", "BDS, dimension 2")):
+        ok = df[col].dropna()
+        rows.append([label, str(len(ok)), pct((ok < 0.05).mean()) if len(ok) else "n/a"])
+    write(rows, f"residual_diagnostics_{name}")
+
+
 def cost() -> None:
     rows = [["Dataset", "Model", "Tuning runs", "Tuning time (min)", "Time per final run (min)",
              "Total time (min)", "Total incl. ARIMA (min)", "Estimated energy (Wh)"]]
@@ -247,6 +303,9 @@ def main() -> None:
         interval_summary(name)
         mase_by_week(name)
         dm_tests(name)
+        dm_matrix_report(name)
+        hybrid_ablation_report(name)
+        residual_diagnostics_report(name)
     best_params()
     cost()
     unit_tests()
