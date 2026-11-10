@@ -76,7 +76,8 @@ def library_checks(cited_keys: set[str]) -> tuple[list[list[str]], list[str]]:
             evidence = f"Crossref title similarity {sim:.2f}" if cr else "no Crossref record"
         else:
             checks["window"] = True
-            evidence = "technical documentation (dataset page)"
+            evidence = ("approved pre-2023 exception (Crossref and publisher page)" if status == "EXCEPTION_APPROVED"
+                        else "technical documentation (dataset page)")
         ok = all(checks.values())
         if not ok:
             problems.append(f"{key}: failed {', '.join(k for k, v in checks.items() if not v)}")

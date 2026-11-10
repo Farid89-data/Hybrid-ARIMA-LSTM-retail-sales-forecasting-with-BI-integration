@@ -211,7 +211,7 @@ The proposal set out the design of the study, and ethical approval for a study i
 
 ## System Usability Scale
 
-Participants rate each statement from 1 (strongly disagree) to 5 (strongly agree). Odd-numbered items score the rating minus one; even-numbered items score five minus the rating; the sum is multiplied by 2.5 to give a score from 0 to 100.
+The ten items below are the standard System Usability Scale [@brooke1996]. Participants rate each statement from 1 (strongly disagree) to 5 (strongly agree). Odd-numbered items score the rating minus one; even-numbered items score five minus the rating; the sum is multiplied by 2.5 to give a score from 0 to 100.
 
 1. I think that I would like to use this system frequently.
 2. I found the system unnecessarily complex.
@@ -224,7 +224,6 @@ Participants rate each statement from 1 (strongly disagree) to 5 (strongly agree
 9. I felt very confident using the system.
 10. I needed to learn a lot of things before I could get going with this system.
 
-[[PENDING: cite the original source of the System Usability Scale once a pre-2023 exception is approved, or replace it with the version required by the ethics approval.]]
 
 ## Consent and data handling
 
