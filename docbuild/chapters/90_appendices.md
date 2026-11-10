@@ -141,12 +141,23 @@ alt: Wireframe with four cards for forecast sales, safety stock proxy, stock-out
 
 ## Measures
 
-The main Data Analysis Expressions (DAX) measures are listed below. Every accuracy measure is restricted to scored days, so that the dashboard reproduces the figures in this report.
+The main Data Analysis Expressions (DAX) measures are listed below. Every measure is restricted to scored days, as in the Python evaluation. Measures that sum sales return a blank unless exactly one dataset is selected, because M5 sales are units and Rossmann sales are turnover. The report's MASE is the mean of the per-store values, which the measure "MASE (store average)" reproduces.
 
 ```
-MASE =
-AVERAGEX ( FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
-    DIVIDE ( ABS ( fact_forecast[actual] - fact_forecast[forecast] ), fact_forecast[scale] ) )
+Actual Sales (scored) =
+IF ( HASONEVALUE ( dim_series[dataset] ),
+    CALCULATE ( SUM ( fact_forecast[actual] ), fact_forecast[scored] = 1 ) )
+
+Forecast Sales (scored) =
+IF ( HASONEVALUE ( dim_series[dataset] ),
+    CALCULATE ( SUM ( fact_forecast[forecast] ), fact_forecast[scored] = 1 ) )
+
+Forecast Upper 95% (scored) =
+IF ( HASONEVALUE ( dim_series[dataset] ),
+    CALCULATE ( SUM ( fact_forecast[upper] ), fact_forecast[scored] = 1 ) )
+
+MASE (store average) =
+AVERAGE ( fact_metrics[mase] )
 
 Interval Coverage % =
 AVERAGEX ( FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
@@ -156,16 +167,12 @@ AVERAGEX ( FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
 Safety Stock Proxy =
 [Forecast Upper 95% (scored)] - [Forecast Sales (scored)]
 
-Stock-out Risk Days =
+Overstock Risk Days =
 COUNTROWS ( FILTER ( fact_forecast,
-    fact_forecast[scored] = 1 && fact_forecast[actual] > fact_forecast[upper] ) )
-
-Best Model (MASE) =
-VAR scores = ADDCOLUMNS ( VALUES ( dim_model[model_label] ), "@mase", [MASE] )
-RETURN MAXX ( TOPN ( 1, scores, [@mase], ASC ), dim_model[model_label] )
+    fact_forecast[scored] = 1 && fact_forecast[actual] < fact_forecast[lower] ) )
 ```
 
-The complete set of measures, the Power Query scripts and the build steps are in the dashboard folder of the repository.
+The complete set of measures, including the lower bound, the stock-out count and the pooled error measures, is in the dashboard folder of the repository with the Power Query scripts and the build steps.
 
 ## Accessibility checklist
 
