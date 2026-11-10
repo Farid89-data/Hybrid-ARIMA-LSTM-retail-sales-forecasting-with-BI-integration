@@ -1194,6 +1194,50 @@ def load_identity(path: Path = IDENTITY_JSON) -> dict:
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
+SUBJECT_KEYWORDS = "ARIMA; LSTM; hybrid forecasting; retail sales; Power BI"
+_BANNED_CORE = ("claude", "anthropic", "jshort", "frd ngb", "gpt", "copilot")
+
+
+def _set_core_properties(document, identity: dict) -> None:
+    """Set the core properties from the identity; blank inherited values that name someone else."""
+    cp = document.core_properties
+    name = identity["student_name"]
+    cp.author = name
+    cp.last_modified_by = name
+    cp.title = identity["title"]
+    cp.subject = f"{identity['module']} ({identity['programme']})"
+    cp.keywords = SUBJECT_KEYWORDS
+    cp.comments = ""
+    for attr in ("category", "content_status", "identifier", "version"):
+        if getattr(cp, attr):
+            setattr(cp, attr, "")
+
+
+def _set_app_properties(document, identity: dict) -> None:
+    """docProps/app.xml: Company = university, Manager blank (python-docx does not expose it)."""
+    for part in document.part.package.iter_parts():
+        if str(part.partname) != "/docProps/app.xml":
+            continue
+        root = etree.fromstring(part.blob)
+        changed = False
+        for tag, value in (("Company", identity["university"]), ("Manager", "")):
+            for el in root.iter("{*}" + tag):
+                if (el.text or "") != value:
+                    el.text = value
+                    changed = True
+        if changed:
+            part._blob = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+
+
+def apply_core_properties(docx_path: Path, identity: dict | None = None) -> None:
+    """Re-open a saved .docx and (re)apply the identity metadata (Word rewrites Last Modified By)."""
+    identity = identity or load_identity()
+    document = docx.Document(str(docx_path))
+    _set_core_properties(document, identity)
+    _set_app_properties(document, identity)
+    document.save(str(docx_path))
+
+
 def title_page_values(docx_path: Path) -> list[str]:
     """Visible value text of each title-page table row (label images carry no text)."""
     table = docx.Document(str(docx_path)).tables[0]
@@ -1269,12 +1313,14 @@ def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
             [ref_run],
             text=("Provisional format: standard Harvard modelled on the Arden examples in the module "
                   "materials, pending the Arden Referencing Guide (AU_Guide_to_Harvard_Citation.pdf)."),
-            author="Dissertation build", initials="DB")
+            author=load_identity()["student_name"], initials="FN")
     except Exception as exc:  # noqa: BLE001 - comments are a convenience, not essential
         b.warnings.append(f"Could not add comment: {exc}")
     if final:
         b.finalise_title_page(main_word_count(b.word_counts))
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    _set_core_properties(b.doc, load_identity())
+    _set_app_properties(b.doc, load_identity())
     b.doc.save(str(out_path))
     return {"out": str(out_path), "cited": b.cited, "word_counts": b.word_counts,
             "warnings": b.warnings, "labels": {k: v.number for k, v in b.labels.items()},
@@ -1305,6 +1351,7 @@ if __name__ == "__main__":
         from word_automation import update_and_export  # noqa: PLC0415
 
         info["word"] = update_and_export(Path(info["out"]))
+        apply_core_properties(Path(info["out"]))
         leftovers = check_fields_updated(Path(info["out"]))
         if leftovers:
             raise SystemExit(f"Fields not updated: {leftovers}")
