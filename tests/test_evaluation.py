@@ -86,3 +86,21 @@ def test_dm_hln_matches_manual_calculation():
 def test_holm_adjustment_matches_hand_calculation():
     adjusted = st.holm_adjust([0.01, 0.04, 0.03, 0.5])
     assert adjusted == pytest.approx([0.04, 0.09, 0.09, 0.5])
+
+
+def test_conformal_unscored_horizon_gives_nan():
+    rows = []
+    for h in (1, 2, 3):
+        for i in range(10):
+            rows.append({"horizon": h, "actual": 10.0 + i, "forecast": 10.0, "scale": 2.0, "eval": h != 2})
+    q = ev.conformal_quantiles(pd.DataFrame(rows), 3)
+    assert np.isnan(q[1]) and np.isfinite(q[0]) and np.isfinite(q[2])
+    test = pd.DataFrame({"horizon": [1, 2, 3], "actual": [10.0, 0.0, 12.0], "forecast": [10.0, 5.0, 10.0],
+                         "scale": 2.0, "eval": [True, False, True]})
+    out = ev.apply_conformal(test, q)
+    assert np.isnan(out.loc[1, "lower"]) and np.isnan(out.loc[1, "upper"])
+    assert out.loc[[0, 2], ["lower", "upper"]].notna().all().all()
+    m = ev.interval_metrics(out)  # NaN rows are ignored (also if they were flagged as scored)
+    assert m["coverage"] == pytest.approx(1.0) and np.isfinite(m["width_scaled"])
+    out["eval"] = True
+    assert ev.interval_metrics(out)["coverage"] == pytest.approx(1.0)

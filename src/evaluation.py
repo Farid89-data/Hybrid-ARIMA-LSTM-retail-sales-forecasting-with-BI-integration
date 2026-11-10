@@ -76,6 +76,11 @@ def conformal_quantiles(calibration: pd.DataFrame, horizon: int, level: float = 
     For each horizon ``h`` the quantile of ``|actual - forecast| / scale`` over
     the validation origins is taken at level ``ceil((n + 1) * level) / n``
     (finite-sample correction). Intervals are ``forecast +/- q_h * scale``.
+
+    A horizon without any calibration error (for example a weekday on which the
+    store is always closed, because origins spaced 28 days apart share a
+    weekday) gets ``q = NaN``: such horizons are never scored, so they need no
+    interval. :func:`apply_conformal` then gives NaN bounds there.
     """
     cal = calibration[calibration["eval"]]
     q = np.empty(horizon)
@@ -84,7 +89,8 @@ def conformal_quantiles(calibration: pd.DataFrame, horizon: int, level: float = 
                / cal.loc[cal["horizon"] == h, "scale"]).to_numpy()
         n = len(err)
         if n == 0:
-            raise ValueError(f"No calibration errors for horizon {h}.")
+            q[h - 1] = np.nan
+            continue
         rank = min(int(np.ceil((n + 1) * level)), n)
         q[h - 1] = np.sort(err)[rank - 1]
     return q
