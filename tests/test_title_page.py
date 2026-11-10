@@ -31,17 +31,36 @@ def rows(tmp_path_factory):
 
 def test_title_page_matches_identity(rows):
     ident = bd.load_identity()
+    assert len(rows) == 8, f"Expected 8 rows, got {len(rows)}"
     assert rows[0] == ident["university"]
     assert rows[1] == ident["programme"]
     assert rows[2].startswith(ident["module"])
     assert rows[3] == ident["title"]
-    assert rows[4] == ident["student_number"] == "24154844"
-    assert rows[5] == ident["tutor_name"]
-    assert not rows[5].startswith(("Dr", "Prof"))
+    # Row 4 is Student Name: label and value (concatenated, since label is now text not image)
+    assert "Student Name:" in rows[4] and ident["student_name"] in rows[4]
+    assert rows[5] == ident["student_number"] == "24154844"
+    assert rows[6] == ident["tutor_name"]
+    assert not rows[6].startswith(("Dr", "Prof"))
 
 
 def test_names_only_where_expected(rows):
     ident = bd.load_identity()
-    assert not any(ident["student_name"] in r for r in rows)
-    assert [i for i, r in enumerate(rows) if ident["tutor_name"] in r] == [5]
-    assert [i for i, r in enumerate(rows) if ident["student_number"] in r] == [4]
+    assert [i for i, r in enumerate(rows) if ident["student_name"] in r] == [4]
+    assert [i for i, r in enumerate(rows) if ident["tutor_name"] in r] == [6]
+    assert [i for i, r in enumerate(rows) if ident["student_number"] in r] == [5]
+
+
+def test_apply_identity_idempotent(tmp_path):
+    """Verify that calling apply_identity twice does not add duplicate rows."""
+    if not bd.TEMPLATE.exists():
+        pytest.skip("template docx missing")
+    out = tmp_path / "title.docx"
+    b = bd.Builder(bd.TEMPLATE, bd.REFS_JSON)
+    b.strip_body_after_title_page()
+    ident = bd.load_identity()
+    b.apply_identity(ident)
+    b.apply_identity(ident)  # Call twice
+    b.doc.save(str(out))
+    rows = bd.title_page_values(out)
+    assert len(rows) == 8, f"Expected 8 rows after two apply_identity calls, got {len(rows)}"
+    assert ident["student_name"] in rows[4]
