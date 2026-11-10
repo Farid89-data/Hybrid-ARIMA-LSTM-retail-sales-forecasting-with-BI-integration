@@ -1081,14 +1081,75 @@ class Builder:
         # caption is associated with it (D04).
         if self.doc.tables:
             set_table_title(self.doc.tables[0], "Title page",
-                            "Awarding body, programme, module, assessment title, student number, tutor and word count")
+                            "Awarding body, programme, module, assessment title, student name, student number, tutor and word count")
 
     def apply_identity(self, identity: dict) -> None:
-        """Write the config values into title-page rows 0 to 5, keeping the run formatting."""
-        values = [identity["university"], identity["programme"], identity["module"],
-                  identity["title"], identity["student_number"], identity["tutor_name"]]
+        """Write the config values into title-page rows, inserting Student Name row.
+
+        Inserts a new row 4 for Student Name before the original Student Number row,
+        so final order is: university, programme, module, title, student_name, student_number, tutor_name, word_count.
+        Guard: does not add a second row if Student Name row already exists.
+        """
         table = self.doc.tables[0]
-        for row, value in zip(table.rows, values):
+
+        # Guard: check if Student Name row already exists
+        student_name_row_exists = any(
+            "Student Name:" in "".join(r.text for p in row.cells[0].paragraphs for r in p.runs)
+            for row in table.rows
+        )
+
+        if not student_name_row_exists:
+            # Copy row 4 (Student Number) and insert it before row 4
+            student_number_row_elem = table.rows[4]._tr
+            new_row_elem = copy.deepcopy(student_number_row_elem)
+            student_number_row_elem.addprevious(new_row_elem)
+
+            # Process the new row to set label and value
+            # After insertion, the new row is at index 4 in table.rows
+            new_row = table.rows[4]
+            for para in new_row.cells[0].paragraphs:
+                runs = list(para.runs)
+                if not runs:
+                    continue
+
+                # Find and remove image runs
+                image_run_indices = [i for i, r in enumerate(runs)
+                                     if r._r.find(qn("w:drawing")) is not None or r._r.find(qn("w:pict")) is not None]
+
+                if image_run_indices:
+                    # This is the label paragraph - remove images and set label text
+                    for i in reversed(image_run_indices):
+                        para._element.remove(runs[i]._r)
+
+                    # Add text run with "Student Name:" label (simpler than trying to replace)
+                    label_run = para.add_run("Student Name:")
+                    set_run_font(label_run, size=16, bold=False, font="Calibri")  # matches the label images
+                else:
+                    # This is the value paragraph - set student name value
+                    # Only process if there are no image runs (i.e., this is a text paragraph)
+                    # and if we find runs that don't end with " ("
+                    if runs and not any(r.text.endswith(" (") for r in runs):
+                        # This looks like the value paragraph - but only if it doesn't have suffix
+                        text_run_indices = [i for i, r in enumerate(runs) if r.text and not r.text.endswith(" (")]
+                        if text_run_indices:
+                            # Find the first non-empty, non-suffix run and replace it with the value
+                            runs[text_run_indices[0]].text = identity["student_name"]
+
+        # Apply standard values to rows after Student Name has been inserted
+        # Row indices: 0=univ, 1=prog, 2=mod, 3=title, 4=student_name (now set above), 5=student_number, 6=tutor, 7=wordcount
+        values_map = [
+            (0, identity["university"]),
+            (1, identity["programme"]),
+            (2, identity["module"]),
+            (3, identity["title"]),
+            (5, identity["student_number"]),
+            (6, identity["tutor_name"]),
+        ]
+
+        for row_idx, value in values_map:
+            if row_idx >= len(table.rows):
+                continue
+            row = table.rows[row_idx]
             for para in row.cells[0].paragraphs:
                 runs = [r for r in para.runs if r.text]
                 if not runs:
