@@ -53,6 +53,14 @@ def to_bibtex(entries: list[dict]) -> str:
             if "note" in e:
                 fields.append(("note", e["note"]))
             kind = "article"
+        elif e["type"] == "chapter":
+            authors = " and ".join(f"{a['family']}, {a['given']}" for a in e["author"])
+            editors = " and ".join(f"{a['family']}, {a['given']}" for a in e.get("editor", []))
+            fields = [("author", authors), ("title", "{" + bib_escape(e["title"]) + "}"),
+                      ("booktitle", bib_escape(e["container-title"])), ("editor", editors),
+                      ("publisher", e.get("publisher", "")), ("year", year(e)),
+                      ("pages", str(e.get("page", "")).replace("-", "--")), ("doi", e["DOI"]), ("url", e["URL"])]
+            kind = "incollection"
         else:
             fields = [("author", "{" + e["author"][0]["literal"] + "}"), ("title", "{" + bib_escape(e["title"]) + "}"),
                       ("year", year(e)), ("howpublished", r"\url{" + e["URL"] + "}"),
@@ -87,6 +95,14 @@ def to_ris(entries: list[dict]) -> str:
                 lines.append(f"PB  - {e['publisher']}")
             if "note" in e:
                 lines.append(f"N1  - {e['note']}")
+        elif e["type"] == "chapter":
+            lines.append("TY  - CHAP")
+            lines += [f"AU  - {a['family']}, {a['given']}" for a in e["author"]]
+            lines += [f"A2  - {a['family']}, {a['given']}" for a in e.get("editor", [])]
+            start, _, end = str(e.get("page", "")).partition("-")
+            lines += [f"TI  - {e['title']}", f"T2  - {e['container-title']}", f"PY  - {year(e)}",
+                      f"SP  - {start}", f"EP  - {end}", f"PB  - {e.get('publisher', '')}",
+                      f"DO  - {e['DOI']}", f"UR  - {e['URL']}"]
         else:
             lines += ["TY  - ELEC", f"AU  - {e['author'][0]['literal']}", f"TI  - {e['title']}", f"PY  - {year(e)}",
                       f"UR  - {e['URL']}", f"PB  - {e.get('publisher', '')}"]
@@ -125,6 +141,25 @@ def to_zotero_rdf(entries: list[dict]) -> str:
                     f"    <dc:identifier><dcterms:URI><rdf:value>{x(e['URL'])}</rdf:value></dcterms:URI></dc:identifier>\n"
                     + (f"    <dc:description>{x(e['note'])}</dc:description>\n" if "note" in e else "")
                     + "  </bib:Article>\n")
+        elif e["type"] == "chapter":
+            people = "".join(
+                f"<rdf:li><foaf:Person><foaf:surname>{x(a['family'])}</foaf:surname>"
+                f"<foaf:givenName>{x(a['given'])}</foaf:givenName></foaf:Person></rdf:li>" for a in e["author"])
+            eds = "".join(
+                f"<rdf:li><foaf:Person><foaf:surname>{x(a['family'])}</foaf:surname>"
+                f"<foaf:givenName>{x(a['given'])}</foaf:givenName></foaf:Person></rdf:li>" for a in e.get("editor", []))
+            item = (f'  <bib:BookSection rdf:about="{x(e["URL"])}">\n'
+                    f"    <z:itemType>bookSection</z:itemType>\n"
+                    f"    <dcterms:isPartOf><bib:Book><dc:title>{x(e['container-title'])}</dc:title>"
+                    f"<bib:editors><rdf:Seq>{eds}</rdf:Seq></bib:editors></bib:Book></dcterms:isPartOf>\n"
+                    f"    <bib:authors><rdf:Seq>{people}</rdf:Seq></bib:authors>\n"
+                    f"    <dc:title>{x(e['title'])}</dc:title>\n"
+                    f"    <dc:date>{year(e)}</dc:date>\n"
+                    f"    <bib:pages>{x(str(e.get('page', '')))}</bib:pages>\n"
+                    f"    <dc:publisher><foaf:Organization><foaf:name>{x(e.get('publisher', ''))}</foaf:name>"
+                    f"</foaf:Organization></dc:publisher>\n"
+                    f"    <dc:identifier>DOI {x(e['DOI'])}</dc:identifier>\n"
+                    f"  </bib:BookSection>\n")
         else:
             item = (f'  <bib:Document rdf:about="{x(e["URL"])}">\n'
                     f"    <z:itemType>webpage</z:itemType>\n"
