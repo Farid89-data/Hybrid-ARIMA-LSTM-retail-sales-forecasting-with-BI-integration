@@ -40,9 +40,8 @@ def set_determinism(seed: int) -> None:
     its start-up cost. ``TF_ENABLE_ONEDNN_OPTS=0`` must be set before the first
     TensorFlow import (it is set in :mod:`src.neural_networks`).
     """
-    # PYTHONHASHSEED only takes effect at interpreter start; it is set by scripts/run_queue.sh
-    # and the CI workflow. Setting it here propagates it to any child process.
-    os.environ["PYTHONHASHSEED"] = str(seed)
+    # PYTHONHASHSEED cannot be set from inside a running interpreter: the hash seed is fixed at
+    # start-up. It must be set before Python starts; scripts/run_queue.sh and the CI workflow do so.
     random.seed(seed)
     np.random.seed(seed)
     import tensorflow as tf  # noqa: PLC0415 - deliberate lazy import
