@@ -238,6 +238,7 @@ def fig_coverage(test, name):
     fig, ax = plt.subplots(figsize=(7.2, 3.0))
     for model in [m for m in ORDER if m in test["model"].unique()]:
         g = test[(test.model == model) & test["eval"]]
+        g = g[g["lower"].notna() & g["upper"].notna()]  # horizons never scored have NaN bounds
         cov = ((g["actual"] >= g["lower"]) & (g["actual"] <= g["upper"])).groupby([g["seed"], g["horizon"]]).mean()
         curve = cov.groupby("horizon").mean()
         ax.plot(curve.index, curve.values, label=LABELS[model], linewidth=1, markersize=3, markevery=4,
