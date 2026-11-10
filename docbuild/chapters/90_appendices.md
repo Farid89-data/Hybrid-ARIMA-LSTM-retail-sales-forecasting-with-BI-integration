@@ -37,7 +37,7 @@ source: Author's own check of the downloaded files (outputs/data_check/raw_data_
 
 ## Rossmann sample
 
-{tbl:stores} lists the 20 sampled stores. The sample was drawn from the 836 eligible stores in proportion to the store type and assortment strata, with at least two stores per stratum and a fixed seed of 2026.
+{tbl:stores} lists the 20 sampled stores. The sample was drawn from the 850 eligible stores in proportion to the store type and assortment strata, with at least two stores per stratum and a fixed seed of 2026.
 
 ::: table id=tbl:stores csv=outputs/tables/report_rossmann_stores.csv size=8.5 widths=2.2,2.6,2.6,4.0,2.2
 caption: Sampled Rossmann stores and their attributes
