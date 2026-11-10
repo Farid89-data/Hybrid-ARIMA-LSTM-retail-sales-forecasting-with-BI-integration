@@ -29,6 +29,30 @@ MODEL_FAMILY = {
 }
 
 
+def acceptance_values(scored: pd.DataFrame) -> dict:
+    """Reference values that the dashboard measures must reproduce (test plan TP-07 to TP-13).
+
+    ``scored`` holds the exported forecast rows of one dataset with ``scored == 1``
+    (columns ``model``, ``series_key``, ``actual``, ``forecast``, ``lower``,
+    ``upper``, ``scale``). MASE is the mean of the per-store MASE values, as in
+    the report; the DAX measure "MASE (store average)" reproduces it.
+    """
+    out = {}
+    for model, g in scored.groupby("model"):
+        abs_err = (g["actual"] - g["forecast"]).abs()
+        per_store_mase = (abs_err / g["scale"]).groupby(g["series_key"]).mean()
+        out[model] = {
+            "total_actual_scored": float(g["actual"].sum()),
+            "total_forecast_scored": float(g["forecast"].sum()),
+            "mean_abs_error": float(abs_err.mean()),
+            "coverage": float(((g["actual"] >= g["lower"]) & (g["actual"] <= g["upper"])).mean()),
+            "mase_store_average": float(per_store_mase.mean()),
+            "stockout_risk_days": int((g["actual"] > g["upper"]).sum()),
+            "overstock_risk_days": int((g["actual"] < g["lower"]).sum()),
+        }
+    return out
+
+
 def export(primary_seed: int = config.PRIMARY_SEED) -> dict:
     DASH_DIR.mkdir(parents=True, exist_ok=True)
     dates, series, actuals, forecasts, metrics = [], [], [], [], []
@@ -64,15 +88,7 @@ def export(primary_seed: int = config.PRIMARY_SEED) -> dict:
         metrics.append(per[["series_key", "dataset", "model", "rmse", "mae", "mape", "mase", "coverage",
                             "width_scaled"]])
         scored = test[test["scored"] == 1]
-        acceptance[label] = {
-            m: {
-                "total_actual_scored": float(g["actual"].sum()),
-                "total_forecast_scored": float(g["forecast"].sum()),
-                "mean_abs_error": float((g["actual"] - g["forecast"]).abs().mean()),
-                "coverage": float(((g["actual"] >= g["lower"]) & (g["actual"] <= g["upper"])).mean()),
-            }
-            for m, g in scored.groupby("model")
-        }
+        acceptance[label] = acceptance_values(scored)
     dim_date = pd.concat(dates).drop_duplicates().sort_values("date")
     dim_date["year"] = dim_date["date"].dt.year
     dim_date["month"] = dim_date["date"].dt.month
