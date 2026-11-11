@@ -17,6 +17,25 @@ import numpy as np
 
 from . import config
 
+PAUSE_EXIT_CODE = 75  # a stage script exits with this code when it stops at a unit boundary on request
+
+
+class PipelinePaused(Exception):
+    """Raised between units of work when a pause was requested (see :func:`pause_requested`)."""
+
+
+def pause_requested() -> bool:
+    """True if ``outputs/state/PAUSE`` or ``outputs/state/PAUSE_<lane>`` exists.
+
+    The lane is read from the ``PIPELINE_LANE`` environment variable set by ``scripts/run_chunks.py``.
+    Checked only between units (Optuna trial, seed, series), never inside one.
+    """
+    if (config.STATE_DIR / "PAUSE").exists():
+        return True
+    lane = os.environ.get("PIPELINE_LANE")
+    return bool(lane) and (config.STATE_DIR / f"PAUSE_{lane}").exists()
+
+
 EXPERIMENT_FIELDS = [
     "run_id", "timestamp_utc", "phase", "dataset", "series_set", "model", "parameters_json",
     "seed", "split_scheme", "origin_id", "horizon_days", "runtime_s", "energy_est_kwh",

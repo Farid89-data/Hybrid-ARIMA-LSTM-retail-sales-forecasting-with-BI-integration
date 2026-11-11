@@ -35,8 +35,12 @@ def main() -> None:
     prep = experiment.prepare(args.dataset)
     utils.save_json(prep.plan.describe(), config.METRIC_DIR / f"{args.dataset}_split_plan.json")
 
-    with utils.timer() as t:
-        table, arts = experiment.run_statistical(prep)
+    try:
+        with utils.timer() as t:
+            table, arts = experiment.run_statistical(prep)
+    except utils.PipelinePaused as exc:
+        LOGGER.info("paused at a series boundary (%s); finished series are checkpointed", exc)
+        sys.exit(utils.PAUSE_EXIT_CODE)
     out = config.FORECAST_DIR / f"{args.dataset}_statistical.csv.gz"
     table.to_csv(out, index=False)
     experiment.save_stat_artifacts(prep, arts)
