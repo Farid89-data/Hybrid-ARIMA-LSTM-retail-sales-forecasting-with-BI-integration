@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import optuna  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from src import config, experiment, utils  # noqa: E402
+from src import config, experiment, tuning_cleanup, utils  # noqa: E402
 from src.evaluation import dataset_summary  # noqa: E402
 
 LOGGER = logging.getLogger("run_neural")
@@ -103,8 +103,8 @@ def tune(prep, arts, kind: str, n_trials: int) -> dict:
         if n_complete < n_trials:
             LOGGER.info("%s %s: paused with %d of %d trials complete", prep.name, kind, n_complete, n_trials)
             sys.exit(utils.PAUSE_EXIT_CODE)
-    trials = study.trials_dataframe()
-    trials.to_csv(config.METRIC_DIR / f"{prep.name}_{kind}_tuning_trials.csv", index=False)
+    # D-029: only COMPLETE trials are written; interrupted (FAIL) trials are counted in the summary.
+    tuning_cleanup.write_trials_csv(study, config.METRIC_DIR / f"{prep.name}_{kind}_tuning_trials.csv")
     best = dict(study.best_params)
     best_table = pd.read_csv(trial_file(prep, kind, study.best_trial.number))
     best_table.to_csv(config.FORECAST_DIR / f"{prep.name}_{kind}_validation.csv.gz", index=False)

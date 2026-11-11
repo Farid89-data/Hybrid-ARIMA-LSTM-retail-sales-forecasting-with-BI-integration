@@ -94,9 +94,18 @@ def stat_specs(name: str) -> None:
     write(rows, f"stat_specs_{name}")
 
 
+def trial_counts(name: str, kind: str) -> str:
+    """Complete trials, with interrupted (failed) trials in brackets (D-029)."""
+    src = config.METRIC_DIR / f"{name}_{kind}_tuning_trials_summary.json"
+    if not src.exists():
+        return "n/a"
+    s = json.loads(src.read_text(encoding="utf-8"))
+    return f"{s['complete_trials']} ({s['failed_trials']})"
+
+
 def best_params() -> None:
     rows = [["Dataset", "Model", "Input window", "Units", "Layers", "Dropout", "Learning rate", "Batch",
-             "Validation MASE"]]
+             "Validation MASE", "Trials (interrupted)"]]
     found = False
     for name in ("m5", "rossmann"):
         for kind in ("ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"):
@@ -108,7 +117,7 @@ def best_params() -> None:
             bp = d["best_params"]
             rows.append([DATASET_LABEL[name], LABELS[kind], str(bp["lookback"]), str(bp["units"]),
                          str(bp.get("n_layers", 1)), f"{bp['dropout']:.2f}", f"{bp['learning_rate']:.5f}",
-                         str(bp["batch_size"]), f"{d['best_value']:.3f}"])
+                         str(bp["batch_size"]), f"{d['best_value']:.3f}", trial_counts(name, kind)])
     if found:
         write(rows, "best_params")
 

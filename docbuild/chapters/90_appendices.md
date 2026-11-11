@@ -75,7 +75,7 @@ source: Author's own results (outputs/metrics/rossmann_statistical_specs.json).
 
 ::: table id=tbl:bestparams csv=outputs/tables/report_best_params.csv size=8
 caption: Selected hyperparameters of the neural and hybrid models
-source: Author's own results (outputs/metrics/*_best_params.json).
+source: Author's own results (outputs/metrics/*_best_params.json). Trials: completed tuning trials; trials interrupted by a stopped process, marked as failed and excluded, in brackets.
 :::
 
 ## Extended results {#sec:appextended}
