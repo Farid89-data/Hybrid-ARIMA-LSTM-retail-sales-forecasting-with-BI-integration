@@ -136,8 +136,10 @@ class Step:
 
 def main() -> None:
     LOGS.mkdir(parents=True, exist_ok=True)
+    # The venv launcher starts the interpreter as a child process, so exclude this process's ancestors.
+    own = {os.getpid(), *(p.pid for p in psutil.Process().parents())}
     others = [p for p in psutil.process_iter(["name", "cmdline"])
-              if p.pid != os.getpid() and (p.info["name"] or "").lower().startswith("python")
+              if p.pid not in own and (p.info["name"] or "").lower().startswith("python")
               and any("run_" in a for a in (p.info["cmdline"] or []))]
     if others:
         log(f"refusing to start: pipeline processes already running {[p.pid for p in others]}")
