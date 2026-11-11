@@ -94,7 +94,15 @@ def tune(prep, arts, kind: str, n_trials: int) -> dict:
     if done:
         LOGGER.info("%s %s: resuming study with %d completed trials", prep.name, kind, done)
     if n_trials - done > 0:
-        study.optimize(objective, n_trials=n_trials - done)
+        def stop_on_pause(study_, trial_):
+            if utils.pause_requested():
+                study_.stop()  # the running trial has finished; no new trial starts
+
+        study.optimize(objective, n_trials=n_trials - done, callbacks=[stop_on_pause])
+        n_complete = sum(t.state == optuna.trial.TrialState.COMPLETE for t in study.trials)
+        if n_complete < n_trials:
+            LOGGER.info("%s %s: paused with %d of %d trials complete", prep.name, kind, n_complete, n_trials)
+            sys.exit(utils.PAUSE_EXIT_CODE)
     trials = study.trials_dataframe()
     trials.to_csv(config.METRIC_DIR / f"{prep.name}_{kind}_tuning_trials.csv", index=False)
     best = dict(study.best_params)
@@ -116,6 +124,9 @@ def final(prep, arts, kind: str, params: dict, seeds) -> None:
             tables.append(pd.read_csv(done_file))
             LOGGER.info("%s %s seed %d: loaded checkpoint", prep.name, kind, seed)
             continue
+        if utils.pause_requested():
+            LOGGER.info("%s %s: paused before seed %d (finished seeds are checkpointed)", prep.name, kind, seed)
+            sys.exit(utils.PAUSE_EXIT_CODE)
         table, info, model = task.train_and_forecast(params, seed=seed)
         table.to_csv(done_file, index=False)
         tables.append(table)
@@ -167,6 +178,9 @@ def main() -> None:
     if args.model == "hyb_z":
         source = config.METRIC_DIR / f"{args.dataset}_hyb_d_best_params.json"
         params = utils.load_json(source)["best_params"]
+        if utils.pause_requested():
+            LOGGER.info("%s hyb_z: paused before the validation run", args.dataset)
+            sys.exit(utils.PAUSE_EXIT_CODE)
         # hyb_z needs its own validation forecasts for interval calibration
         task = experiment.NeuralTask(prep, arts, "hyb_z", "tune")
         table, info, _ = task.train_and_forecast(params, seed=config.PRIMARY_SEED)
