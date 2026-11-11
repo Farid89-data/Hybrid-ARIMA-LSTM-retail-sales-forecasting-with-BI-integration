@@ -167,6 +167,27 @@ def env_for(threads: int, lane: str) -> dict:
 
 
 # ---------------------------------------------------------------------------------- artefacts
+def clean_stale_trials(live=None) -> list:
+    """D-029: mark RUNNING Optuna trials as FAIL for stages that have no live process.
+
+    ``live`` is the list of running pipeline processes (default: detected). Each change is logged.
+    """
+    from src import tuning_cleanup  # noqa: PLC0415 - imports optuna only when needed
+
+    live = find_pipeline_processes() if live is None else live
+    cmds = [" ".join(p.info.get("cmdline") or []) for p in live]
+    changed = []
+    for db in sorted(config.INTERIM_DIR.glob("optuna_*.db")):
+        ds, kind = db.stem[len("optuna_"):].split("_", 1)
+        if any(f"--dataset {ds}" in c and f"--model {kind}" in c for c in cmds):
+            log(f"stale-trial check skipped for {db.name}: stage is running")
+            continue
+        for study, number in tuning_cleanup.mark_stale_trials(db):
+            log(f"marked trial {number} of study {study} ({db.name}) as FAIL: {tuning_cleanup.FAILED_REASON}")
+            changed.append((db.name, study, number))
+    return changed
+
+
 def _complete_trials(ds: str, model: str) -> int:
     import sqlite3
     db = config.INTERIM_DIR / f"optuna_{ds}_{model}.db"
@@ -457,7 +478,7 @@ def tail_lines(path: Path, n: int = 60) -> str:
 
 def log(msg: str) -> None:
     LOGS.mkdir(parents=True, exist_ok=True)
-    with (LOGS / "chunks.log").open("a", encoding="utf-8") as fh:
+    with (LOGS / "run_chunks.log").open("a", encoding="utf-8") as fh:
         fh.write(f"{datetime.now():%Y-%m-%d %H:%M:%S} {msg}\n")
 
 
@@ -749,6 +770,7 @@ def main() -> None:
         log(msg)
         clear_pause_files()
     (sd / "runner.pid").write_text(str(os.getpid()))
+    clean_stale_trials(live=[])  # start_check has confirmed that no pipeline process is running
     log(f"runner started pid {os.getpid()}, {psutil.cpu_count()} logical cores")
     psutil.cpu_percent(interval=None)
     r = Runner()
