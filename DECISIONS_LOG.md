@@ -358,3 +358,11 @@ The primary hybrid is the variant with the best validation MASE; the others are 
 - Machine: 2 physical cores, 4 logical, about 6 GB RAM. Thread limits per process (OMP, MKL, OpenBLAS, TensorFlow intra-op; inter-op 1): A 2, B 1, C 1, D 2, E 4, so the total never exceeds 4 logical cores.
 - The Rossmann FFNN trials 0 to 10 ran alone with default threading; trials 11 to 14 and all later runs use the limits above. Seeds, `PYTHONHASHSEED=0` and TensorFlow op determinism are unchanged. Floating-point results can differ slightly with the thread count; the change is recorded in `EXPERIMENT_LOG.csv` (phase "pipeline").
 - Runtimes measured from now on come from processes sharing the processor, and include any time a process was suspended by the memory guard (recorded per step in the "pipeline" rows). They are therefore not directly comparable with the Rossmann statistical times, which ran alone; this is reported with the cost results (RQ3).
+
+## D-028 Pausable pipeline runner (11 November 2026)
+
+- `scripts/run_chunks.py` replaces `scripts/run_parallel.py` (kept for the record). It runs the same lanes (A to E) with the same dependencies, resumes every stage from its own checkpoints and skips stages whose artefacts are complete.
+- Pauses happen only between units of work (Optuna trial, final seed, statistical series): the runner sets `outputs/state/PAUSE`, the stage scripts finish the current unit and exit with code 75. Paused time therefore never falls inside a unit, and the unit runtimes logged in `EXPERIMENT_LOG.csv` exclude it. Lane E steps are atomic and finish before the pause completes.
+- Processes are no longer suspended. A lane starts only if available RAM after its estimated footprint stays at or above 15% of the total; if memory falls below 15% while several lanes run, the newest lane is asked to pause at its unit boundary (`PAUSE_<lane>`) and restarts when memory allows. At least one lane always runs.
+- Thread caps are those of D-027 (A 2, B 1, C 1, D 2, E 4; `PYTHONHASHSEED=0`, TensorFlow inter-op 1). Seeds, determinism settings and model code are unchanged; the hooks only add early exits when a flag file exists.
+- Each stage process appends a "pipeline" row (`pipeline-<stage>-<n>`) with start, end, exit code and threads; these rows carry no dataset or model, so the cost tables are unaffected.

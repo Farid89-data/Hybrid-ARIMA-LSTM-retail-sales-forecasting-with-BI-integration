@@ -1,4 +1,6 @@
-"""Run the remaining pipeline in parallel lanes with dependencies, a memory guard and retries.
+"""Superseded by scripts/run_chunks.py (D-028).
+
+Run the remaining pipeline in parallel lanes with dependencies, a memory guard and retries.
 
 Lanes (each lane runs its steps in order; every step resumes from its own checkpoints):
   A  Rossmann networks: ffnn, lstm, hyb_d, hyb_z, hyb_ms (uses the saved Rossmann ARIMA residuals)
