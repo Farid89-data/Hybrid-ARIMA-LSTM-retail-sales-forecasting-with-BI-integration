@@ -4,7 +4,7 @@
 
 The project combined the cross-industry standard process for data mining (CRISP-DM) with short, iterative development increments. CRISP-DM provided the analytical life cycle: business understanding, data understanding, data preparation, modelling, evaluation and deployment. It was chosen because it is the established reference model for data projects and makes the data preparation effort explicit, which was the most labour-intensive phase in one application [@doede2025]. Reported weaknesses are a linear, model-centric view and little built-in governance [@sousa2026]. These were mitigated in three ways. First, each phase was delivered as an increment that ended with a working, tested artefact. Second, decisions were recorded in a decisions log with their alternatives and justification. Third, the evaluation phase fed back into data preparation and modelling where a problem was found.
 
-A waterfall plan was rejected because the behaviour of the hybrid model could not be known in advance, and the design had to respond to what the data revealed. A full Scrum process was also rejected, because it assumes a team, a product owner and regular stakeholder reviews, none of which exist in an individual MSc project. The resulting increments are listed in {tbl:increments}, and the project plan is compared with the actual increments in {app:H}.
+A waterfall plan was rejected because the behaviour of the hybrid model could not be known in advance. A full Scrum process was also rejected, because it assumes a team, a product owner and regular stakeholder reviews, none of which exist in an individual MSc project. The resulting increments are listed in {tbl:increments}, and the project plan is compared with the actual increments in {app:H}.
 
 ::: table id=tbl:increments widths=1.6,4.0,5.2,4.6 size=8.5
 caption: Development increments and their outputs
@@ -107,7 +107,7 @@ Data errors were handled with a causal rule. A trading day was flagged as an ano
 
 ### Covariates
 
-All covariates are known in advance. {tbl:covariates} lists them. The networks used all of them. ARIMA used a subset as regressors, since the day-of-week pattern is captured by its seasonal differencing. A hybrid gain could therefore partly reflect the extra covariates. ETS and the seasonal naive method are univariate benchmarks and use no covariates.
+{tbl:covariates} lists the covariates, all known in advance. The networks used all of them. ARIMA used a subset as regressors, since the day-of-week pattern is captured by its seasonal differencing. A hybrid gain could therefore partly reflect the extra covariates. ETS and the seasonal naive method are univariate benchmarks and use no covariates.
 
 ::: table id=tbl:covariates widths=4.2,6.8,2.4,2.4 size=8.5
 caption: Covariates known at the forecast origin
@@ -248,11 +248,11 @@ $$\text{DM} = \frac{\bar{d}}{\sqrt{\hat{\sigma}^2_{d}/n}}, \qquad \text{DM}^{*} 
 
 ### Prediction intervals
 
-Every model received a 95% prediction interval built in the same way. This allows the honesty of the models about uncertainty to be compared. Split conformal intervals were calibrated on the validation windows [@zhang2025]. For each horizon \(h\), the scaled absolute errors of the validation forecasts were sorted, and the quantile \(q_h\) at rank \(\lceil (n+1)\,0.95 \rceil\) was taken. The interval is \(\hat{y} \pm q_h s\), where \(s\) is the MASE scale of the series, and its lower bound is clipped at zero. Horizon-specific quantiles allow the interval to widen with the horizon [@schlembach2025]. ARIMA and ETS also provide their own Gaussian intervals, which are reported for comparison. Intervals were assessed by empirical coverage on the test period, by their mean scaled width and by the interval score, which penalises both width and misses.
+Every model received a 95% prediction interval built in the same way. Split conformal intervals were calibrated on the validation windows [@zhang2025]. For each horizon \(h\), the scaled absolute errors of the validation forecasts were sorted, and the quantile \(q_h\) at rank \(\lceil (n+1)\,0.95 \rceil\) was taken. The interval is \(\hat{y} \pm q_h s\), where \(s\) is the MASE scale of the series, and its lower bound is clipped at zero. Horizon-specific quantiles allow the interval to widen with the horizon [@schlembach2025]. ARIMA and ETS also provide their own Gaussian intervals, which are reported for comparison. Intervals were assessed by empirical coverage on the test period, by their mean scaled width and by the interval score, which penalises both width and misses.
 
 ### Computational cost
 
-Training and fitting times were measured as wall-clock time on one laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. The Rossmann statistical stage ran alone. The ARIMA search time of one store, which had absorbed a computer sleep, was re-timed on its own (decision D-026). The later stages ran in parallel lanes with thread limits (D-027, D-028), so their runtimes include contention. The cost total of a model is its tuning trials plus its final runs (five seeds for the networks); for the hybrids it also includes the ARIMA stage, and hyb_z reuses the hyb_d search. Energy is a runtime proxy, time multiplied by the processor's 15 W thermal design power, not a measurement [@scala2025].
+Training and fitting times were measured as wall-clock time on one laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. The Rossmann statistical stage ran alone; the ARIMA search time of one store, which absorbed a computer sleep, was re-timed on its own (D-026). The later stages ran in parallel lanes with thread limits (D-027, D-028), so their runtimes include contention. A model's cost total is its tuning trials plus its final runs (five seeds for networks), and for hybrids the ARIMA stage; hyb_z reuses the hyb_d search. Energy is a runtime proxy, time multiplied by the processor's 15 W thermal design power, not a measurement [@scala2025].
 
 ## Software Implementation {#sec:software}
 
@@ -334,7 +334,7 @@ Slicers for dataset, store, model and origin are shared across pages. Accessibil
 - a logical keyboard tab order;
 - minimum font sizes of 12 points for text and 10 points for axis labels.
 
-The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data. The remaining measures are covered by the static review (TP-16).
+The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data; a static review (TP-16) covers the rest.
 
 ## Issues and Troubleshooting {#sec:issues}
 
@@ -343,7 +343,7 @@ Several problems arose during development. Each was resolved and recorded in the
 - **Missing values in exponential smoothing.** The default initialisation of the state-space ETS model returned undefined values when closures were present. Each available initialisation was tested on a series with closures, and only the concentrated initialisation produced valid estimates. It was adopted for all series.
 - **Multi-step paths for the hybrids.** Computing a 28-day ARIMA forecast at every training day by re-filtering the series would have taken days. The paths were instead derived in one pass from the filtered state and the transition matrix. An initial version failed on models whose design matrix varies over time. After the fix, an automatic check confirmed that the one-pass paths matched direct forecasts.
 - **Weekdays without history.** The seasonal naive method failed for Rossmann Sundays, which have no valid history. Such days are closures, so they were forecast as zero and excluded from scoring.
-- **Rossmann eligibility.** Store eligibility was first judged on all 942 days, which let the test period influence the sample. It now uses only records before the test start. This raised the eligible stores from 836 to 850 and replaced five of the 20 sampled stores. The statistical stage was re-run, and the old outputs were archived.
+- **Rossmann eligibility.** Eligibility was first judged on all 942 days, including the test period. It now uses only records before the test start, which raised the eligible stores from 836 to 850 and replaced five sampled stores. The statistical stage was re-run and the old outputs archived.
 - **Interrupted runs.** A long background run was stopped by the operating environment after a system clock change and lost 16 completed stores. Checkpoints were then added for each series, each tuning trial and each seed, so that every stage can resume.
-- **Literature access.** Automated searching of Google Scholar was not possible, and several publishers refused automated access to full texts. Discovery was moved to OpenAlex and Crossref after the author approved the change, and only articles whose full text could be read were included ({sec:reviewmethod}).
+- **Literature access.** Google Scholar could not be searched automatically, and several publishers refused automated access to full texts. Discovery moved to OpenAlex and Crossref after the author approved the change, and only articles whose full text could be read were included ({sec:reviewmethod}).
 - **Toolchain deviation.** R was not installed on the development machine, so the planned R cross-check of the statistical models was not performed. Python 3.13 was used instead of Python 3.11.
