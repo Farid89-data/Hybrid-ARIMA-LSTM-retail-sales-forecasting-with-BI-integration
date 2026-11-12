@@ -744,7 +744,7 @@ class Builder:
         return e
 
     def _cite(self, p, body: str):
-        parts = citations.parse_citation(body)
+        parts = citations.order_keys(citations.parse_citation(body), self.lib)
         self._run(p, "(", {})
         for i, (key, loc) in enumerate(parts):
             e = self._entry(key)
@@ -1312,14 +1312,6 @@ def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
     for name, blocks in back:
         b.render(blocks, part=name)
     b.finalise_sections()
-    try:
-        b.doc.add_comment(
-            [ref_run],
-            text=("Provisional format: standard Harvard modelled on the Arden examples in the module "
-                  "materials, pending the Arden Referencing Guide (AU_Guide_to_Harvard_Citation.pdf)."),
-            author=load_identity()["student_name"], initials="FN")
-    except Exception as exc:  # noqa: BLE001 - comments are a convenience, not essential
-        b.warnings.append(f"Could not add comment: {exc}")
     if final:
         b.finalise_title_page(main_word_count(b.word_counts))
     out_path.parent.mkdir(parents=True, exist_ok=True)
