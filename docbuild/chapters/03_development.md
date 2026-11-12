@@ -232,7 +232,7 @@ Accuracy was measured on scored days, which are trading days with positive recor
 - closed days are known in advance and were not forecast;
 - zero-sales trading days, of which there were none in either panel's test period, would make MAPE undefined.
 
-For a series with \(n\) scored forecasts \(\hat{y}_t\), and training period \(\{1, \ldots, T\}\), the measures are defined in {eq:metrics}:
+All forecasts were clipped at zero before scoring. For a series with \(n\) scored forecasts \(\hat{y}_t\), and training period \(\{1, \ldots, T\}\), the measures are defined in {eq:metrics}:
 
 $$\text{RMSE} = \sqrt{\frac{1}{n}\sum_t (y_t - \hat{y}_t)^2}, \quad \text{MAPE} = \frac{100}{n}\sum_t \left|\frac{y_t - \hat{y}_t}{y_t}\right|, \quad \text{MASE} = \frac{\frac{1}{n}\sum_t |y_t - \hat{y}_t|}{\frac{1}{T-7}\sum_{j=8}^{T} |y_j - y_{j-7}|}$$ {#eq:metrics}
 
