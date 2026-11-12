@@ -103,7 +103,7 @@ Known closures are not demand. Forecasting them as low sales would distort both 
 - the networks received a zero value together with an availability flag;
 - they were excluded from scoring.
 
-Data errors were handled with a causal rule. A trading day was flagged as an anomaly when its sales fell below 10% of the median of the previous 28 trading days. Because the rule uses only past values, it can be applied in operation without look-ahead. It flagged one day across both panels: store TX_2 on 24 March 2015, with 131 units against a median of 3,519 units over the previous four weeks. Anomalies were excluded from model fitting in the same way as closures but kept in scoring, because a planner would have faced them. No values were imputed. The state-space models treat closures and anomalies as unobserved, because missing values alter the autocorrelation structure on which the models depend [@niako2024].
+Data errors were handled with a causal rule. A trading day was flagged as an anomaly when its sales fell below 10% of the median of the non-closure days in the previous 28 calendar days, of which at least 14 were needed. Because the rule uses only past values, it can be applied in operation without look-ahead. It flagged one day across both panels: store TX_2 on 24 March 2015, with 131 units against a median of 3,519 units over the previous four weeks. Anomalies were excluded from model fitting in the same way as closures but kept in scoring, because a planner would have faced them. No values were imputed. The state-space models treat closures and anomalies as unobserved, because missing values alter the autocorrelation structure on which the models depend [@niako2024].
 
 ### Covariates
 
