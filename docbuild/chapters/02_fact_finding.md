@@ -2,7 +2,7 @@
 
 ## Review Approach {#sec:reviewmethod}
 
-The review is a narrative and integrative review with a documented search. It is not a systematic review. The proposal intended Google Scholar as the discovery tool, but automated querying of Google Scholar was not available in the development environment. With the agreement of the project owner, discovery therefore used the scholarly metadata services OpenAlex and Crossref. Queries were organised into twelve themes, from retail demand forecasting to the ethics and energy cost of deep learning, and restricted to publications dated 2023 to 2026.
+The review is a narrative and integrative review with a documented search. It is not a systematic review. The proposal intended Google Scholar as the discovery tool, but automated querying of Google Scholar was not available in the development environment. After the author approved the change, discovery therefore used the scholarly metadata services OpenAlex and Crossref. Queries were organised into twelve themes, from retail demand forecasting to the ethics and energy cost of deep learning, and restricted to publications dated 2023 to 2026.
 
 A source was included only if it met all of the following conditions:
 
@@ -17,7 +17,7 @@ The last condition introduced a bias that must be acknowledged. Several publishe
 
 Retail forecasting is valuable because of the decisions it enables, not because of accuracy in the abstract. Interviews with twelve German grocery retailers identified 21 options for preventing and reducing food surplus. Demand forecasting and automated ordering were among the preventive options, but implementation for perishables remained limited by data quality and by staff resistance to algorithmic recommendations [@winkler2023]. In food and beverage outlets, forecasts supported purchasing, shift planning and liquidity management, and adoption depended on managers trusting that the model used information they recognised [@groene2024]. @alsaif2026 linked forecast errors to an explicit periodic-review inventory policy. On two Kaggle retail datasets, including Rossmann, a gradient-boosting model gave both the lowest error and the lowest inventory cost. Forecast bias propagated to holding and shortage costs, and the study concluded that "architectural complexity without careful bias control can harm supply chain performance".
 
-Retail sales also have features that complicate modelling. Weekly cycles are strong, but floating holidays and shopping events such as Black Friday create irregular seasonal patterns. In weekly US sales of Sony televisions, Black Friday weeks alone accounted for 5% to 10% of annual sales [@yamashita2026]. Promotions change both demand and its consequences: a field experiment in eight Swedish supermarkets found that multi-unit offers raised quantities purchased by 19.5% and increased household food waste [@gravert2025]. Sales data may also contain structural breaks and administrative artefacts. In Brazilian fashion e-commerce, COVID-19 restrictions changed the relationship between full-price and discounted sales, and a weekly invoicing practice created an artificial Monday peak [@padilha2025]. A forecasting framework for retail therefore has to handle calendar effects, promotions, closures and occasional anomalies explicitly, rather than treating them as noise.
+Retail sales also have features that complicate modelling. Weekly cycles are strong, but floating holidays and shopping events such as Black Friday create irregular seasonal patterns. In weekly US sales of Sony televisions, Black Friday weeks alone accounted for 5% to 10% of annual sales [@yamashita2026]. Promotions change both demand and its consequences: a field experiment in eight Swedish supermarkets found that multi-unit offers raised quantities purchased by 19.5% and increased household food waste [@gravert2025]. Sales data may also contain structural breaks and administrative artefacts. In Brazilian fashion e-commerce, COVID-19 changed purchasing behaviour, and a weekly invoicing practice created an artificial Monday peak [@padilha2025]. A forecasting framework for retail therefore has to handle calendar effects, promotions, closures and occasional anomalies explicitly, rather than treating them as noise.
 
 The M5 dataset has become a common test bed for this domain. @zanotti2026 compared ten global models on its 30,490 daily product series. Ensembles raised the computational cost substantially, and the study recommended that they "should be kept small and strategically designed". Reducing the retraining frequency cut computing time by about a third with "minimal impact on accuracy". This finding is relevant to the design of this project, which keeps model parameters fixed between forecast origins.
 
@@ -42,15 +42,15 @@ caption: Comparison of recent hybrid statistical-neural forecasting studies
 source: Author's own synthesis of the cited studies (2023 to 2026).
 | Study | Data | Coupling of the two components | Significance test | Main finding |
 |---|---|---|---|---|
-| @siamba2023 | Monthly TB cases (120) | ANN fitted to ARIMA residuals, added | Diebold-Mariano | MAPE 38.9% (seasonal ARIMA) to 36.0% |
+| @siamba2023 | Monthly tuberculosis cases (120) | ANN fitted to ARIMA residuals, added | Diebold-Mariano | MAPE 38.9% (seasonal ARIMA) to 36.0% |
 | @wan2023 | Daily disease cases (3,134) | EEMD-LSTM on ARIMA residuals, added | None | Plain ARIMA-LSTM less accurate than ARIMA |
 | @duan2023 | Daily air quality index, four cities | ARIMA for the linear part, CNN-LSTM for the non-linear part | None | Error reductions against nine benchmarks |
-| @linardatos2023 | Hourly CO2 sensor data | Average of ARIMA and transformer forecasts | Friedman with Holm | Significantly better in 13 of 20 RMSE cases |
+| @linardatos2023 | Hourly carbon dioxide sensor data | Average of ARIMA and transformer forecasts | Friedman with Holm | Significantly better in 13 of 20 RMSE cases |
 | @si2024 | Daily index spread (7,927) | GRU or LSTM on ARIMA residuals, added | None | MAE 0.384 to 0.346 |
 | @huang2025 | Daily tobacco sales (337) | CNN-LSTM on ARIMA residuals, added | None | MAPE 38.9% to 11.3% |
 | @du2025 | Monthly disease cases (120) | LSTM on ARIMA residuals, added | None | Hybrid MAPE 0.08%; seasonal naive beat ARIMA and LSTM |
-| @milli2025 | Hourly PM2.5, Beijing | LSTM on Prophet in-sample residuals, added | None (bootstrap intervals for metrics) | Lower MAE and RMSE than the compared models |
-| @vallejo2025 | Hourly air quality, Chile | ARIMA orders define ANN inputs | None | R2 above 0.90 |
+| @milli2025 | Hourly fine particulate matter, Beijing | LSTM on Prophet in-sample residuals, added | None (bootstrap intervals for metrics) | Lower MAE and RMSE than the compared models |
+| @vallejo2025 | Hourly air quality, Chile | ARIMA orders define ANN inputs | None | R² above 0.90 |
 | @gerakoudi2026 | Daily shipping stock prices | ARIMA-LSTM combination | None | Hybrid best at short horizons; LSTM beat ARIMA |
 | @mbodila2026 | Retail sales incl. Walmart | Gradient boosting, ANN and attention fused | Paired t-test | Lowest RMSE on Walmart data; time order of folds unclear |
 | @nathan2026 | Intermittent parts demand | Decomposed architecture versus single model | Wilcoxon | Feature engineering beat architectural complexity |
@@ -62,7 +62,7 @@ Second, a hybrid is not guaranteed to beat its own components. @wan2023 found th
 
 Third, significance testing is the exception rather than the rule. Only four of the twelve studies used a formal test: the Diebold-Mariano test [@siamba2023], a Friedman test with Holm correction [@linardatos2023], a paired t-test [@mbodila2026] and the Wilcoxon test [@nathan2026]. Only the first is designed for comparing forecasts, and the Friedman test showed that the hybrid's advantage was significant in only some of the comparisons [@linardatos2023].
 
-Fourth, the residual hybrids train the network on the in-sample residuals of the fitted statistical model [@siamba2023; @si2024; @milli2025]. Where the horizon was stated, they were evaluated over short horizons: one day ahead [@wan2023], one step ahead [@si2024] or up to five steps ahead [@gerakoudi2026]. Retail planning needs forecasts several weeks ahead. Over a multi-week horizon, the error of the statistical forecast is no longer the one-step residual on which the network was trained, and it grows with the horizon. A network trained to predict one-step residuals may therefore correct only the first few days of a long forecast. No study in the review examined this mismatch, and it motivates the comparison of residual definitions in {sec:hybrid}.
+Fourth, the residual hybrids train the network on the in-sample residuals of the fitted statistical model [@siamba2023; @si2024; @milli2025]. Where the horizon was stated, they were evaluated over short horizons: one day ahead [@wan2023] or one step ahead [@si2024]. The combination in @gerakoudi2026 reached five steps ahead. Retail planning needs forecasts several weeks ahead. Over a multi-week horizon, the error of the statistical forecast is no longer the one-step residual on which the network was trained, and it grows with the horizon. A network trained to predict one-step residuals may therefore correct only the first few days of a long forecast. No study in the review examined this mismatch, and it motivates the comparison of residual definitions in {sec:hybrid}.
 
 The coupling schemes also differ more than the label "hybrid" suggests. Additive residual correction [@siamba2023; @huang2025], averaging of independent forecasts [@linardatos2023] and the use of statistical model orders as network inputs [@vallejo2025] rest on different assumptions about how linear and non-linear structure interact. This project uses the additive residual form, which matches the proposal. It tests three ways of training the residual network, so that the effect of this design choice can be measured rather than assumed.
 
@@ -77,15 +77,15 @@ Forecast evaluation must respect time order. Rolling-origin evaluation "seems th
 No single error measure is sufficient, because each has a different weakness:
 
 - **RMSE** penalises large errors and is in the units of the series, but it is dominated by large series when averaged across a panel [@hewamalage2023].
-- **MAE** is "more interpretable than MSE or RMSE", because squared measures "inflate unsystematic error by squaring deviations" [@robeson2023].
+- **Mean absolute error (MAE)** is "more interpretable than MSE or RMSE", because squared measures "inflate unsystematic error by squaring deviations" [@robeson2023].
 - **MAPE** is intuitive for managers but produces "excessively large values" when actual values are close to zero [@hewamalage2023].
-- **MASE** scales the absolute error by the in-sample error of a naive benchmark. It is therefore scale-free and meaningful across series [@hewamalage2023].
+- **MASE** scales the absolute error by the in-sample error of a naive benchmark. It is therefore scale-free, and scale-free measures suit heterogeneous series [@hewamalage2023].
 
 Even scaled measures hide which series benefit from a model when they are averaged, because "important information is lost when current error metrics are averaged" [@strom2024]. This project therefore reports RMSE, MAPE and MASE, evaluates MAPE only on days with positive sales, and reports results by horizon and by series.
 
 ### Benchmarks and significance
 
-A naive benchmark is essential. In a rigorous comparison of eight methods including ARIMA, ETS and LSTM, no model significantly beat the naive forecast on exchange rates, and only "four out of 960" cases were significantly better on the NASDAQ100 stock index [@beck2025]. For seasonal series, the appropriate benchmark is the seasonal naive forecast [@hewamalage2023]. Differences in accuracy should also be tested formally rather than judged by inspection [@hewamalage2023]. The Diebold-Mariano test, used by @siamba2023 and @beck2025, compares the losses of two forecasts while allowing for the autocorrelation of multi-step errors. When several models were compared, @alsaif2026 and @linardatos2023 applied a Holm correction for multiple testing.
+A naive benchmark is essential. In a rigorous comparison of eight methods including ARIMA, ETS and LSTM, no model significantly beat the naive forecast on exchange rates, and only "four out of 960" cases were significantly better on the NASDAQ100 stock index [@beck2025]. For seasonal series, the appropriate benchmark is the seasonal naive forecast [@hewamalage2023]. Differences in accuracy should also be tested formally rather than judged by inspection [@hewamalage2023]. The Diebold-Mariano test compares the losses of two forecasts while allowing for the autocorrelation of multi-step errors. @siamba2023 and @beck2025 used it. When several models were compared, @alsaif2026 and @linardatos2023 applied a Holm correction for multiple testing.
 
 ### Hyperparameter optimisation
 
@@ -93,7 +93,7 @@ Neural networks depend on hyperparameters such as the input window, the number o
 
 ### Prediction intervals
 
-Inventory decisions depend on uncertainty as much as on the point forecast, because safety stock is set from the expected spread of demand. Model-based intervals from ARIMA and exponential smoothing assume correctly specified Gaussian errors. Neural networks do not provide intervals at all. Split conformal prediction offers a model-agnostic alternative: errors on a calibration period define the interval width. Applied to an LSTM, it achieved about 95.2% coverage for a 95% target [@zhang2025]. Its guarantee assumes exchangeable errors, which time series violate, and multi-step forecasts need horizon-specific calibration [@schlembach2025]. Empirical coverage on the test period is therefore an essential check, not a formality.
+Inventory decisions depend on uncertainty as much as on the point forecast, because safety stock is set from the expected spread of demand. Model-based intervals from ARIMA and exponential smoothing assume correctly specified Gaussian errors. Neural networks do not provide intervals by default. Split conformal prediction offers a model-agnostic alternative: errors on a calibration period define the interval width. Applied to an LSTM, it achieved about 95.2% coverage for a 95% target [@zhang2025]. Its guarantee assumes exchangeable errors, which time series violate, and multi-step forecasts need horizon-specific calibration [@schlembach2025]. Empirical coverage on the test period is therefore an essential check, not a formality.
 
 ## Business Intelligence, Decision Support and Accessibility {#sec:bilit}
 
@@ -113,10 +113,10 @@ The environmental cost of deep learning is a second concern. Green AI aims at "e
 
 The review supports four conclusions:
 
-1. Statistical models remain strong and interpretable benchmarks, and naive benchmarks are frequently not beaten [@beck2025; @canedo2024].
+1. Statistical models remain strong benchmarks [@canedo2024], and in one rigorous comparison naive benchmarks were rarely beaten [@beck2025].
 2. Hybrid ARIMA-LSTM models are popular, but their evaluation is often weak. Significance tests are rare, implausible results appear, and residual networks are trained and evaluated one step ahead [@du2025; @wan2023; @si2024].
-3. Uncertainty and computational cost are rarely reported together with accuracy [@zhang2025; @rafat2023].
-4. Few studies take forecasts through to an accessible decision-support artefact [@hammad2026; @neri2025].
+3. In the studies compared in {tbl:hybridstudies}, uncertainty and computational cost are rarely reported with accuracy. Intervals inform decisions [@zhang2025], and energy should be reported [@rafat2023].
+4. In the reviewed studies, forecasts are rarely taken through to an accessible decision-support artefact. This is the author's own synthesis; dashboard work shows how such artefacts are evaluated [@hammad2026; @neri2025].
 
 This project addresses these gaps in four ways:
 
@@ -135,7 +135,7 @@ source: Author's own work, derived from the proposal, the module handbook and th
 | ID | Requirement | Verification |
 |---|---|---|
 | FR1 | Load the raw Kaggle files and report their integrity: rows, columns, missing cells and checksums | Integrity report ({app:B}) |
-| FR2 | Build daily store-level series with known closures and causally flagged anomalies | Unit tests; EDA |
+| FR2 | Build daily store-level series with known closures and causally flagged anomalies | Unit tests; exploratory analysis |
 | FR3 | Produce 28-day forecasts from rolling origins for seasonal naive, ARIMA, ETS, FFNN, LSTM and hybrid models | Forecast files for every origin |
 | FR4 | Provide a 95% prediction interval for every model | Coverage on the test period |
 | FR5 | Compute RMSE, MAPE and MASE by model, series and horizon, and Diebold-Mariano tests | Metric tables; unit tests on known inputs |
@@ -146,7 +146,7 @@ source: Author's own work, derived from the proposal, the module handbook and th
 | NFR1 | Temporal integrity: no information after the forecast origin enters fitting or inputs | Perturbation tests must pass |
 | NFR2 | Reproducibility: fixed seeds, deterministic operations, pinned versions, one command per stage | Re-run comparison; repository guide |
 | NFR3 | Maintainability: modular package, type hints, docstrings, automated tests | Code review; test suite |
-| NFR4 | Feasibility: complete on a two-core laptop CPU without a GPU | Measured runtimes |
+| NFR4 | Feasibility: complete on a two-core laptop processor without a graphics processor | Measured runtimes |
 | NFR5 | Sustainability: runtime and estimated energy reported for every model | Cost table |
 | NFR6 | Usability: dashboard SUS score of 80 or more, interpreted as excellent [@hammad2026] | User study (approved, pending) |
 | NFR7 | Accessibility: readable without colour cues and in greyscale, keyboard operable, usable with a screen reader through alternative text [@choiseo2024; @nelli2024] | Accessibility checklist |

@@ -1,0 +1,5 @@
+2026-11-11 03:01:50 scheduler pid 17716
+2026-11-11 03:01:51 lane A nn_rossmann_ffnn attempt 1 pid 19816 threads 2
+2026-11-11 03:01:51 lane B stat_m5 attempt 1 pid 14168 threads 1
+2026-11-11 03:01:51 lane C nn_m5_ffnn attempt 1 pid 13608 threads 1
+2026-11-11 03:09:52 lane A nn_rossmann_lstm attempt 1 pid 9560 threads 2

@@ -329,3 +329,46 @@ The primary hybrid is the variant with the best validation MASE; the others are 
 - Diebold-Mariano tests (HLN correction, h = 28) compare the primary hybrid with each of the other seven models, using both absolute and squared scaled losses.
 - For each hybrid seed and loss, the seven p-values form one family and are adjusted with the Holm step-down method (`src/statistical_tests.holm_adjust`, unit-tested).
 - A difference is called robust only if it is significant after adjustment for all five seeds.
+
+## D-025: Rossmann eligibility uses pre-test data only (DECIDED 10 Nov 2026, audit finding A01)
+
+- **Problem.** Store eligibility (complete history, no Sunday trading, at most 35 weekday closures, no open day with zero sales) was judged on all 942 days, including the test period. Fourteen stores (123, 292, 308, 674, 699, 764, 803, 870, 876, 894, 947, 964, 971, 1021) were excluded only because of events in the test period: a mild selection look-ahead.
+- **Fix.** `eligible_rossmann_stores` now uses only records dated before the first test day (17 January 2015). Completeness of the test-period records remains a structural requirement of the panel (checked when the panel is built). Stores with no weekday closure are now handled explicitly (count 0); this changed no eligibility result. Unit tests in `tests/test_data_loader.py` show that changing any record on or after the cut-off does not change eligibility.
+- **Effect.** Eligible stores: 836 → 850. Re-drawn sample (same stratified rule, seed 2026):
+
+| | Stores |
+|---|---|
+| Old sample (v1) | 17, 146, 173, 254, 293, 390, 395, 421, 527, 691, 709, 748, 776, 777, 796, 891, 924, 929, 939, 987 |
+| New sample | 17, 146, 176, 254, 293, 390, 400, 421, 527, 691, 718, 776, 777, 792, 796, 891, 929, 936, 939, 987 |
+| Removed | 173, 395, 709, 748, 924 |
+| Added | 176, 400, 718, 792, 936 |
+
+- The Rossmann statistical stage was re-run on the new sample. The v1 outputs and their experiment-log rows were moved to `outputs/archive/rossmann_sample_v1/`; nothing was deleted.
+
+## D-026 Rossmann statistical stage: concurrent duplicate run and an invalid fit time (10 November 2026)
+
+- The run started at 00:54 was not stopped when the machine went to sleep; it continued after waking. The resumed run started at 19:39 therefore ran alongside it, and both processed the remaining stores and wrote final rows to `EXPERIMENT_LOG.csv` (19:44:48 and 19:45:06 UTC).
+- The saved forecasts (`outputs/forecasts/rossmann_statistical.csv.gz`) and specifications come from the later process. Its rows are the valid ones (ARIMA test MASE 0.3588, ETS 0.7251, seasonal naive 0.7673). The earlier rows (ARIMA 0.3576) are kept and marked "superseded" in the notes column; the evaluation ignores them. The small ARIMA difference between the two processes shows that the optimiser is not bit-for-bit reproducible when two fits compete for the processor; this is disclosed as a limitation.
+- The ARIMA search time for store 421 (65,657 s) includes the sleep. The search was re-timed on its own with `scripts/retime_arima.py`: 123 s (refit 9.5 s), with the same order as saved, so the forecasts are unchanged. `run_evaluation.cost_table` replaces the invalid time with the re-timed one (`outputs/metrics/rossmann_arima_retime_store_421.json`). Fit times of the stores processed by both runs at once may be inflated by contention; this is disclosed with the cost results.
+- The remaining stages run one at a time through `scripts/run_pipeline_rest.sh`, with the system kept awake while the pipeline runs.
+
+## D-027 Remaining stages run in parallel lanes (11 November 2026)
+
+- At the student's request the remaining stages run in parallel lanes (`scripts/run_parallel.py`): A Rossmann networks; B M5 statistical; C M5 FFNN and LSTM; D M5 hybrids after B and C; E evaluation, export and report tables after A to D. Processes are started outside the editor session so that they survive it, and the machine is kept awake.
+- Machine: 2 physical cores, 4 logical, about 6 GB RAM. Thread limits per process (OMP, MKL, OpenBLAS, TensorFlow intra-op; inter-op 1): A 2, B 1, C 1, D 2, E 4, so the total never exceeds 4 logical cores.
+- The Rossmann FFNN trials 0 to 10 ran alone with default threading; trials 11 to 14 and all later runs use the limits above. Seeds, `PYTHONHASHSEED=0` and TensorFlow op determinism are unchanged. Floating-point results can differ slightly with the thread count; the change is recorded in `EXPERIMENT_LOG.csv` (phase "pipeline").
+- Runtimes measured from now on come from processes sharing the processor, and include any time a process was suspended by the memory guard (recorded per step in the "pipeline" rows). They are therefore not directly comparable with the Rossmann statistical times, which ran alone; this is reported with the cost results (RQ3).
+
+## D-028 Pausable pipeline runner (11 November 2026)
+
+- `scripts/run_chunks.py` replaces `scripts/run_parallel.py` (kept for the record). It runs the same lanes (A to E) with the same dependencies, resumes every stage from its own checkpoints and skips stages whose artefacts are complete.
+- Pauses happen only between units of work (Optuna trial, final seed, statistical series): the runner sets `outputs/state/PAUSE`, the stage scripts finish the current unit and exit with code 75. Paused time therefore never falls inside a unit, and the unit runtimes logged in `EXPERIMENT_LOG.csv` exclude it. Lane E steps are atomic and finish before the pause completes.
+- Processes are no longer suspended. A lane starts only if available RAM after its estimated footprint stays at or above 15% of the total; if memory falls below 15% while several lanes run, the newest lane is asked to pause at its unit boundary (`PAUSE_<lane>`) and restarts when memory allows. At least one lane always runs.
+- Thread caps are those of D-027 (A 2, B 1, C 1, D 2, E 4; `PYTHONHASHSEED=0`, TensorFlow inter-op 1). Seeds, determinism settings and model code are unchanged; the hooks only add early exits when a flag file exists.
+- Each stage process appends a "pipeline" row (`pipeline-<stage>-<n>`) with start, end, exit code and threads; these rows carry no dataset or model, so the cost tables are unaffected.
+
+## D-029 Interrupted Optuna trials marked as failed (11 November 2026)
+
+When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each tuning study was running stayed in state RUNNING in its Optuna database (Rossmann FFNN: trial 11; Rossmann LSTM: one trial). Optuna never changes such trials, so they would appear as incomplete rows in the tuning results. After the databases were backed up (`outputs/interim/backup_<date>/`), every RUNNING trial was set to FAIL through Optuna's storage API, with the user attribute `failed_reason` = "interrupted run (process stopped 11 Nov 2026 03:15)"; no trial was deleted. The runner now does the same at start-up for any study whose stage has no live process, and logs each change in `outputs/logs/run_chunks.log`. Only COMPLETE trials count towards the 15-trial budget, are written to the tuning-trials CSV and appear in the Appendix D table, which gives the number of interrupted trials per study in brackets. Interrupted trials did not contribute to model selection. `EXPERIMENT_LOG.csv` is unchanged.
+
+**Amendment (12 November 2026, V-3).** The fixed text "process stopped 11 Nov 2026 03:15" was also applied to trials that were interrupted at other times (Rossmann FFNN trial 11 started on 10 Nov 20:56; M5 hybrid MS trial 0 ran from 16:35 on 11 Nov), so it was wrong for them. `mark_stale_trials` now builds the reason from each trial's own start time ("interrupted run (process stopped; trial started 11 Nov 2026 03:14)") and falls back to "interrupted run (process stopped)". The three trials already marked were relabelled once with `scripts/clean_optuna.py --relabel` after the databases were backed up to `outputs/interim/backup_2026-11-12/`. Optuna refuses to edit a finished trial through its storage API, so the single `failed_reason` row of `trial_user_attributes` was rewritten directly; trial states, values and parameters are unchanged. The tuning-trials CSV and summary JSON of the three studies were rewritten (COMPLETE trials only, same contents apart from the reason text).

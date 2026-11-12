@@ -1,0 +1,6 @@
+
+===== 2026-11-11 17:09:38 lane E =====
+{'dim_date': 1941, 'dim_series': 30, 'dim_model': 8, 'fact_actuals': 38250, 'fact_forecast': 62720, 'fact_metrics': 240}
+
+===== 2026-11-12 21:54:20 lane E =====
+{'dim_date': 1941, 'dim_series': 30, 'dim_model': 8, 'fact_actuals': 38250, 'fact_forecast': 219520, 'fact_metrics': 840}

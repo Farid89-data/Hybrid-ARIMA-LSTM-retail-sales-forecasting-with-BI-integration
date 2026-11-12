@@ -1,0 +1,4 @@
+Hybrid,MASE hybrid,MASE ARIMA,MASE LSTM,Change vs ARIMA (%),Change vs LSTM (%),DM vs ARIMA,Holm p vs ARIMA,DM vs LSTM,Holm p vs LSTM
+Hybrid (direct),0.798,0.838,1.081,-4.8,-26.2,3.38,0.018,3.46,0.009
+Hybrid (recursive),0.746,0.838,1.081,-11.0,-31.0,3.77,0.002,4.14,< 0.001
+Hybrid (multi-step errors),0.847,0.838,1.081,+1.1,-21.7,-0.41,1.000,3.75,0.004

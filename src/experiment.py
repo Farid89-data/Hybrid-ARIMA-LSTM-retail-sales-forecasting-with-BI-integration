@@ -170,6 +170,8 @@ def run_statistical(prep: Prepared) -> tuple[pd.DataFrame, StatArtifacts]:
                 part = pickle.load(handle)
             LOGGER.info("%s %s: loaded checkpoint", prep.name, panel.series_ids[s])
         else:
+            if utils.pause_requested():
+                raise utils.PipelinePaused(f"{prep.name}: paused before series {s}")
             part = _statistical_series(prep, s)
             with ckpt.open("wb") as handle:
                 pickle.dump(part, handle)

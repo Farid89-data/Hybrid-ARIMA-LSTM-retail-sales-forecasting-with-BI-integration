@@ -1,6 +1,8 @@
 # Hybrid ARIMA-LSTM retail sales forecasting with BI integration
 
-Code, tests and documentation for the MSc Data Science project *A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration* (Arden University, COM7014).
+Code, tests and documentation for the M.Sc. Data Science project *A Hybrid ARIMA-LSTM Framework for Retail Sales Forecasting with Business Intelligence Integration* (Arden University, COM7014 - Advanced Computing Project).
+
+Author: Farid Negahbani (student number 24154844). Tutor: Mohammad Amin Mohammadibanadaki.
 
 The project benchmarks eight forecasting models on daily store-level sales:
 
@@ -24,7 +26,7 @@ Results are added here from `outputs/tables/` after the final evaluation run.
 | `src/` | Python package: data loading, preprocessing, statistical models, networks, hybrids, evaluation, statistical tests, Power BI export |
 | `scripts/` | Command-line entry points for each stage (see below) |
 | `tests/` | pytest suite, including leakage tests |
-| `notebooks/` | Nine executed walkthrough notebooks that read the pipeline outputs |
+| `notebooks/` | Nine walkthrough notebooks that read the pipeline outputs; generated and executed by `scripts/make_notebooks.py` after the evaluation has run |
 | `dashboard/` | Power BI data model: data dictionary, Power Query, DAX measures, build guide and test plan |
 | `docbuild/` | Builds the dissertation Word file from Markdown chapters in the university template |
 | `data/` | Instructions for obtaining the Kaggle files and their reference checksums (no raw data) |

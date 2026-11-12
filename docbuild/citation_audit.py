@@ -76,7 +76,8 @@ def library_checks(cited_keys: set[str]) -> tuple[list[list[str]], list[str]]:
             evidence = f"Crossref title similarity {sim:.2f}" if cr else "no Crossref record"
         else:
             checks["window"] = True
-            evidence = "technical documentation (dataset page)"
+            evidence = ("approved pre-2023 exception (Crossref and publisher page)" if status == "EXCEPTION_APPROVED"
+                        else "technical documentation (dataset page)")
         ok = all(checks.values())
         if not ok:
             problems.append(f"{key}: failed {', '.join(k for k, v in checks.items() if not v)}")
@@ -92,7 +93,7 @@ def docx_checks() -> dict:
     ref_anchors = [a for a in anchors if a.startswith("ref_")]
     ref_bookmarks = {b for b in bookmarks if b and b.startswith("ref_")}
     instr = " ".join(t.text or "" for t in root.iter(f"{{{W}}}instrText"))
-    ref_fields = re.findall(r"REF\s+(\S+)", instr)
+    ref_fields = re.findall(r"(?<![A-Z])REF\s+(\S+)", instr)  # excludes STYLEREF and PAGEREF
     text = "\n".join("".join(t.text or "" for t in p.iter(f"{{{W}}}t")) for p in root.iter(f"{{{W}}}p"))
     contexts = []
     for p in root.iter(f"{{{W}}}p"):

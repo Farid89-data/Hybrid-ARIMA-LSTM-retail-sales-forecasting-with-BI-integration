@@ -66,7 +66,7 @@ Audience: planners.
 | Visual | Fields | Notes |
 |---|---|---|
 | Cards | `Forecast Sales (scored)`, `Safety Stock Proxy`, `Stock-out Risk Days`, `Overstock Risk Days` | Each card has a subtitle explaining the measure in one sentence |
-| Clustered column chart | Axis `dim_date[iso_week]`; legend none; values `Forecast Sales (scored)`, `Forecast Upper 95% (scored)` | Weekly view for ordering |
+| Clustered column chart | Axis hierarchy `dim_date[week_start]` then `dim_date[date]`; values `Forecast Sales (scored)`, `Forecast Upper 95% (scored)` | Weekly view for ordering; drill down to days |
 | Bar chart | Axis `dim_series[series_id]`; value `Bias %` | Constant line at zero; positive values mean over-forecasting |
 
 The safety stock proxy is the gap between the upper bound of the 95% interval and the point forecast. It is a planning aid, not an optimised inventory policy.
@@ -108,12 +108,15 @@ Expected values come from `data/acceptance_values.json`, which `scripts/export_d
 | TP-04 | Dataset slicer | Select M5, then Rossmann | Every visual changes; no Rossmann store appears under M5 | | Not yet run |
 | TP-05 | Store slicer | Select one store | Page 1 shows that store only | | Not yet run |
 | TP-06 | Model and origin slicers | Select one model and one origin | Page 1 shows 28 days from that origin | | Not yet run |
-| TP-07 | Actual Sales (scored) | One dataset and one model, all stores and origins | Equals `total_actual_scored` (to rounding) | | Not yet run |
+| TP-07 | Actual Sales (scored) | One dataset and one model, all stores, origins and seeds (no seed slicer) | Equals `total_actual_scored` (mean over seeds; to rounding) | | Not yet run |
 | TP-08 | Forecast Sales (scored) | As TP-07 | Equals `total_forecast_scored` | | Not yet run |
-| TP-09 | MAE | As TP-07 | Equals `mean_abs_error` | | Not yet run |
+| TP-09 | MAE | As TP-07 | Equals `mean_abs_error` (all seeds pooled with equal weight) | | Not yet run |
 | TP-10 | Interval Coverage % | As TP-07 | Equals `coverage` | | Not yet run |
-| TP-11 | Best Model (MASE) | Clear the model slicer | Shows the model with the lowest MASE in the bar chart | | Not yet run |
-| TP-12 | Planning cards | One store, one origin | Safety stock proxy equals upper minus forecast summed over the 28 days | | Not yet run |
-| TP-13 | Accessibility | Checklist A1 to A8 | All checks pass | | Not yet run |
+| TP-11 | MASE (store average) | As TP-07 | Equals `mase_store_average`, which is the report's five-seed test MASE (`<dataset>_test_summary.csv`) | | Not yet run |
+| TP-12 | Best Model (MASE) | Clear the model slicer | Shows the model with the lowest MASE in the bar chart; the values equal the report's five-seed test MASE | | Not yet run |
+| TP-13 | Planning cards | One store, one origin | Safety stock proxy equals upper minus forecast summed over the 28 days; with all stores and origins, Stock-out and Overstock Risk Days (mean over the seeds) equal `stockout_risk_days` and `overstock_risk_days` | | Not yet run |
+| TP-14 | Accessibility | Checklist A1 to A8 | All checks pass | | Not yet run |
+| TP-15 | Drill-down | On page 3, drill down from a week (`week_start`) to its days and back up | Daily values sum to the weekly value; drilling up restores the weekly view | | Not yet run |
+| TP-16 | Static review of DAX | Compare each measure in `dax_measures.md` with the Python definition in `src/evaluation.py` and `src/export_powerbi.py` | Same filter (scored days), same formula; differences documented | | Not yet run |
 
 The functional tests had not been executed when the dissertation was written, because the `.pbix` file had not yet been assembled. The dissertation reports them as pending.

@@ -7,7 +7,7 @@ Every table is loaded from the CSV files that `scripts/export_dashboard.py` writ
 Create a text parameter called `DataFolder` (**Manage Parameters → New**). Set its value to the absolute path of `dashboard/data/`, ending with a backslash. For example:
 
 ```
-F:\_Arden (MSc Data Science)\6- Final Project\Calude Code\Code\dashboard\data\
+C:\path\to\Code\dashboard\data\
 ```
 
 ## Loading the tables
@@ -31,7 +31,7 @@ let
     Source = fnLoadCsv("fact_forecast.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
         {"series_key", type text}, {"dataset", type text}, {"model", type text},
-        {"origin_date", type date}, {"date", type date}, {"horizon", Int64.Type},
+        {"origin_date", type date}, {"date", type date}, {"horizon", Int64.Type}, {"seed", Int64.Type},
         {"actual", type number}, {"forecast", type number}, {"lower", type number},
         {"upper", type number}, {"scale", type number}, {"scored", Int64.Type}}, "en-GB")
 in
@@ -56,7 +56,7 @@ in
 let
     Source = fnLoadCsv("fact_metrics.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
-        {"series_key", type text}, {"dataset", type text}, {"model", type text},
+        {"series_key", type text}, {"dataset", type text}, {"model", type text}, {"seed", Int64.Type},
         {"rmse", type number}, {"mae", type number}, {"mape", type number},
         {"mase", type number}, {"coverage", type number}, {"width_scaled", type number}}, "en-GB")
 in
@@ -70,7 +70,7 @@ let
     Source = fnLoadCsv("dim_date.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
         {"date", type date}, {"year", Int64.Type}, {"month", Int64.Type}, {"month_name", type text},
-        {"iso_week", Int64.Type}, {"weekday", type text}, {"weekday_number", Int64.Type}}, "en-GB")
+        {"iso_week", Int64.Type}, {"week_start", type date}, {"weekday", type text}, {"weekday_number", Int64.Type}}, "en-GB")
 in
     Typed
 ```

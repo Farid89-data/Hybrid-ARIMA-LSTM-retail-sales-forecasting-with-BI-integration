@@ -1,0 +1,29 @@
+23:18:54 INFO src.experiment: rossmann store_17: ARIMA(2, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (259s ARIMA search)
+23:22:38 INFO src.experiment: rossmann store_146: ARIMA(1, 0, 1)(2, 1, 1, 7), ETS(A,N,A) (167s ARIMA search)
+23:27:29 INFO src.experiment: rossmann store_173: ARIMA(3, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (257s ARIMA search)
+23:34:14 INFO src.experiment: rossmann store_254: ARIMA(3, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (364s ARIMA search)
+23:38:01 INFO src.experiment: rossmann store_293: ARIMA(2, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (196s ARIMA search)
+23:42:33 INFO src.experiment: rossmann store_390: ARIMA(3, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (234s ARIMA search)
+23:45:24 INFO src.experiment: rossmann store_395: ARIMA(2, 0, 2)(0, 1, 1, 7), ETS(A,N,A) (153s ARIMA search)
+23:49:15 INFO src.experiment: rossmann store_421: ARIMA(3, 0, 3)(1, 1, 1, 7), ETS(A,N,A) (207s ARIMA search)
+23:53:42 INFO src.experiment: rossmann store_527: ARIMA(3, 0, 2)(2, 1, 1, 7), ETS(A,N,A) (220s ARIMA search)
+00:00:04 INFO src.experiment: rossmann store_691: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (359s ARIMA search)
+00:04:55 INFO src.experiment: rossmann store_709: ARIMA(2, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (247s ARIMA search)
+00:11:32 INFO src.experiment: rossmann store_748: ARIMA(3, 0, 3)(2, 1, 2, 7), ETS(A,N,A) (352s ARIMA search)
+00:15:46 INFO src.experiment: rossmann store_776: ARIMA(3, 0, 1)(1, 1, 2, 7), ETS(A,N,A) (227s ARIMA search)
+00:20:08 INFO src.experiment: rossmann store_777: ARIMA(2, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (218s ARIMA search)
+00:24:11 INFO src.experiment: rossmann store_796: ARIMA(3, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (214s ARIMA search)
+00:25:55 INFO src.experiment: rossmann store_891: ARIMA(2, 0, 2)(0, 1, 1, 7), ETS(A,N,A) (86s ARIMA search)
+00:30:30 INFO src.experiment: rossmann store_924: ARIMA(1, 0, 1)(1, 1, 2, 7), ETS(A,N,A) (251s ARIMA search)
+00:35:52 INFO src.experiment: rossmann store_929: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (291s ARIMA search)
+00:41:03 INFO src.experiment: rossmann store_939: ARIMA(3, 0, 3)(2, 1, 1, 7), ETS(A,N,A) (286s ARIMA search)
+00:45:24 INFO src.experiment: rossmann store_987: ARIMA(2, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (228s ARIMA search)
+00:45:28 INFO run_statistical: 
+ model      stage        rmse         mae      mape     mase  coverage  width_scaled  winkler_scaled  mase_sd_across_series
+ arima       test  991.957007  730.820540 10.680286 0.365845  0.960869      2.167489        2.781964               0.072626
+ arima validation 1290.833433  928.306830 12.660424 0.455988  0.909033      2.042678        3.928950               0.093189
+   ets       test 1873.380941 1478.321108 21.902793 0.736370  0.988595      6.403341        6.512506               0.078515
+   ets validation 2337.150140 1889.397583 26.092830 0.920138  0.984854      6.402307        6.661792               0.153966
+snaive       test 2104.352050 1577.204802 23.694411 0.780290       NaN           NaN             NaN               0.054055
+snaive validation 2525.124075 1960.437909 26.056209 0.954043       NaN           NaN             NaN               0.122946
+00:45:28 INFO run_statistical: Statistical stage finished in 5510.9 s

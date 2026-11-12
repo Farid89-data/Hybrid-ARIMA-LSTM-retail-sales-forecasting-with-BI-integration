@@ -1,0 +1,72 @@
+Test file,Test,Result,Time (s)
+test_build_metadata.py,test apply core properties,Passed,0.09
+test_build_metadata.py,test missing figure becomes pending placeholder,Passed,0.17
+test_citations.py,test journal issue pages,Passed,0.00
+test_citations.py,test journal article number,Passed,0.00
+test_citations.py,test html unescape and plos,Passed,0.00
+test_citations.py,test chapter two editors,Passed,0.00
+test_citations.py,test chapter one editor,Passed,0.00
+test_citations.py,test webpage,Passed,0.00
+test_citations.py,test book edition,Passed,0.00
+test_citations.py,test in text names,Passed,0.00
+test_citations.py,test all authors in reference list,Passed,0.00
+test_citations.py,test order keys chronological,Passed,0.00
+test_cost_table.py,test cost table skips superseded rows and applies retime,Passed,0.73
+test_data_loader.py,test eligibility ignores records on or after cutoff,Passed,0.03
+test_data_loader.py,test eligibility still applies rules before cutoff,Passed,0.01
+test_data_loader.py,test test start matches split plan,Passed,0.00
+test_evaluation.py,test point metrics known values,Passed,0.00
+test_evaluation.py,test unscored days are ignored,Passed,0.00
+test_evaluation.py,test interval metrics known values,Passed,0.01
+test_evaluation.py,test conformal quantile uses finite sample rank,Passed,0.01
+test_evaluation.py,test dm identical forecasts not significant,Passed,0.00
+test_evaluation.py,test dm detects clearly better model,Passed,0.00
+test_evaluation.py,test dm hln matches manual calculation,Passed,0.00
+test_evaluation.py,test holm adjustment matches hand calculation,Passed,0.00
+test_evaluation.py,test conformal unscored horizon gives nan,Passed,0.01
+test_evaluation.py,test dm matrix symmetry and sign,Passed,0.04
+test_evaluation.py,test hybrid ablation pct change,Passed,0.04
+test_evaluation.py,test residual diagnostics white noise vs ar1,Passed,0.50
+test_export_powerbi.py,test acceptance values match hand calculation,Passed,0.01
+test_export_powerbi.py,test risk day counts,Passed,0.01
+test_export_powerbi.py,test store average differs from pooled mase,Passed,0.01
+test_export_powerbi.py,test week start is monday and unique across years,Passed,0.02
+test_export_powerbi.py,test mase is mean over seeds of per seed store average,Passed,0.01
+test_export_powerbi.py,test check against report flags a mismatch,Passed,0.01
+test_hybrid_model.py,test residuals are aligned with calendar index,Passed,0.78
+test_hybrid_model.py,test burn in and missing days are masked,Passed,0.32
+test_hybrid_model.py,test residuals are causal,Passed,0.30
+test_hybrid_model.py,test hybrid combination adds destandardised correction,Passed,0.00
+test_hybrid_model.py,test multistep targets are actual minus path,Passed,0.00
+test_leakage.py,test training targets end before cutoff,Passed,0.00
+test_leakage.py,test early stopping block is later and disjoint,Passed,0.00
+test_leakage.py,test training windows unchanged by future perturbation,Passed,0.05
+test_leakage.py,test forecast inputs use only data before origin,Passed,0.01
+test_models.py,test seasonal naive repeats last valid week,Passed,0.01
+test_models.py,test arima forecast horizon and interval order,Passed,0.29
+test_models.py,test one pass paths equal per origin forecasts,Passed,0.65
+test_models.py,test ets handles missing days,Passed,2.19
+test_models.py,test network output shape matches horizon,Passed,9.02
+test_models.py,test masked loss ignores masked days,Passed,0.01
+test_preprocessing.py,test split plan is chronological and non overlapping,Passed,0.00
+test_preprocessing.py,test split plan rejects short series,Passed,0.00
+test_preprocessing.py,test anomaly rule is causal,Passed,0.01
+test_preprocessing.py,test evaluation mask excludes closures and zero sales,Passed,0.01
+test_preprocessing.py,test scaler uses training period only and inverts,Passed,0.01
+test_preprocessing.py,test seasonal naive scale matches hand calculation,Passed,0.00
+test_run_chunks.py,test pause requested global and lane,Passed,0.01
+test_run_chunks.py,test start check refuses when pipeline running,Passed,0.01
+test_run_chunks.py,test start check allows when idle and excludes own ancestors,Passed,0.00
+test_run_chunks.py,test start check refuses live runner pid,Passed,0.01
+test_run_chunks.py,test estimate time left trials and seed fallback,Passed,0.00
+test_run_chunks.py,test estimate dependent lanes finish after dependencies,Passed,0.00
+test_run_chunks.py,test trim drops invalid outlier,Passed,0.00
+test_run_chunks.py,test log experiment quotes notes,Passed,0.00
+test_run_chunks.py,test run statistical raises when paused,Passed,0.01
+test_summarise_totals.py,test compute totals excludes superseded pipeline and applies retime,Passed,0.10
+test_title_page.py,test identity config keys,Passed,0.00
+test_title_page.py,test title page matches identity,Passed,0.17
+test_title_page.py,test names only where expected,Passed,0.00
+test_title_page.py,test apply identity idempotent,Passed,0.09
+test_tuning_cleanup.py,test stale running trial marked fail,Passed,6.67
+test_tuning_cleanup.py,test reason falls back to generic,Passed,0.00

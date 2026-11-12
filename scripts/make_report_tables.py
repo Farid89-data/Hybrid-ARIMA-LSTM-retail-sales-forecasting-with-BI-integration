@@ -94,9 +94,18 @@ def stat_specs(name: str) -> None:
     write(rows, f"stat_specs_{name}")
 
 
+def trial_counts(name: str, kind: str) -> str:
+    """Complete trials, with interrupted (failed) trials in brackets (D-029)."""
+    src = config.METRIC_DIR / f"{name}_{kind}_tuning_trials_summary.json"
+    if not src.exists():
+        return "n/a"
+    s = json.loads(src.read_text(encoding="utf-8"))
+    return f"{s['complete_trials']} ({s['failed_trials']})"
+
+
 def best_params() -> None:
     rows = [["Dataset", "Model", "Input window", "Units", "Layers", "Dropout", "Learning rate", "Batch",
-             "Validation MASE"]]
+             "Validation MASE", "Trials (interrupted)"]]
     found = False
     for name in ("m5", "rossmann"):
         for kind in ("ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"):
@@ -108,7 +117,7 @@ def best_params() -> None:
             bp = d["best_params"]
             rows.append([DATASET_LABEL[name], LABELS[kind], str(bp["lookback"]), str(bp["units"]),
                          str(bp.get("n_layers", 1)), f"{bp['dropout']:.2f}", f"{bp['learning_rate']:.5f}",
-                         str(bp["batch_size"]), f"{d['best_value']:.3f}"])
+                         str(bp["batch_size"]), f"{d['best_value']:.3f}", trial_counts(name, kind)])
     if found:
         write(rows, "best_params")
 
@@ -175,9 +184,94 @@ def dm_tests(name: str) -> None:
     write(rows, f"dm_{name}")
 
 
+def _ptxt(p) -> str:
+    return "n/a" if pd.isna(p) else ("< 0.001" if p < 0.001 else f"{p:.3f}")
+
+
+def dm_matrix_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_dm_matrix.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip dm_matrix {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    df = df[df["loss"] == "squared"]
+    models = [m for m in ORDER if m in set(df["row"])]
+    rows = [["Row model (vs column)"] + [LABELS[m] for m in models]]
+    for a in models:
+        line = [LABELS[a]]
+        for b in models:
+            r = df[(df["row"] == a) & (df["col"] == b)]
+            if a == b or r.empty:
+                line.append("-")
+                continue
+            r = r.iloc[0]
+            star = "*" if r["p_holm"] < 0.05 else ""
+            line.append(f"{r['dm_stat']:.2f}{star}")
+        rows.append(line)
+    write(rows, f"dm_matrix_{name}")
+
+
+def hybrid_ablation_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_hybrid_ablation.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip hybrid_ablation {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    rows = [["Hybrid", "MASE hybrid", "MASE ARIMA", "MASE LSTM", "Change vs ARIMA (%)", "Change vs LSTM (%)",
+             "DM vs ARIMA", "Holm p vs ARIMA", "DM vs LSTM", "Holm p vs LSTM"]]
+    for _, r in df.iterrows():
+        rows.append([LABELS[r["hybrid"]], fmt(r["mase_hybrid"]), fmt(r["mase_arima"]), fmt(r["mase_lstm"]),
+                     f"{r['pct_change_vs_arima']:+.1f}", f"{r['pct_change_vs_lstm']:+.1f}",
+                     fmt(r["dm_stat_vs_arima"], 2), _ptxt(r["p_holm_vs_arima"]),
+                     fmt(r["dm_stat_vs_lstm"], 2), _ptxt(r["p_holm_vs_lstm"])])
+    write(rows, f"hybrid_ablation_{name}")
+
+
+def residual_diagnostics_report(name: str) -> None:
+    src = TABLE_DIR / f"{name}_residual_diagnostics.csv"
+    if not src.exists() or src.stat().st_size < 5:
+        print(f"skip residual_diagnostics {name}: {src.name} missing")
+        return
+    df = pd.read_csv(src)
+    rows = [["Test", "Stores tested", "Share of stores with p < 0.05"]]
+    for col, label in (("lb7_p", "Ljung-Box, lag 7"), ("lb14_p", "Ljung-Box, lag 14"), ("bds_p", "BDS, dimension 2")):
+        ok = df[col].dropna()
+        rows.append([label, str(len(ok)), pct((ok < 0.05).mean()) if len(ok) else "n/a"])
+    write(rows, f"residual_diagnostics_{name}")
+
+
+def cross_dataset() -> None:
+    """G04: one row per model, accuracy and coverage for M5 and Rossmann side by side."""
+    frames = {}
+    for name in ("m5", "rossmann"):
+        src = TABLE_DIR / f"{name}_test_summary.csv"
+        if src.exists():
+            frames[name] = pd.read_csv(src).set_index("model")
+        else:
+            print(f"skip cross_dataset {name}: {src.name} missing")
+    if len(frames) < 2:
+        print("skip cross_dataset: needs both datasets")
+        return
+    header = ["Model"]
+    for name in frames:
+        d = DATASET_LABEL[name]
+        header += [f"{d} MASE", f"{d} RMSE", f"{d} MAPE (%)", f"{d} coverage"]
+    rows = [header]
+    for m in [m for m in ORDER if any(m in f.index for f in frames.values())]:
+        line = [LABELS[m]]
+        for f in frames.values():
+            if m in f.index:
+                r = f.loc[m]
+                line += [fmt(r["mase"], 3), fmt(r["rmse"], 0), fmt(r["mape"], 2), pct(r["coverage"])]
+            else:
+                line += ["n/a"] * 4
+        rows.append(line)
+    write(rows, "cross_dataset")
+
+
 def cost() -> None:
     rows = [["Dataset", "Model", "Tuning runs", "Tuning time (min)", "Time per final run (min)",
-             "Total time (min)", "Estimated energy (Wh)"]]
+             "Total time (min)", "Total incl. ARIMA (min)", "Estimated energy (Wh)"]]
     found = False
     for name in ("m5", "rossmann"):
         src = TABLE_DIR / f"{name}_cost.csv"
@@ -189,7 +283,8 @@ def cost() -> None:
             r = df.loc[m]
             rows.append([DATASET_LABEL[name], LABELS[m], str(int(r["tuning_runs"])),
                          fmt(r["tuning_seconds"] / 60, 1), fmt(r["final_seconds_per_run"] / 60, 1),
-                         fmt(r["total_seconds"] / 60, 1), fmt(r["energy_kwh_total"] * 1000, 1)])
+                         fmt(r["total_seconds"] / 60, 1), fmt(r["total_with_arima_seconds"] / 60, 1),
+                         fmt(r["energy_kwh_total"] * 1000, 1)])
     if found:
         write(rows, "cost")
 
@@ -246,8 +341,12 @@ def main() -> None:
         interval_summary(name)
         mase_by_week(name)
         dm_tests(name)
+        dm_matrix_report(name)
+        hybrid_ablation_report(name)
+        residual_diagnostics_report(name)
     best_params()
     cost()
+    cross_dataset()
     unit_tests()
     literature_matrix(args.cite_map)
 

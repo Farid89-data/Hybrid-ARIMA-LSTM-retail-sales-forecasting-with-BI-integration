@@ -9,8 +9,8 @@ version: 1.0.0
 date-released: 2026-11-10
 license: MIT
 abstract: >-
-  Code, tests and documentation of an MSc Data Science project (Arden University, COM7014)
-  that benchmarks seasonal naive, ARIMA, ETS, feed-forward, LSTM and three hybrid
+  Code, tests and documentation of an M.Sc. Data Science project (Arden University, COM7014 - Advanced
+  Computing Project) that benchmarks seasonal naive, ARIMA, ETS, feed-forward, LSTM and three hybrid
   ARIMA-LSTM residual models on store-level daily sales from the M5 and Rossmann
   Kaggle datasets, with rolling-origin evaluation, Diebold-Mariano tests, conformal
   prediction intervals and a Power BI data model.

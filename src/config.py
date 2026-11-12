@@ -21,6 +21,7 @@ METRIC_DIR = OUTPUT_DIR / "metrics"
 MODEL_DIR = OUTPUT_DIR / "models"
 COMPARISON_DIR = OUTPUT_DIR / "model_comparisons"
 INTERIM_DIR = OUTPUT_DIR / "interim"
+STATE_DIR = OUTPUT_DIR / "state"  # runner state: PAUSE flags, RESUME.md, done markers (not committed)
 EXPERIMENT_LOG = CODE_DIR / "EXPERIMENT_LOG.csv"
 
 # Forecasting protocol (DECISIONS_LOG D-005, D-015).
