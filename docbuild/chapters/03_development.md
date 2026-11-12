@@ -24,7 +24,7 @@ source: Author's own work.
 
 ### Business questions
 
-Store managers and central planners use daily sales forecasts for three decisions:
+Daily sales forecasts can inform three decisions of store managers and central planners:
 
 - how much to order before the next delivery;
 - how many staff to roster;
