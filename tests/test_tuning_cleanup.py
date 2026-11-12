@@ -20,7 +20,9 @@ def test_stale_running_trial_marked_fail(tmp_path):
     states = [t.state for t in study.trials]
     assert changed == [("x-ffnn", 1)]
     assert states == [TrialState.COMPLETE, TrialState.FAIL]
-    assert study.trials[1].user_attrs["failed_reason"] == tuning_cleanup.FAILED_REASON
+    start = study.trials[1].datetime_start
+    assert study.trials[1].user_attrs["failed_reason"] == (
+        f"interrupted run (process stopped; trial started {start:%d %b %Y %H:%M})")
     assert "failed_reason" not in study.trials[0].user_attrs
     assert tuning_cleanup.complete_trial_count(study) == before == 1
     assert len(study.trials) == 2  # nothing deleted
@@ -29,3 +31,9 @@ def test_stale_running_trial_marked_fail(tmp_path):
     frame = pd.read_csv(tmp_path / "x_ffnn_tuning_trials.csv")
     assert list(frame["state"]) == ["COMPLETE"]
     assert summary["complete_trials"] == 1 and summary["failed_trials"] == 1
+
+
+def test_reason_falls_back_to_generic():
+    class T:
+        datetime_start = None
+    assert tuning_cleanup.reason_for(T()) == "interrupted run (process stopped)"
