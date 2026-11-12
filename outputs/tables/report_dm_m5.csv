@@ -1,0 +1,15 @@
+Compared with,Loss,DM statistic (seed 1),Holm p (seed 1),Seeds: hybrid better,Seeds: hybrid worse,Series: better / worse
+Seasonal naive,Absolute,7.87,< 0.001,5 of 5,0 of 5,9 / 0
+Seasonal naive,Squared,5.59,< 0.001,5 of 5,0 of 5,10 / 0
+ARIMA,Absolute,3.40,0.001,5 of 5,0 of 5,7 / 0
+ARIMA,Squared,3.25,0.003,5 of 5,0 of 5,8 / 0
+ETS,Absolute,6.61,< 0.001,5 of 5,0 of 5,10 / 0
+ETS,Squared,5.42,< 0.001,5 of 5,0 of 5,10 / 0
+FFNN,Absolute,5.11,< 0.001,5 of 5,0 of 5,7 / 0
+FFNN,Squared,5.36,< 0.001,5 of 5,0 of 5,8 / 0
+LSTM,Absolute,5.15,< 0.001,5 of 5,0 of 5,8 / 0
+LSTM,Squared,4.16,< 0.001,5 of 5,0 of 5,9 / 0
+Hybrid (direct),Absolute,3.02,0.003,5 of 5,0 of 5,4 / 0
+Hybrid (direct),Squared,2.68,0.008,5 of 5,0 of 5,2 / 0
+Hybrid (multi-step errors),Absolute,3.72,< 0.001,5 of 5,0 of 5,5 / 0
+Hybrid (multi-step errors),Squared,3.74,< 0.001,5 of 5,0 of 5,6 / 0

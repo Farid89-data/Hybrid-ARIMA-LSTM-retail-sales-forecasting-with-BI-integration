@@ -1,0 +1,4 @@
+Test,Stores tested,Share of stores with p < 0.05
+"Ljung-Box, lag 7",10,0.0%
+"Ljung-Box, lag 14",10,0.0%
+"BDS, dimension 2",10,100.0%

@@ -1,0 +1,9 @@
+Model,Days 1 to 7,Days 8 to 14,Days 15 to 21,Days 22 to 28
+Seasonal naive,0.947,0.458,1.116,0.570
+ARIMA,0.323,0.331,0.399,0.385
+ETS,0.850,0.405,1.004,0.661
+FFNN,0.317,0.283,0.346,0.368
+LSTM,0.337,0.337,0.376,0.405
+Hybrid (direct),0.318,0.318,0.396,0.379
+Hybrid (multi-step errors),0.301,0.276,0.354,0.352
+Hybrid (recursive),0.304,0.306,0.375,0.365

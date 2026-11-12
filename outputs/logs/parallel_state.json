@@ -1,0 +1,28 @@
+{
+  "updated": "2026-11-11T02:15:52+00:00",
+  "available_memory_fraction": 0.419,
+  "lanes": {
+    "A": "running",
+    "B": "running",
+    "C": "running",
+    "D": "waiting",
+    "E": "waiting"
+  },
+  "running": {
+    "B": {
+      "stage": "stat_m5",
+      "pid": 14168,
+      "suspended": false
+    },
+    "C": {
+      "stage": "nn_m5_ffnn",
+      "pid": 13608,
+      "suspended": true
+    },
+    "A": {
+      "stage": "nn_rossmann_lstm",
+      "pid": 9560,
+      "suspended": false
+    }
+  }
+}

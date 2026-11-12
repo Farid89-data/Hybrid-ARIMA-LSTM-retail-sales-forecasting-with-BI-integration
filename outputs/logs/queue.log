@@ -1,1 +1,7 @@
 23:13:22 start stat:rossmann
+00:45:32 finished stat:rossmann exit=0
+00:54:19 start stat:rossmann
+19:39:15 start stat:rossmann
+20:44:53 finished stat:rossmann exit=0
+20:45:07 finished stat:rossmann exit=0
+20:48:58 start nn:rossmann:ffnn

@@ -1,0 +1,50 @@
+{
+  "m5": {
+    "primary_hybrid": "hyb_z",
+    "hybrid_validation_mase": {
+      "hyb_d": 0.716553590348006,
+      "hyb_ms": 0.7475869079547072,
+      "hyb_z": 0.6961069472633568
+    },
+    "example_series": "CA_1",
+    "example_origin_date": "2015-11-09",
+    "error_growth_median_h1": 0.6926811176386349,
+    "error_growth_median_h28": 1.0916726488629565,
+    "figures": {
+      "by_horizon": "outputs/figures/res_m5_mase_by_horizon.png",
+      "seed_stability": "outputs/figures/res_m5_seed_stability.png",
+      "coverage": "outputs/figures/res_m5_coverage_by_horizon.png",
+      "dm_matrix": "outputs/figures/res_m5_dm_matrix.png",
+      "accuracy_cost": "outputs/figures/res_m5_accuracy_cost.png",
+      "coverage_native_vs_conformal": "outputs/figures/res_m5_coverage_native_vs_conformal.png",
+      "mase_by_store": "outputs/figures/res_m5_mase_by_store.png",
+      "tuning": "outputs/figures/res_m5_tuning.png",
+      "example": "outputs/figures/res_m5_example_CA_1.png",
+      "error_growth": "outputs/figures/res_m5_error_growth.png"
+    }
+  },
+  "rossmann": {
+    "primary_hybrid": "hyb_ms",
+    "hybrid_validation_mase": {
+      "hyb_d": 0.41404718441300015,
+      "hyb_ms": 0.3655617595041672,
+      "hyb_z": 0.4077622633333329
+    },
+    "example_series": "store_146",
+    "example_origin_date": "2015-04-11",
+    "error_growth_median_h1": 0.6553096568500363,
+    "error_growth_median_h28": 1.1301797942955005,
+    "figures": {
+      "by_horizon": "outputs/figures/res_rossmann_mase_by_horizon.png",
+      "seed_stability": "outputs/figures/res_rossmann_seed_stability.png",
+      "coverage": "outputs/figures/res_rossmann_coverage_by_horizon.png",
+      "dm_matrix": "outputs/figures/res_rossmann_dm_matrix.png",
+      "accuracy_cost": "outputs/figures/res_rossmann_accuracy_cost.png",
+      "coverage_native_vs_conformal": "outputs/figures/res_rossmann_coverage_native_vs_conformal.png",
+      "mase_by_store": "outputs/figures/res_rossmann_mase_by_store.png",
+      "tuning": "outputs/figures/res_rossmann_tuning.png",
+      "example": "outputs/figures/res_rossmann_example_store_146.png",
+      "error_growth": "outputs/figures/res_rossmann_error_growth.png"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "best_params": {
+    "lookback": 28,
+    "dropout": 0.022016416437437958,
+    "learning_rate": 0.0010386019433466394,
+    "batch_size": 64,
+    "units": 16
+  },
+  "best_value": 0.4302219164602574,
+  "best_trial": 15,
+  "n_trials": 15
+}
