@@ -31,7 +31,7 @@ let
     Source = fnLoadCsv("fact_forecast.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
         {"series_key", type text}, {"dataset", type text}, {"model", type text},
-        {"origin_date", type date}, {"date", type date}, {"horizon", Int64.Type},
+        {"origin_date", type date}, {"date", type date}, {"horizon", Int64.Type}, {"seed", Int64.Type},
         {"actual", type number}, {"forecast", type number}, {"lower", type number},
         {"upper", type number}, {"scale", type number}, {"scored", Int64.Type}}, "en-GB")
 in
@@ -56,7 +56,7 @@ in
 let
     Source = fnLoadCsv("fact_metrics.csv"),
     Typed  = Table.TransformColumnTypes(Source, {
-        {"series_key", type text}, {"dataset", type text}, {"model", type text},
+        {"series_key", type text}, {"dataset", type text}, {"model", type text}, {"seed", Int64.Type},
         {"rmse", type number}, {"mae", type number}, {"mape", type number},
         {"mase", type number}, {"coverage", type number}, {"width_scaled", type number}}, "en-GB")
 in
