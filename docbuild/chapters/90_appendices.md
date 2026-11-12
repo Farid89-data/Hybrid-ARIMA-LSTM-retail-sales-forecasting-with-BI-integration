@@ -82,7 +82,7 @@ source: Author's own results (outputs/metrics/*_best_params.json). Trials: compl
 
 ### M5
 
-{tbl:m5summary} gives the full test summary, {tbl:m5intervals} the interval results, {tbl:m5week} the error by forecast week, {tbl:m5dm} the Diebold-Mariano tests, {tbl:m5dmmat} the test statistics as a matrix and {tbl:m5resid} the residual diagnostics. {fig:m5seed} shows the stability across seeds, {fig:m5covh} the coverage by horizon, {fig:m5growth} the growth of error with horizon, {fig:m5store} the error by store and {fig:m5tune} the tuning results.
+{tbl:m5summary} gives the full test summary, {tbl:m5intervals} the interval results, {tbl:m5week} the error by forecast week, {tbl:m5dm} the Diebold-Mariano tests, {tbl:m5dmmat} the test statistics as a matrix and {tbl:m5resid} the residual diagnostics (Ljung-Box tests at lags 7 and 14 and the BDS test with embedding dimension 2, applied to the one-step ARIMA residuals). {fig:m5seed} shows the stability across seeds, {fig:m5covh} the coverage by horizon, {fig:m5growth} the growth of error with horizon, {fig:m5store} the error by store and {fig:m5tune} the tuning results.
 
 ::: table id=tbl:m5summary csv=outputs/tables/report_test_summary_m5.csv size=8
 caption: M5: test summary by model
