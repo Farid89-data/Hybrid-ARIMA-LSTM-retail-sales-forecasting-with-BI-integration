@@ -93,7 +93,7 @@ Neural networks depend on hyperparameters such as the input window, the number o
 
 ### Prediction intervals
 
-Inventory decisions depend on uncertainty as much as on the point forecast, because safety stock is set from the expected spread of demand. Model-based intervals from ARIMA and exponential smoothing assume correctly specified Gaussian errors. Neural networks do not provide intervals at all. Split conformal prediction offers a model-agnostic alternative: errors on a calibration period define the interval width. Applied to an LSTM, it achieved about 95.2% coverage for a 95% target [@zhang2025]. Its guarantee assumes exchangeable errors, which time series violate, and multi-step forecasts need horizon-specific calibration [@schlembach2025]. Empirical coverage on the test period is therefore an essential check, not a formality.
+Inventory decisions depend on uncertainty as much as on the point forecast, because safety stock is set from the expected spread of demand. Model-based intervals from ARIMA and exponential smoothing assume correctly specified Gaussian errors. Neural networks do not provide intervals by default. Split conformal prediction offers a model-agnostic alternative: errors on a calibration period define the interval width. Applied to an LSTM, it achieved about 95.2% coverage for a 95% target [@zhang2025]. Its guarantee assumes exchangeable errors, which time series violate, and multi-step forecasts need horizon-specific calibration [@schlembach2025]. Empirical coverage on the test period is therefore an essential check, not a formality.
 
 ## Business Intelligence, Decision Support and Accessibility {#sec:bilit}
 
