@@ -52,7 +52,7 @@ The project forecasts daily sales at store level. It uses the ten store-level se
 
 ## Expected Contribution {#sec:contribution}
 
-The project makes three contributions. Methodologically, it provides a transparent benchmark of statistical, neural and hybrid models with significance testing, interval calibration and cost reporting, and it uses causal residuals (filtered, with no look-ahead in the states, although the ARIMA parameters are estimated on the same training period). It compares three ways of training the residual network, a design choice that the reviewed studies (2023-2026) leave implicit. Practically, it shows how forecasts and their uncertainty can be expressed as planning indicators in a BI data model that non-technical managers can interrogate. Professionally, the code base, tests and documentation form a reproducible portfolio artefact.
+The project makes three contributions. Methodologically, it provides a transparent benchmark of statistical, neural and hybrid models with significance testing, interval calibration and cost reporting, and it uses causal residuals (filtered without state look-ahead, though ARIMA parameters are estimated on the same training period). It compares three ways of training the residual network, a design choice that the reviewed studies (2023-2026) leave implicit. Practically, it shows how forecasts and their uncertainty can be expressed as planning indicators in a BI data model that non-technical managers can interrogate. Professionally, the code base, tests and documentation form a reproducible portfolio artefact.
 
 ## Structure of the Report {#sec:structure}
 
