@@ -384,7 +384,8 @@ source: Author's own work.
 | Folder or file | Content |
 |---|---|
 | src | Python package: data loading, preprocessing, models, hybrids, evaluation, tests of predictive accuracy, dashboard export |
-| scripts | One command-line script per stage, the experiment queue and the report-table generator |
+| scripts | One command-line script per stage, the experiment queue, the report-table generator, summarise_results.py (writes result_facts.json, the figures quoted in the results), the pausable runner run_chunks.py, and the helpers retime_arima.py and clean_optuna.py (re-timing of an ARIMA search; marking interrupted Optuna trials as failed) |
+| scripts/literature | Search, verification and library-export scripts of the literature protocol |
 | tests | Automated tests, including the leakage tests |
 | notebooks | Nine executed notebooks that walk through the outputs of each stage |
 | dashboard | Data dictionary, Power Query scripts, DAX measures, build guide and test plan |
