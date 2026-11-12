@@ -115,7 +115,7 @@ The review supports four conclusions:
 
 1. Statistical models remain strong and interpretable benchmarks, and naive benchmarks are frequently not beaten [@beck2025; @canedo2024].
 2. Hybrid ARIMA-LSTM models are popular, but their evaluation is often weak. Significance tests are rare, implausible results appear, and residual networks are trained and evaluated one step ahead [@du2025; @wan2023; @si2024].
-3. Uncertainty and computational cost are rarely reported together with accuracy [@zhang2025; @rafat2023].
+3. In the studies compared in {tbl:hybridstudies}, uncertainty and computational cost are rarely reported with accuracy. Intervals inform decisions [@zhang2025], and energy should be reported [@rafat2023].
 4. Few studies take forecasts through to an accessible decision-support artefact [@hammad2026; @neri2025].
 
 This project addresses these gaps in four ways:
