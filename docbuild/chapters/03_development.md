@@ -334,7 +334,7 @@ Slicers for dataset, store, model and origin are shared across pages. Accessibil
 - a logical keyboard tab order;
 - minimum font sizes of 12 points for text and 10 points for axis labels.
 
-The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests check every measure against acceptance values computed in Python from the same data.
+The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data. The remaining measures are covered by the static review (TP-16).
 
 ## Issues and Troubleshooting {#sec:issues}
 
