@@ -1,0 +1,5 @@
+2026-11-11 11:15:35 runner started pid 5760, 4 logical cores
+2026-11-11 11:15:35 start lane A nn_rossmann_lstm pid 11164 threads 2
+2026-11-11 11:16:20 pause requested
+2026-11-11 11:19:33 finished lane A nn_rossmann_lstm exit 75 after 238 s
+2026-11-11 11:19:34 paused safely

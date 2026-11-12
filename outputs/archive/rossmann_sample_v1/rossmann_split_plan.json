@@ -1,0 +1,24 @@
+{
+  "n_days": 942,
+  "horizon": 28,
+  "tuning_train_days": 606,
+  "validation_days": 140,
+  "final_train_days": 746,
+  "test_days": 196,
+  "val_origins": [
+    606,
+    634,
+    662,
+    690,
+    718
+  ],
+  "test_origins": [
+    746,
+    774,
+    802,
+    830,
+    858,
+    886,
+    914
+  ]
+}

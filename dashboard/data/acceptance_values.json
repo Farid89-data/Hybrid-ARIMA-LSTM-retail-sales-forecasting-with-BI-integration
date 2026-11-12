@@ -1,0 +1,182 @@
+{
+  "M5": {
+    "arima": {
+      "n_seeds": 1,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15329327.5560912,
+      "mean_abs_error": 311.0204258486095,
+      "coverage": 0.9358056265984654,
+      "mase_store_average": 0.8379074177139696,
+      "stockout_risk_days": 163.0,
+      "overstock_risk_days": 88.0,
+      "report_test_mase": 0.8379074177139696
+    },
+    "ets": {
+      "n_seeds": 1,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15344644.273616234,
+      "mean_abs_error": 406.96459106743026,
+      "coverage": 0.9260869565217391,
+      "mase_store_average": 1.036842032601917,
+      "stockout_risk_days": 190.0,
+      "overstock_risk_days": 99.0,
+      "report_test_mase": 1.036842032601917
+    },
+    "ffnn": {
+      "n_seeds": 5,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15069387.905584192,
+      "mean_abs_error": 312.21681580032475,
+      "coverage": 0.9284910485933504,
+      "mase_store_average": 0.8636679559621806,
+      "stockout_risk_days": 239.4,
+      "overstock_risk_days": 40.2,
+      "report_test_mase": 0.8636679559621806
+    },
+    "hyb_d": {
+      "n_seeds": 5,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15344814.644845199,
+      "mean_abs_error": 295.8313183004077,
+      "coverage": 0.9358056265984654,
+      "mase_store_average": 0.7978554454887837,
+      "stockout_risk_days": 171.6,
+      "overstock_risk_days": 79.4,
+      "report_test_mase": 0.7978554454887836
+    },
+    "hyb_ms": {
+      "n_seeds": 5,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15147197.046721984,
+      "mean_abs_error": 308.78501430213777,
+      "coverage": 0.928849104859335,
+      "mase_store_average": 0.8472438901043139,
+      "stockout_risk_days": 227.2,
+      "overstock_risk_days": 51.0,
+      "report_test_mase": 0.8472438901043139
+    },
+    "hyb_z": {
+      "n_seeds": 5,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15346343.44703198,
+      "mean_abs_error": 276.48361993448043,
+      "coverage": 0.9426086956521739,
+      "mase_store_average": 0.7458175992948883,
+      "stockout_risk_days": 159.6,
+      "overstock_risk_days": 64.8,
+      "report_test_mase": 0.7458175992948883
+    },
+    "lstm": {
+      "n_seeds": 5,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 14765906.234819066,
+      "mean_abs_error": 379.5762363658334,
+      "coverage": 0.9029667519181586,
+      "mase_store_average": 1.0813785724001495,
+      "stockout_risk_days": 358.8,
+      "overstock_risk_days": 20.6,
+      "report_test_mase": 1.0813785724001497
+    },
+    "snaive": {
+      "n_seeds": 1,
+      "total_actual_scored": 15577474.0,
+      "total_forecast_scored": 15358337.0,
+      "mean_abs_error": 467.4626598465473,
+      "coverage": 0.9398976982097187,
+      "mase_store_average": 1.1960359890030312,
+      "stockout_risk_days": 132.0,
+      "overstock_risk_days": 103.0,
+      "report_test_mase": 1.1960359890030312
+    }
+  },
+  "Rossmann": {
+    "arima": {
+      "n_seeds": 1,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23450916.080297496,
+      "mean_abs_error": 758.9937593283829,
+      "coverage": 0.9571516646115906,
+      "mase_store_average": 0.3587643425880821,
+      "stockout_risk_days": 109.0,
+      "overstock_risk_days": 30.0,
+      "report_test_mase": 0.3587643425880821
+    },
+    "ets": {
+      "n_seeds": 1,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23077843.25757289,
+      "mean_abs_error": 1546.1485635224844,
+      "coverage": 0.9257090012330457,
+      "mase_store_average": 0.7250526915794714,
+      "stockout_risk_days": 146.0,
+      "overstock_risk_days": 95.0,
+      "report_test_mase": 0.7250526915794714
+    },
+    "ffnn": {
+      "n_seeds": 5,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23197470.92269724,
+      "mean_abs_error": 689.5037896464945,
+      "coverage": 0.9605425400739828,
+      "mase_store_average": 0.3279288869453085,
+      "stockout_risk_days": 91.2,
+      "overstock_risk_days": 36.8,
+      "report_test_mase": 0.3279288869453085
+    },
+    "hyb_d": {
+      "n_seeds": 5,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23537206.71460814,
+      "mean_abs_error": 744.2126701988209,
+      "coverage": 0.9495684340320591,
+      "mase_store_average": 0.351966822184329,
+      "stockout_risk_days": 116.6,
+      "overstock_risk_days": 47.0,
+      "report_test_mase": 0.351966822184329
+    },
+    "hyb_ms": {
+      "n_seeds": 5,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23255061.852504972,
+      "mean_abs_error": 674.7157452714433,
+      "coverage": 0.9400123304562269,
+      "mase_store_average": 0.32017019044320694,
+      "stockout_risk_days": 134.8,
+      "overstock_risk_days": 59.8,
+      "report_test_mase": 0.3201701904432069
+    },
+    "hyb_z": {
+      "n_seeds": 5,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23477575.964791875,
+      "mean_abs_error": 711.0809212733379,
+      "coverage": 0.9453144266337854,
+      "mase_store_average": 0.3368891017360079,
+      "stockout_risk_days": 131.0,
+      "overstock_risk_days": 46.4,
+      "report_test_mase": 0.3368891017360078
+    },
+    "lstm": {
+      "n_seeds": 5,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 23374918.63514632,
+      "mean_abs_error": 766.2408616280148,
+      "coverage": 0.96288532675709,
+      "mase_store_average": 0.36352511507506924,
+      "stockout_risk_days": 82.8,
+      "overstock_risk_days": 37.6,
+      "report_test_mase": 0.3635251150750692
+    },
+    "snaive": {
+      "n_seeds": 1,
+      "total_actual_scored": 23429473.0,
+      "total_forecast_scored": 24390715.0,
+      "mean_abs_error": 1648.4364981504316,
+      "coverage": 0.9386559802712701,
+      "mase_store_average": 0.7672803733475122,
+      "stockout_risk_days": 85.0,
+      "overstock_risk_days": 114.0,
+      "report_test_mase": 0.7672803733475122
+    }
+  }
+}

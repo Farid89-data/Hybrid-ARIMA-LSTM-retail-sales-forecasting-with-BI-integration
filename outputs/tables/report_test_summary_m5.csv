@@ -1,0 +1,9 @@
+Model,RMSE,MAE,MAPE (%),MASE,MASE s.d. (seeds),Coverage (conformal),Coverage (Gaussian)
+Seasonal naive,620,467,11.92,1.196,n/a,94.0%,n/a
+ARIMA,419,311,7.87,0.838,n/a,93.6%,90.8%
+ETS,531,407,10.30,1.037,n/a,92.6%,94.0%
+FFNN,417,312,7.77,0.864,0.018,92.8%,n/a
+LSTM,497,380,9.22,1.081,0.035,90.3%,n/a
+Hybrid (direct),398,296,7.48,0.798,0.005,93.6%,n/a
+Hybrid (multi-step errors),413,309,7.71,0.847,0.023,92.9%,n/a
+Hybrid (recursive),371,276,7.00,0.746,0.008,94.3%,n/a

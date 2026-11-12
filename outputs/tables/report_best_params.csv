@@ -1,0 +1,11 @@
+Dataset,Model,Input window,Units,Layers,Dropout,Learning rate,Batch,Validation MASE,Trials (interrupted)
+M5,FFNN,28,128,1,0.23,0.00096,128,0.755,15 (0)
+M5,LSTM,28,64,1,0.24,0.00086,128,0.814,15 (0)
+M5,Hybrid (direct),28,64,1,0.21,0.00118,64,0.717,15 (0)
+M5,Hybrid (multi-step errors),28,32,1,0.12,0.00059,64,0.748,15 (1)
+M5,Hybrid (recursive),28,64,1,0.21,0.00118,64,0.696,n/a
+Rossmann,FFNN,28,128,1,0.01,0.00031,64,0.411,15 (1)
+Rossmann,LSTM,28,16,1,0.02,0.00104,64,0.430,15 (1)
+Rossmann,Hybrid (direct),56,32,1,0.19,0.00052,64,0.414,15 (0)
+Rossmann,Hybrid (multi-step errors),56,64,1,0.07,0.00073,64,0.366,15 (0)
+Rossmann,Hybrid (recursive),56,32,1,0.19,0.00052,64,0.408,n/a
