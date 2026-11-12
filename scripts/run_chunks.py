@@ -86,7 +86,7 @@ LANES = {
               _step("evaluation", ["scripts/run_evaluation.py", "--dataset", "all"]),
               _step("export_dashboard", ["scripts/export_dashboard.py"]),
               _step("summarise_results", ["scripts/summarise_results.py"]),
-              _step("pytest", ["-m", "pytest", "-q", "--junitxml=outputs/tests/pytest_results.xml"]),
+              _step("pytest", ["-m", "pytest", "-q", "-p", "no:cacheprovider", "--basetemp=outputs/interim/pt_tmp", "--junitxml=outputs/tests/pytest_results.xml"]),
               _step("make_report_tables", ["scripts/make_report_tables.py"]),
               _step("make_notebooks", ["scripts/make_notebooks.py"]),
           ]},
