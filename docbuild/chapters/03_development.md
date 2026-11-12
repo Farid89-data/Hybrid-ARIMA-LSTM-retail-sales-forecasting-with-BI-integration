@@ -86,9 +86,9 @@ source: Author's own calculation from the Kaggle files. Coefficient of variation
 
 For M5, the item-level sales were summed to the ten store-level daily series. Item-level series were not modelled, because most items sell zero units on most days. Such intermittent series violate the assumptions of ARIMA and make percentage errors undefined.
 
-For Rossmann, a sample of 20 stores was drawn so that the experiments could be completed on the available hardware. A store was eligible when it met four conditions:
+For Rossmann, a sample of 20 stores was drawn so that the experiments could be completed on the available hardware. A store was eligible when it met four conditions, judged on records before the test period only:
 
-- it had a complete 942-day history;
+- it had a record for every day before the test period;
 - it never opened on Sundays, so all stores share the same trading week;
 - it had at most 35 closures on weekdays, which excludes long refurbishment closures;
 - it had no day recorded as open with zero sales, which would indicate a recording error.
