@@ -14,14 +14,23 @@ from optuna.trial import TrialState
 
 from src import utils
 
-FAILED_REASON = "interrupted run (process stopped 11 Nov 2026 03:15)"
+FAILED_REASON = "interrupted run (process stopped)"
+OLD_WRONG_REASON = "interrupted run (process stopped 11 Nov 2026 03:15)"
+
+
+def reason_for(trial) -> str:
+    """Reason text built from the trial's own start time (V-3); generic when it is unknown."""
+    start = getattr(trial, "datetime_start", None)
+    if start is None:
+        return FAILED_REASON
+    return f"interrupted run (process stopped; trial started {start:%d %b %Y %H:%M})"
 
 
 def storage_url(db_path: Path) -> str:
     return f"sqlite:///{Path(db_path).as_posix()}"
 
 
-def mark_stale_trials(db_path: Path, reason: str = FAILED_REASON) -> list[tuple[str, int]]:
+def mark_stale_trials(db_path: Path, reason: str | None = None) -> list[tuple[str, int]]:
     """Mark every RUNNING trial in the database as FAIL with ``failed_reason``.
 
     Only safe when no process is writing to the database. Returns (study name, trial number) pairs.
@@ -31,7 +40,7 @@ def mark_stale_trials(db_path: Path, reason: str = FAILED_REASON) -> list[tuple[
     for summary in optuna.study.get_all_study_summaries(storage):
         study = optuna.load_study(study_name=summary.study_name, storage=storage)
         for trial in study.get_trials(deepcopy=False, states=(TrialState.RUNNING,)):
-            storage.set_trial_user_attr(trial._trial_id, "failed_reason", reason)
+            storage.set_trial_user_attr(trial._trial_id, "failed_reason", reason or reason_for(trial))
             storage.set_trial_state_values(trial._trial_id, TrialState.FAIL)
             changed.append((summary.study_name, trial.number))
     return changed
