@@ -41,7 +41,7 @@ All files are UTF-8 CSV written by `scripts/export_dashboard.py`. Dates use ISO 
 
 ## fact_forecast
 
-One row per series, model, forecast origin and horizon day.
+One row per series, model, seed, forecast origin and horizon day (about 219,500 rows in total: three statistical models once and five network models five times, for both datasets).
 
 | Column | Type | Description |
 |---|---|---|
@@ -49,6 +49,7 @@ One row per series, model, forecast origin and horizon day.
 | origin_date | date | First forecast day of the 28-day window |
 | date | date | Target day |
 | horizon | int | Days ahead (1 to 28) |
+| seed | int | Training seed: 0 for the statistical models and the benchmark, 1 to 5 for the five network models (one set of forecasts per seed) |
 | actual | number | Recorded sales on the target day |
 | forecast | number | Point forecast (clipped at zero) |
 | lower, upper | number | 95% split-conformal interval |
@@ -57,4 +58,4 @@ One row per series, model, forecast origin and horizon day.
 
 ## fact_metrics
 
-Per-series test metrics: RMSE, MAE, MAPE (%), MASE, interval coverage and scaled interval width. Neural models are reported for seed 1.
+Per-series test metrics: RMSE, MAE, MAPE (%), MASE, interval coverage and scaled interval width. One row per series, model and seed (`seed` as in `fact_forecast`). The mean of `mase` over all rows of a model equals the report's five-seed test MASE.
