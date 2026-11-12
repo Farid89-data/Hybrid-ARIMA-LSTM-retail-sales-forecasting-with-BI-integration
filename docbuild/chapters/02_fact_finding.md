@@ -85,7 +85,7 @@ Even scaled measures hide which series benefit from a model when they are averag
 
 ### Benchmarks and significance
 
-A naive benchmark is essential. In a rigorous comparison of eight methods including ARIMA, ETS and LSTM, no model significantly beat the naive forecast on exchange rates, and only "four out of 960" cases were significantly better on the NASDAQ100 stock index [@beck2025]. For seasonal series, the appropriate benchmark is the seasonal naive forecast [@hewamalage2023]. Differences in accuracy should also be tested formally rather than judged by inspection [@hewamalage2023]. The Diebold-Mariano test, used by @siamba2023 and @beck2025, compares the losses of two forecasts while allowing for the autocorrelation of multi-step errors. When several models were compared, @alsaif2026 and @linardatos2023 applied a Holm correction for multiple testing.
+A naive benchmark is essential. In a rigorous comparison of eight methods including ARIMA, ETS and LSTM, no model significantly beat the naive forecast on exchange rates, and only "four out of 960" cases were significantly better on the NASDAQ100 stock index [@beck2025]. For seasonal series, the appropriate benchmark is the seasonal naive forecast [@hewamalage2023]. Differences in accuracy should also be tested formally rather than judged by inspection [@hewamalage2023]. The Diebold-Mariano test compares the losses of two forecasts while allowing for the autocorrelation of multi-step errors. @siamba2023 and @beck2025 used it. When several models were compared, @alsaif2026 and @linardatos2023 applied a Holm correction for multiple testing.
 
 ### Hyperparameter optimisation
 
