@@ -28,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import optuna  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from src import config, experiment, utils  # noqa: E402
+from src import config, experiment, tuning_cleanup, utils  # noqa: E402
 from src.evaluation import dataset_summary  # noqa: E402
 
 LOGGER = logging.getLogger("run_neural")
@@ -94,9 +94,17 @@ def tune(prep, arts, kind: str, n_trials: int) -> dict:
     if done:
         LOGGER.info("%s %s: resuming study with %d completed trials", prep.name, kind, done)
     if n_trials - done > 0:
-        study.optimize(objective, n_trials=n_trials - done)
-    trials = study.trials_dataframe()
-    trials.to_csv(config.METRIC_DIR / f"{prep.name}_{kind}_tuning_trials.csv", index=False)
+        def stop_on_pause(study_, trial_):
+            if utils.pause_requested():
+                study_.stop()  # the running trial has finished; no new trial starts
+
+        study.optimize(objective, n_trials=n_trials - done, callbacks=[stop_on_pause])
+        n_complete = sum(t.state == optuna.trial.TrialState.COMPLETE for t in study.trials)
+        if n_complete < n_trials:
+            LOGGER.info("%s %s: paused with %d of %d trials complete", prep.name, kind, n_complete, n_trials)
+            sys.exit(utils.PAUSE_EXIT_CODE)
+    # D-029: only COMPLETE trials are written; interrupted (FAIL) trials are counted in the summary.
+    tuning_cleanup.write_trials_csv(study, config.METRIC_DIR / f"{prep.name}_{kind}_tuning_trials.csv")
     best = dict(study.best_params)
     best_table = pd.read_csv(trial_file(prep, kind, study.best_trial.number))
     best_table.to_csv(config.FORECAST_DIR / f"{prep.name}_{kind}_validation.csv.gz", index=False)
@@ -116,6 +124,9 @@ def final(prep, arts, kind: str, params: dict, seeds) -> None:
             tables.append(pd.read_csv(done_file))
             LOGGER.info("%s %s seed %d: loaded checkpoint", prep.name, kind, seed)
             continue
+        if utils.pause_requested():
+            LOGGER.info("%s %s: paused before seed %d (finished seeds are checkpointed)", prep.name, kind, seed)
+            sys.exit(utils.PAUSE_EXIT_CODE)
         table, info, model = task.train_and_forecast(params, seed=seed)
         table.to_csv(done_file, index=False)
         tables.append(table)
@@ -167,13 +178,37 @@ def main() -> None:
     if args.model == "hyb_z":
         source = config.METRIC_DIR / f"{args.dataset}_hyb_d_best_params.json"
         params = utils.load_json(source)["best_params"]
+        if utils.pause_requested():
+            LOGGER.info("%s hyb_z: paused before the validation run", args.dataset)
+            sys.exit(utils.PAUSE_EXIT_CODE)
         # hyb_z needs its own validation forecasts for interval calibration
         task = experiment.NeuralTask(prep, arts, "hyb_z", "tune")
         table, info, _ = task.train_and_forecast(params, seed=config.PRIMARY_SEED)
         table.to_csv(config.FORECAST_DIR / f"{args.dataset}_hyb_z_validation.csv.gz", index=False)
-        utils.save_json({"best_params": params, "best_value": experiment.validation_mase(table),
+        score = experiment.validation_mase(table)
+        utils.save_json({"best_params": params, "best_value": score,
                          "source": "hyb_d tuning (shared configuration)"},
                         config.METRIC_DIR / f"{args.dataset}_hyb_z_best_params.json")
+        # A11: the validation run is part of the cost of hyb_z, so it is logged like a tuning trial.
+        utils.log_experiment(
+            {
+                "run_id": f"{prep.name}-hyb_z-validation",
+                "phase": "tuning",
+                "dataset": prep.name,
+                "series_set": f"{prep.panel.n_series} series",
+                "model": "hyb_z",
+                "parameters_json": json.dumps(params),
+                "seed": config.PRIMARY_SEED,
+                "split_scheme": f"fit before validation; {len(prep.plan.val_origins)} validation origins",
+                "origin_id": "validation",
+                "horizon_days": prep.plan.horizon,
+                "runtime_s": round(info["train_seconds"], 2),
+                "energy_est_kwh": f"{utils.energy_kwh(info['train_seconds']):.6f}",
+                "mase": round(score, 5),
+                "script": "scripts/run_neural.py",
+                "notes": "configuration shared with hyb_d; single validation run for interval calibration",
+            }
+        )
     elif args.skip_tuning:
         params = utils.load_json(config.METRIC_DIR / f"{args.dataset}_{args.model}_best_params.json")["best_params"]
     else:

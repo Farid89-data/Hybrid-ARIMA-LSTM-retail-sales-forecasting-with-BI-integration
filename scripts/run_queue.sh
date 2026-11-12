@@ -13,9 +13,9 @@ for step in "$@"; do
   IFS=: read -r kind ds model <<< "$step"
   echo "$(date +%H:%M:%S) start $step" >> outputs/logs/queue.log
   if [ "$kind" = "stat" ]; then
-    "$PY" scripts/run_statistical.py --dataset "$ds" > "outputs/logs/stat_${ds}.log" 2>&1
+    PYTHONHASHSEED=0 "$PY" scripts/run_statistical.py --dataset "$ds" > "outputs/logs/stat_${ds}.log" 2>&1
   else
-    "$PY" scripts/run_neural.py --dataset "$ds" --model "$model" --trials 15 > "outputs/logs/nn_${ds}_${model}.log" 2>&1
+    PYTHONHASHSEED=0 "$PY" scripts/run_neural.py --dataset "$ds" --model "$model" --trials 15 > "outputs/logs/nn_${ds}_${model}.log" 2>&1
   fi
   echo "$(date +%H:%M:%S) finished $step exit=$?" >> outputs/logs/queue.log
 done

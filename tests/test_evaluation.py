@@ -86,3 +86,68 @@ def test_dm_hln_matches_manual_calculation():
 def test_holm_adjustment_matches_hand_calculation():
     adjusted = st.holm_adjust([0.01, 0.04, 0.03, 0.5])
     assert adjusted == pytest.approx([0.04, 0.09, 0.09, 0.5])
+
+
+def test_conformal_unscored_horizon_gives_nan():
+    rows = []
+    for h in (1, 2, 3):
+        for i in range(10):
+            rows.append({"horizon": h, "actual": 10.0 + i, "forecast": 10.0, "scale": 2.0, "eval": h != 2})
+    q = ev.conformal_quantiles(pd.DataFrame(rows), 3)
+    assert np.isnan(q[1]) and np.isfinite(q[0]) and np.isfinite(q[2])
+    test = pd.DataFrame({"horizon": [1, 2, 3], "actual": [10.0, 0.0, 12.0], "forecast": [10.0, 5.0, 10.0],
+                         "scale": 2.0, "eval": [True, False, True]})
+    out = ev.apply_conformal(test, q)
+    assert np.isnan(out.loc[1, "lower"]) and np.isnan(out.loc[1, "upper"])
+    assert out.loc[[0, 2], ["lower", "upper"]].notna().all().all()
+    m = ev.interval_metrics(out)  # NaN rows are ignored (also if they were flagged as scored)
+    assert m["coverage"] == pytest.approx(1.0) and np.isfinite(m["width_scaled"])
+    out["eval"] = True
+    assert ev.interval_metrics(out)["coverage"] == pytest.approx(1.0)
+
+
+def _multi_model_frame(seed=0, n_days=120):
+    rng = np.random.default_rng(seed)
+    rows = []
+    for model, sd in (("a", 1.0), ("b", 2.0), ("c", 3.0)):
+        for s in (0, 1):
+            for sid in ("s1", "s2"):
+                err = rng.normal(0, sd, n_days)
+                rows.append(pd.DataFrame({"model": model, "seed": s, "series_id": sid, "day_index": np.arange(n_days),
+                                          "actual": 10.0 + err, "forecast": 10.0, "scale": 1.0, "eval": True}))
+    return pd.concat(rows, ignore_index=True)
+
+
+def test_dm_matrix_symmetry_and_sign():
+    out = ev.dm_matrix(_multi_model_frame(), horizon=3, order=["a", "b", "c"])
+    assert len(out) == 6  # 3 unordered pairs, both directions, one loss
+    ab = out[(out.row == "a") & (out.col == "b")].iloc[0]
+    ba = out[(out.row == "b") & (out.col == "a")].iloc[0]
+    assert ab["dm_stat"] == pytest.approx(-ba["dm_stat"]) and ab["p_holm"] == pytest.approx(ba["p_holm"])
+    assert ab["dm_stat"] > 0 and ab["p_holm"] < 0.05  # a has the smaller errors: row better
+    wide = ev.dm_matrix_wide(out, "squared", "dm_stat", ["a", "b", "c"])
+    assert wide.shape == (3, 3) and np.isnan(wide.loc["a", "a"]) and wide.loc["c", "a"] < 0
+
+
+def test_hybrid_ablation_pct_change():
+    summary = pd.DataFrame({"model": ["arima", "lstm", "hyb_d"], "mase": [1.0, 0.8, 0.72]})
+    dm = ev.dm_matrix(_multi_model_frame().replace({"model": {"a": "hyb_d", "b": "arima", "c": "lstm"}}), 3)
+    ab = ev.hybrid_ablation(summary, dm)
+    assert list(ab["hybrid"]) == ["hyb_d"]
+    assert ab.loc[0, "pct_change_vs_arima"] == pytest.approx(-28.0)
+    assert ab.loc[0, "pct_change_vs_lstm"] == pytest.approx(-10.0)
+    assert ab.loc[0, "dm_stat_vs_arima"] > 0
+
+
+def test_residual_diagnostics_white_noise_vs_ar1():
+    rng = np.random.default_rng(1)
+    n = 1500
+    wn = rng.normal(size=n)
+    e = rng.normal(size=n)
+    ar = np.zeros(n)
+    for t in range(1, n):
+        ar[t] = 0.6 * ar[t - 1] + e[t]
+    out = ev.residual_diagnostics(np.vstack([wn, ar]), ["wn", "ar"]).set_index("store")
+    assert out.loc["wn", ["lb7_p", "lb14_p", "bds_p"]].min() > 0.01
+    assert out.loc["ar", "lb7_p"] < 1e-6 and out.loc["ar", "lb14_p"] < 1e-6 and out.loc["ar", "bds_p"] < 0.01
+    assert out.loc["wn", "n"] == n

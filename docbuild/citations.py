@@ -1,15 +1,15 @@
 """Harvard citation and reference formatting from a CSL-JSON library.
 
-The Arden Referencing Guide was not available when this was written, so the
-format is *provisional*. It follows the pattern of the Arden examples quoted
-in the module materials (author list with initials, year in parentheses,
-title, italic container with "[online]", volume(issue), pages, "Available
-from:" and an access date), and it is applied identically to every entry.
+Formats follow the Arden University Harvard guide: journal articles (5.2.1,
+no URL or access date), chapters in edited books (5.1.5), books and web pages
+or datasets (5.6.1, with URL and access date). All authors are listed in the
+reference list.
 
 Rules implemented:
 
 * In text: one author ``(Smith, 2024)``; two ``(Smith and Jones, 2024)``;
-  three or more ``(Smith et al., 2024)``. Same author(s) and year are
+  three or more ``(Smith et al., 2024)``. Several sources in one citation are
+  ordered chronologically (see ``order_keys``). Same author(s) and year are
   disambiguated with letters (2024a, 2024b) ordered by title.
 * Reference list ordered by first-author surname, then year, then letter.
 * Bookmark names ``ref_<library key>`` (letters and digits only,
@@ -18,6 +18,7 @@ Rules implemented:
 
 from __future__ import annotations
 
+import html
 import json
 import re
 import unicodedata
@@ -111,6 +112,30 @@ def author_list(entry: Entry) -> str:
     return text + ("," if not text.endswith(".") else ",")
 
 
+# Journal names whose library spelling is inconsistent or mis-encoded: mapped here, not in the data.
+JOURNAL_FIXES = {"plos one": "PLOS ONE"}
+
+
+def journal_name(name: str) -> str:
+    """Unescape HTML entities and normalise known spelling variants."""
+    name = html.unescape(name or "").strip()
+    return JOURNAL_FIXES.get(name.lower(), name)
+
+
+def _names(people: list[dict]) -> str:
+    """'Surname, I., Surname, J. and Surname, K.' (no trailing comma)."""
+    parts = [f"{p.get('family', '')}, {initials(p.get('given', ''))}".strip() for p in people]
+    return parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
+def order_keys(items: list[tuple[str, str]], lib: dict[str, Entry]) -> list[tuple[str, str]]:
+    """Order (key, locator) pairs chronologically, then by year letter and author surname."""
+    def k(item):
+        e = lib[item[0]]
+        return (e.year, e.letter, ascii_fold(e.surname(e.authors[0])).lower())
+    return sorted(items, key=k)
+
+
 def reference_runs(entry: Entry) -> list[tuple[str, dict]]:
     """Reference list entry as (text, formatting) runs; formatting keys: italic, url."""
     d = entry.data
@@ -118,58 +143,59 @@ def reference_runs(entry: Entry) -> list[tuple[str, dict]]:
     accessed = d.get("accessed_text", ACCESS_DATE_DEFAULT)
     runs: list[tuple[str, dict]] = [(f"{author_list(entry)} ({entry.year_label()}). ", {})]
     title = d.get("title", "").rstrip(".")
-    doi = d.get("DOI")
-    url = f"https://doi.org/{doi}" if doi else d.get("URL")
+    place, pub = d.get("publisher-place"), d.get("publisher")
+    imprint = f"{place}: {pub}" if place and pub else (pub or "")
     if typ in ("article-journal", "paper-conference", "article"):
+        # Guide 5.2.1: no URL or accessed date for online journal articles.
         runs.append((f"{title}. ", {}))
-        runs.append((d.get("container-title", ""), {"italic": True}))
+        runs.append((journal_name(d.get("container-title", "")), {"italic": True}))
         detail = " [online]"
         vol, iss = d.get("volume"), d.get("issue")
         if vol:
             detail += f", {vol}"
             if iss:
-                detail += f"({iss})"
+                detail += f" ({iss})"
         if d.get("page"):
             pages = d["page"].replace("–", "-")
             detail += f", {'pp.' if '-' in pages else 'p.'} {pages}"
         elif d.get("number"):
             detail += f", article {d['number']}"
         runs.append((detail + ". ", {}))
-    elif typ in ("chapter",):
+        return runs
+    if typ == "chapter":
         runs.append((f"{title}. In: ", {}))
         eds = d.get("editor") or []
         if eds:
-            ed_names = ", ".join(f"{e.get('family')}, {initials(e.get('given', ''))}" for e in eds)
-            runs.append((f"{ed_names}, ed{'s' if len(eds) > 1 else ''}. ", {}))
+            runs.append((f"{_names(eds)}, {'eds' if len(eds) > 1 else 'ed'}. ", {}))
         runs.append((d.get("container-title", ""), {"italic": True}))
-        place = d.get("publisher-place")
-        pub = d.get("publisher")
-        tail = " [online]. "
-        if place and pub:
-            tail += f"{place}: {pub}"
-        elif pub:
-            tail += pub
+        tail = " [online]. " + imprint
         if d.get("page"):
             tail += f", pp. {d['page'].replace(chr(8211), '-')}"
-        runs.append((tail + ". ", {}))
-    elif typ in ("book",):
+        runs.append((tail + ".", {}))
+        return runs
+    if typ == "book":
         runs.append((title, {"italic": True}))
         tail = " [online]. "
         if d.get("edition"):
-            tail += f"{d['edition']} edn. "
-        place, pub = d.get("publisher-place"), d.get("publisher")
-        tail += f"{place}: {pub}. " if place and pub else (f"{pub}. " if pub else "")
+            ed = str(d["edition"])
+            tail += f"{ed}{'' if not ed.isdigit() else _ordinal(int(ed))} edition. "
+        tail += f"{imprint}. " if imprint else ""
         runs.append((tail, {}))
-    else:  # webpage, dataset, software documentation
+    else:  # webpage, dataset, software documentation (guide 5.6.1)
         runs.append((title, {"italic": True}))
         runs.append((" [online]. ", {}))
-        if d.get("publisher"):
-            runs.append((f"{d['publisher']}. ", {}))
+        if imprint:
+            runs.append((f"{imprint}. ", {}))
+    url = f"https://doi.org/{d['DOI']}" if d.get("DOI") else d.get("URL")
     if url:
         runs.append(("Available from: ", {}))
         runs.append((url, {"url": url}))
         runs.append((f" [Accessed {accessed}].", {}))
     return runs
+
+
+def _ordinal(n: int) -> str:
+    return "th" if 10 <= n % 100 <= 20 else {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
 
 
 def parse_citation(body: str) -> list[tuple[str, str]]:

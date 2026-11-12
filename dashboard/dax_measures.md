@@ -6,27 +6,48 @@ These are the measures of the forecasting dashboard. Create them in a dedicated 
 
 | Rule | Explanation |
 |---|---|
-| Scored days only | Every accuracy measure is restricted to scored days (`fact_forecast[scored] = 1`), which are trading days with positive sales. This is the same rule the Python evaluation uses, so the dashboard reproduces the figures in the dissertation. |
+| Scored days only | Every accuracy and volume measure is restricted to scored days (`fact_forecast[scored] = 1`): trading days with positive sales. This is the same rule as the Python evaluation (`src/evaluation.py`). |
+| One dataset at a time | M5 sales are units and Rossmann sales are turnover, so every measure that **sums sales** returns BLANK unless exactly one dataset is selected (`HASONEVALUE ( dim_series[dataset] )`). Scale-free measures (MASE, coverage, risk-day counts) work across datasets. |
 | Slicers | All measures respond to the slicers for dataset, store (`dim_series`), model (`dim_model`), forecast origin and date. |
-| Neural models | `fact_forecast` holds seed 1 only (`src/export_powerbi.py`). |
+| Seeds | `fact_forecast` and `fact_metrics` hold every seed (column `seed`: 0 for the three statistical models, 1 to 5 for the five network models), so the dashboard reproduces the report's five-seed means (A-F-8). Row-averaging measures (MAE, MAPE, MASE, coverage, interval width) weight the seeds equally. Measures that add up sales or count days are divided by `Seeds` (the number of seeds in the selection), i.e. they return the mean over seeds. Select one model, or models with the same number of seeds, when you read them; the checks below use one model. |
+| Which MASE | The report's MASE is the **mean of the per-store MASE values**. The dashboard measure `MASE (store average)` reproduces it. The measure `MASE` pools all scored days of the current selection and equals the per-store value when one store is selected. |
 
-## Volume measures
+## Base volume measures (one dataset only)
+
+```dax
+Seeds =
+MAX ( 1, DISTINCTCOUNT ( fact_forecast[seed] ) )
+```
 
 ```dax
 Actual Sales (scored) =
-CALCULATE ( SUM ( fact_forecast[actual] ), fact_forecast[scored] = 1 )
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    DIVIDE ( CALCULATE ( SUM ( fact_forecast[actual] ), fact_forecast[scored] = 1 ), [Seeds] )
+)
 
 Forecast Sales (scored) =
-CALCULATE ( SUM ( fact_forecast[forecast] ), fact_forecast[scored] = 1 )
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    DIVIDE ( CALCULATE ( SUM ( fact_forecast[forecast] ), fact_forecast[scored] = 1 ), [Seeds] )
+)
 
 Forecast Upper 95% (scored) =
-CALCULATE ( SUM ( fact_forecast[upper] ), fact_forecast[scored] = 1 )
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    DIVIDE ( CALCULATE ( SUM ( fact_forecast[upper] ), fact_forecast[scored] = 1 ), [Seeds] )
+)
 
 Forecast Lower 95% (scored) =
-CALCULATE ( SUM ( fact_forecast[lower] ), fact_forecast[scored] = 1 )
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    DIVIDE ( CALCULATE ( SUM ( fact_forecast[lower] ), fact_forecast[scored] = 1 ), [Seeds] )
+)
 ```
 
 ## Accuracy measures
+
+Python definitions (`src/evaluation.py`, per store, scored days only): MAE = mean |actual - forecast|; RMSE = sqrt(mean (actual - forecast)^2); MAPE = mean |actual - forecast| / actual; MASE = mean |actual - forecast| / scale. The report then averages the per-store values.
 
 ```dax
 Forecast Error =
@@ -36,9 +57,23 @@ Bias % =
 DIVIDE ( [Forecast Sales (scored)] - [Actual Sales (scored)], [Actual Sales (scored)] )
 
 MAE =
-AVERAGEX (
-    FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
-    ABS ( fact_forecast[actual] - fact_forecast[forecast] )
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    AVERAGEX (
+        FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
+        ABS ( fact_forecast[actual] - fact_forecast[forecast] )
+    )
+)
+
+RMSE =
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    SQRT (
+        AVERAGEX (
+            FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
+            ( fact_forecast[actual] - fact_forecast[forecast] ) ^ 2
+        )
+    )
 )
 
 MAPE % =
@@ -53,14 +88,19 @@ AVERAGEX (
     DIVIDE ( ABS ( fact_forecast[actual] - fact_forecast[forecast] ), fact_forecast[scale] )
 )
 
-RMSE =
-SQRT (
-    AVERAGEX (
-        FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
-        ( fact_forecast[actual] - fact_forecast[forecast] ) ^ 2
-    )
-)
+-- Equals the report's test MASE: the mean over seeds of the per-seed store average.
+-- Every seed of a model has the same stores, so the plain average over all rows is that value.
+MASE (store average) =
+AVERAGE ( fact_metrics[mase] )
+
+RMSE (store average) =
+IF ( HASONEVALUE ( dim_series[dataset] ), AVERAGE ( fact_metrics[rmse] ) )
+
+MAPE % (store average) =
+AVERAGE ( fact_metrics[mape] ) / 100
 ```
+
+`fact_metrics` holds the per-store values computed in Python over all test origins, so the store-average measures respond to the dataset, store and model slicers but not to the origin or date slicers.
 
 ## Uncertainty measures
 
@@ -73,9 +113,12 @@ AVERAGEX (
 )
 
 Mean Interval Width =
-AVERAGEX (
-    FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
-    fact_forecast[upper] - fact_forecast[lower]
+IF (
+    HASONEVALUE ( dim_series[dataset] ),
+    AVERAGEX (
+        FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
+        fact_forecast[upper] - fact_forecast[lower]
+    )
 )
 ```
 
@@ -88,45 +131,57 @@ Safety Stock Proxy =
 [Forecast Upper 95% (scored)] - [Forecast Sales (scored)]
 ```
 
-**Stock-out Risk Days:** the number of scored days on which actual sales exceeded the upper bound.
+**Stock-out Risk Days:** scored days on which actual sales exceeded the upper bound.
 
 ```dax
 Stock-out Risk Days =
-COUNTROWS (
-    FILTER ( fact_forecast, fact_forecast[scored] = 1 && fact_forecast[actual] > fact_forecast[upper] )
+DIVIDE (
+    COUNTROWS (
+        FILTER ( fact_forecast, fact_forecast[scored] = 1 && fact_forecast[actual] > fact_forecast[upper] )
+    ),
+    [Seeds]
 )
 ```
 
-**Overstock Risk Days:** the number of scored days on which actual sales fell below the lower bound.
+**Overstock Risk Days:** scored days on which actual sales fell below the lower bound.
 
 ```dax
 Overstock Risk Days =
-COUNTROWS (
-    FILTER ( fact_forecast, fact_forecast[scored] = 1 && fact_forecast[actual] < fact_forecast[lower] )
+DIVIDE (
+    COUNTROWS (
+        FILTER ( fact_forecast, fact_forecast[scored] = 1 && fact_forecast[actual] < fact_forecast[lower] )
+    ),
+    [Seeds]
 )
 ```
 
-**Best Model (MASE):** the model with the lowest MASE in the current filter context. Use it in a card.
+**Best Model (MASE):** the model with the lowest store-average MASE in the current filter context.
 
 ```dax
 Best Model (MASE) =
 VAR scores =
-    ADDCOLUMNS ( VALUES ( dim_model[model_label] ), "@mase", [MASE] )
+    ADDCOLUMNS ( VALUES ( dim_model[model_label] ), "@mase", [MASE (store average)] )
 RETURN
     MAXX ( TOPN ( 1, scores, [@mase], ASC ), dim_model[model_label] )
 ```
 
-## Checking the measures (test plan TP-07 to TP-10)
+## Checking the measures (test plan TP-07 to TP-11)
 
-The file `data/acceptance_values.json` holds four reference values per dataset and model, computed in Python:
+The file `data/acceptance_values.json` holds reference values per dataset and model, computed in Python from the exported rows (all seeds; per-seed values averaged over the seeds, `n_seeds` gives their number). `mase_store_average` also equals the report's test MASE in `outputs/tables/<dataset>_test_summary.csv`, which `export()` verifies (`report_test_mase`):
 
-- total actual sales
-- total forecast
-- mean absolute error
-- coverage of the 95% interval
+| JSON key | Measure |
+|---|---|
+| `total_actual_scored` | Actual Sales (scored) |
+| `total_forecast_scored` | Forecast Sales (scored) |
+| `mean_abs_error` | MAE |
+| `coverage` | Interval Coverage % |
+| `mase_store_average` | MASE (store average) |
+| `stockout_risk_days` | Stock-out Risk Days (mean over seeds, so it may be fractional) |
+| `overstock_risk_days` | Overstock Risk Days (mean over seeds) |
+| `report_test_mase` | Report value; must equal `mase_store_average` |
 
 **To check:**
 
-1. Set the slicers to a single dataset and a single model.
-2. Read the values of `Actual Sales (scored)`, `Forecast Sales (scored)`, `MAE` and `Interval Coverage %`.
+1. Set the slicers to a single dataset and a single model, with all stores and origins.
+2. Read the measures listed above.
 3. Compare them with the JSON values. They must agree to rounding.

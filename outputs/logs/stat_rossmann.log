@@ -1,19 +1,37 @@
-23:18:54 INFO src.experiment: rossmann store_17: ARIMA(2, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (259s ARIMA search)
-23:22:38 INFO src.experiment: rossmann store_146: ARIMA(1, 0, 1)(2, 1, 1, 7), ETS(A,N,A) (167s ARIMA search)
-23:27:29 INFO src.experiment: rossmann store_173: ARIMA(3, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (257s ARIMA search)
-23:34:14 INFO src.experiment: rossmann store_254: ARIMA(3, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (364s ARIMA search)
-23:38:01 INFO src.experiment: rossmann store_293: ARIMA(2, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (196s ARIMA search)
-23:42:33 INFO src.experiment: rossmann store_390: ARIMA(3, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (234s ARIMA search)
-23:45:24 INFO src.experiment: rossmann store_395: ARIMA(2, 0, 2)(0, 1, 1, 7), ETS(A,N,A) (153s ARIMA search)
-23:49:15 INFO src.experiment: rossmann store_421: ARIMA(3, 0, 3)(1, 1, 1, 7), ETS(A,N,A) (207s ARIMA search)
-23:53:42 INFO src.experiment: rossmann store_527: ARIMA(3, 0, 2)(2, 1, 1, 7), ETS(A,N,A) (220s ARIMA search)
-00:00:04 INFO src.experiment: rossmann store_691: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (359s ARIMA search)
-00:04:55 INFO src.experiment: rossmann store_709: ARIMA(2, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (247s ARIMA search)
-00:11:32 INFO src.experiment: rossmann store_748: ARIMA(3, 0, 3)(2, 1, 2, 7), ETS(A,N,A) (352s ARIMA search)
-00:15:46 INFO src.experiment: rossmann store_776: ARIMA(3, 0, 1)(1, 1, 2, 7), ETS(A,N,A) (227s ARIMA search)
-00:20:08 INFO src.experiment: rossmann store_777: ARIMA(2, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (218s ARIMA search)
-00:24:11 INFO src.experiment: rossmann store_796: ARIMA(3, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (214s ARIMA search)
-00:25:55 INFO src.experiment: rossmann store_891: ARIMA(2, 0, 2)(0, 1, 1, 7), ETS(A,N,A) (86s ARIMA search)
-00:30:30 INFO src.experiment: rossmann store_924: ARIMA(1, 0, 1)(1, 1, 2, 7), ETS(A,N,A) (251s ARIMA search)
-00:35:52 INFO src.experiment: rossmann store_929: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (291s ARIMA search)
-00:41:03 INFO src.experiment: rossmann store_939: ARIMA(3, 0, 3)(2, 1, 1, 7), ETS(A,N,A) (286s ARIMA search)
+19:39:30 INFO src.experiment: rossmann store_17: loaded checkpoint
+19:39:30 INFO src.experiment: rossmann store_146: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_176: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_254: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_293: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_390: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_400: loaded checkpoint
+19:39:31 INFO src.experiment: rossmann store_421: loaded checkpoint
+19:45:03 INFO src.experiment: rossmann store_527: ARIMA(3, 0, 2)(2, 1, 1, 7), ETS(A,N,A) (289s ARIMA search)
+19:51:22 INFO src.experiment: rossmann store_691: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (355s ARIMA search)
+19:55:47 INFO src.experiment: rossmann store_718: ARIMA(2, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (235s ARIMA search)
+20:04:12 INFO src.experiment: rossmann store_776: ARIMA(3, 0, 1)(1, 1, 2, 7), ETS(A,N,A) (450s ARIMA search)
+20:10:58 INFO src.experiment: rossmann store_777: ARIMA(2, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (328s ARIMA search)
+20:16:36 INFO src.experiment: rossmann store_792: ARIMA(2, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (295s ARIMA search)
+20:21:59 INFO src.experiment: rossmann store_796: ARIMA(3, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (293s ARIMA search)
+20:23:47 INFO src.experiment: rossmann store_891: ARIMA(2, 0, 2)(0, 1, 1, 7), ETS(A,N,A) (91s ARIMA search)
+20:29:38 INFO src.experiment: rossmann store_929: ARIMA(3, 0, 1)(2, 1, 2, 7), ETS(A,N,A) (308s ARIMA search)
+20:34:42 INFO src.experiment: rossmann store_936: ARIMA(3, 0, 3)(0, 1, 1, 7), ETS(A,N,A) (259s ARIMA search)
+20:40:48 INFO src.experiment: rossmann store_939: ARIMA(3, 0, 3)(2, 1, 1, 7), ETS(A,N,A) (333s ARIMA search)
+20:45:03 INFO src.experiment: rossmann store_987: ARIMA(2, 0, 2)(1, 1, 2, 7), ETS(A,N,A) (223s ARIMA search)
+20:45:06 INFO run_statistical: 
+ model      stage        rmse         mae      mape     mase  coverage  width_scaled  winkler_scaled  mase_sd_across_series
+ arima       test 1027.467281  758.818476 10.776994 0.358764  0.967019      2.152614        2.700706               0.075185
+ arima validation 1364.221911  985.991963 12.991274 0.457366  0.905937      2.030908        3.911339               0.090460
+   ets       test 1962.977764 1545.731600 22.182205 0.725053  0.989205      6.360931        6.462736               0.084794
+   ets validation 2483.616406 2002.601107 26.814652 0.921050  0.986151      6.376386        6.617548               0.154262
+snaive       test 2209.210104 1647.835678 23.978795 0.767280       NaN           NaN             NaN               0.065347
+snaive validation 2731.060790 2112.795528 27.107880 0.969010       NaN           NaN             NaN               0.120785
+20:45:06 INFO run_statistical: Statistical stage finished in 3932.8 s
+nkler_scaled  mase_sd_across_series
+ arima       test 1022.572695  755.597994 10.762083 0.357554  0.967327      2.148915        2.692133               0.076390
+ arima validation 1365.110157  987.074155 13.004548 0.457991  0.903763      2.031028        3.911978               0.090242
+   ets       test 1962.977764 1545.731600 22.182205 0.725053  0.989205      6.360931        6.462736               0.084794
+   ets validation 2483.616406 2002.601107 26.814652 0.921050  0.986151      6.376386        6.617548               0.154262
+snaive       test 2209.210104 1647.835678 23.978795 0.767280       NaN           NaN             NaN               0.065347
+snaive validation 2731.060790 2112.795528 27.107880 0.969010       NaN           NaN             NaN               0.120785
+20:44:48 INFO run_statistical: Statistical stage finished in 71418.9 s

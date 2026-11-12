@@ -183,9 +183,12 @@ def eda_facts(preps: dict) -> dict:
                                              / np.nanmean(np.where(trading, y, np.nan))),
             })
             raw = config.RAW_DATA_DIR / config.ROSSMANN_CONFIG.raw_subdir
-            train = pd.read_csv(raw / "train.csv", dtype={"StateHoliday": str})
+            train = pd.read_csv(raw / "train.csv", dtype={"StateHoliday": str}, parse_dates=["Date"])
             stores = pd.read_csv(raw / "store.csv")
-            eligible = data_loader.eligible_rossmann_stores(train, stores)
+            # Same eligibility rule as the panel builder: pre-test records only (D-025).
+            all_dates = pd.date_range(train["Date"].min(), train["Date"].max(), freq="D")
+            eligible = data_loader.eligible_rossmann_stores(
+                train, stores, cutoff=data_loader.rossmann_test_start(all_dates))
             sample = panel.meta
             strata = eligible.groupby(["StoreType", "Assortment"]).size()
             chosen = sample.groupby(["StoreType", "Assortment"]).size()
@@ -198,7 +201,16 @@ def eda_facts(preps: dict) -> dict:
                 "type_b_open_on_some_sunday": int(
                     (train[train["DayOfWeek"] == 7].groupby("Store")["Open"].max()
                      .reindex(stores.loc[stores["StoreType"] == "b", "Store"]) > 0).sum()),
+                "type_b_eligible": int((eligible["StoreType"] == "b").sum()),
+                "type_b_in_sample": int((sample["StoreType"] == "b").sum()),
             })
+        if name == "m5":
+            raw_m5 = config.RAW_DATA_DIR / config.M5_CONFIG.raw_subdir
+            f["products_total"] = int(len(pd.read_csv(raw_m5 / "sales_train_evaluation.csv", usecols=["item_id"])
+                                          ["item_id"].unique()))
+        mon_to_sun = f["weekday_profile_mon_to_sun"]
+        f["weekend_peak_ratio"] = float(max(mon_to_sun[5], mon_to_sun[6]))
+        f["monday_peak_ratio"] = float(mon_to_sun[0])
         facts[name] = f
     utils.save_json(facts, config.METRIC_DIR / "eda_facts.json")
     return facts

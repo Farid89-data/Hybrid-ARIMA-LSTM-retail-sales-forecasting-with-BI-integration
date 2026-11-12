@@ -12,7 +12,9 @@ Steps:
 3. Point and interval metrics per model (mean of per-series values); for
    neural models also per seed (mean and standard deviation across seeds).
 4. Diebold-Mariano tests (HLN-corrected, h = 28) of the primary hybrid against
-   every other model, on the cross-series mean of scaled losses, per seed.
+   every other model, on the cross-series mean of scaled losses, per seed; the
+   all-pairs matrix, the hybrid-versus-components table and ARIMA residual
+   diagnostics (Ljung-Box, BDS).
 5. Runtime and estimated energy from EXPERIMENT_LOG.csv.
 6. Figures: accuracy by horizon, seed stability, interval coverage by horizon,
    example forecasts, one-step versus multi-step ARIMA error growth.
@@ -20,7 +22,9 @@ Steps:
 
 from __future__ import annotations
 
+import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 
@@ -33,6 +37,7 @@ import pandas as pd  # noqa: E402
 from src import config, evaluation as ev, experiment, statistical_tests as st, utils  # noqa: E402
 from src.visualisation import LABELS, STYLES, apply_style, save  # noqa: E402
 
+LOGGER = logging.getLogger(__name__)
 TABLE_DIR = config.OUTPUT_DIR / "tables"
 NEURAL = ["ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"]
 ORDER = ["snaive", "arima", "ets", "ffnn", "lstm", "hyb_d", "hyb_ms", "hyb_z"]
@@ -49,6 +54,14 @@ def load_forecasts(name: str) -> tuple[pd.DataFrame, pd.DataFrame]:
             val.append(pd.read_csv(vpath))
             test.append(pd.read_csv(tpath))
     return pd.concat(val, ignore_index=True), pd.concat(test, ignore_index=True)
+
+
+def missing_forecasts(name: str) -> list[str]:
+    """Names of the forecast files that are not (yet) available for a dataset."""
+    files = [f"{name}_statistical.csv.gz"]
+    for kind in NEURAL:
+        files += [f"{name}_{kind}_validation.csv.gz", f"{name}_{kind}_test.csv.gz"]
+    return [f for f in files if not (config.FORECAST_DIR / f).exists()]
 
 
 def add_intervals(val: pd.DataFrame, test: pd.DataFrame, horizon: int) -> pd.DataFrame:
@@ -180,23 +193,42 @@ def horizon_table(test: pd.DataFrame) -> pd.DataFrame:
 
 def cost_table(name: str) -> pd.DataFrame:
     log = pd.read_csv(config.EXPERIMENT_LOG)
-    log = log[log["dataset"] == name]
+    log = log[(log["dataset"] == name) & ~log["notes"].fillna("").str.contains("superseded")].copy()
+    # D-026: a fit time that absorbed a machine sleep is replaced by a stand-alone re-timing
+    # (scripts/retime_arima.py; same order selected, forecasts unchanged).
+    for path in sorted(config.METRIC_DIR.glob(f"{name}_arima_retime_*.json")):
+        r = utils.load_json(path)
+        delta = (r["arima_select_seconds"] + r["arima_refit_seconds"]
+                 - r["saved_arima_select_seconds"] - r["saved_arima_refit_seconds"])
+        sel = (log["model"] == "arima") & (log["phase"] == "final")
+        log.loc[sel, "runtime_s"] = log.loc[sel, "runtime_s"] + delta
     rows = []
     for model in ORDER:
         g = log[log["model"] == model]
         if g.empty:
             continue
         tune = g[g["phase"] == "tuning"]["runtime_s"].sum()
+        # hyb_z reuses the hyb_d hyperparameter search (no tuning runs of its own), so its own tuning
+        # cost is zero; the reused search is added in tuning_incl_reused_seconds.
+        reused = (log[(log["model"] == "hyb_d") & (log["phase"] == "tuning")]["runtime_s"].sum()
+                  if model == "hyb_z" else 0.0)
         final = g[g["phase"] == "final"]["runtime_s"]
         rows.append({
             "model": model,
             "tuning_runs": int((g["phase"] == "tuning").sum()),
             "tuning_seconds": tune,
+            "tuning_incl_reused_seconds": tune + reused,
             "final_seconds_per_run": final.mean(),
             "total_seconds": tune + final.sum(),
             "energy_kwh_total": utils.energy_kwh(tune + final.sum()),
         })
-    return pd.DataFrame(rows)
+    out = pd.DataFrame(rows)
+    # A11: the hybrids need the ARIMA stage (residuals and forecast paths), so their full cost includes it.
+    arima_total = float(out.loc[out["model"] == "arima", "total_seconds"].sum()) if not out.empty else 0.0
+    out["total_with_arima_seconds"] = np.where(out["model"].str.startswith("hyb"),
+                                               out["total_seconds"] + arima_total, out["total_seconds"])
+    out["energy_with_arima_kwh"] = [utils.energy_kwh(s) for s in out["total_with_arima_seconds"]]
+    return out
 
 
 def fig_by_horizon(test, name):
@@ -232,6 +264,7 @@ def fig_coverage(test, name):
     fig, ax = plt.subplots(figsize=(7.2, 3.0))
     for model in [m for m in ORDER if m in test["model"].unique()]:
         g = test[(test.model == model) & test["eval"]]
+        g = g[g["lower"].notna() & g["upper"].notna()]  # horizons never scored have NaN bounds
         cov = ((g["actual"] >= g["lower"]) & (g["actual"] <= g["upper"])).groupby([g["seed"], g["horizon"]]).mean()
         curve = cov.groupby("horizon").mean()
         ax.plot(curve.index, curve.values, label=LABELS[model], linewidth=1, markersize=3, markevery=4,
@@ -293,12 +326,143 @@ def fig_error_growth(prep, arts, name):
     return save(fig, f"res_{name}_error_growth"), ratios
 
 
+def fig_dm_matrix(long: pd.DataFrame, name: str, loss: str = "squared"):
+    """Heatmap of the all-pairs DM statistics; coloured only where the Holm-adjusted p < 0.05."""
+    from matplotlib.patches import Patch
+
+    stat = ev.dm_matrix_wide(long, loss, "dm_stat", ORDER)
+    padj = ev.dm_matrix_wide(long, loss, "p_holm", ORDER)
+    models = list(stat.index)
+    sign = np.sign(stat.to_numpy()) * (padj.to_numpy() < 0.05)
+    shown = np.ma.masked_where(sign == 0, sign)
+    cmap = plt.get_cmap("RdBu").copy()
+    cmap.set_bad("#d9d9d9")
+    fig, ax = plt.subplots(figsize=(6.4, 5.2))
+    ax.imshow(shown, cmap=cmap, vmin=-1.6, vmax=1.6)
+    for i in range(len(models)):
+        for j in range(len(models)):
+            txt = "-" if i == j else f"{stat.iloc[i, j]:.1f}"
+            ax.text(j, i, txt, ha="center", va="center", fontsize=7)
+    ax.set_xticks(range(len(models)), [LABELS[m] for m in models], rotation=40, ha="right")
+    ax.set_yticks(range(len(models)), [LABELS[m] for m in models])
+    ax.set_xlabel("Column model (comparator)")
+    ax.set_ylabel("Row model")
+    ax.grid(False)
+    ax.legend(handles=[Patch(facecolor=cmap(2.6 / 3.2), label="Row more accurate (Holm p < 0.05)"),
+                       Patch(facecolor=cmap(0.6 / 3.2), label="Row less accurate (Holm p < 0.05)"),
+                       Patch(facecolor="#d9d9d9", label="Not significant")],
+              fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.5, -0.32), ncol=1)
+    return save(fig, f"res_{name}_dm_matrix")
+
+
+def fig_accuracy_cost(summary: pd.DataFrame, cost: pd.DataFrame, name: str):
+    """Test MASE against total compute time (hybrids include the ARIMA stage), log time axis."""
+    d = summary.merge(cost[["model", "total_with_arima_seconds"]], on="model")
+    d = d[d["total_with_arima_seconds"] > 0]
+    if d.empty:
+        LOGGER.warning("accuracy-cost figure for %s skipped: no runtime data", name)
+        return None
+    fig, ax = plt.subplots(figsize=(6.0, 3.6))
+    for _, r in d.iterrows():
+        ax.scatter(r["total_with_arima_seconds"] / 60, r["mase"], color=STYLES[r["model"]]["color"],
+                   marker=STYLES[r["model"]]["marker"], s=40)
+        ax.annotate(LABELS[r["model"]], (r["total_with_arima_seconds"] / 60, r["mase"]), fontsize=7,
+                    xytext=(4, 4), textcoords="offset points")
+    ax.set_xscale("log")
+    ax.set_xlabel("Total compute time incl. ARIMA for hybrids (minutes, log scale)")
+    ax.set_ylabel("Test MASE (dimensionless)")
+    return save(fig, f"res_{name}_accuracy_cost")
+
+
+def fig_coverage_native_vs_conformal(summary: pd.DataFrame, name: str):
+    """Coverage per model: native Gaussian intervals (statistical models only) versus conformal intervals."""
+    d = summary.set_index("model")
+    models = [m for m in ORDER if m in d.index]
+    x = np.arange(len(models))
+    fig, ax = plt.subplots(figsize=(7.2, 3.2))
+    ax.bar(x - 0.2, [d.loc[m, "coverage"] for m in models], width=0.4, color="#1f4e79", label="Conformal")
+    if "coverage_native" in d:
+        nat = [d.loc[m, "coverage_native"] for m in models]
+        ax.bar(x + 0.2, [0 if pd.isna(v) else v for v in nat], width=0.4, color="#e08214", hatch="//",
+               label="Native Gaussian (statistical models only)")
+    ax.axhline(0.95, color="black", linewidth=0.8, label="95% target")
+    ax.set_ylim(0.5, 1.0)
+    ax.set_xticks(x, [LABELS[m] for m in models], rotation=20, ha="right")
+    ax.set_ylabel("Empirical coverage of 95% interval (fraction)")
+    ax.legend(fontsize=7, frameon=False, loc="lower right")
+    return save(fig, f"res_{name}_coverage_native_vs_conformal")
+
+
+def fig_mase_by_store(name: str):
+    """Stores-by-models heatmap of test MASE (mean over seeds) from the per-series table."""
+    src = TABLE_DIR / f"{name}_test_per_series.csv"
+    if not src.exists():
+        LOGGER.warning("per-store heatmap for %s skipped: %s missing", name, src.name)
+        return None
+    d = pd.read_csv(src).groupby(["series_id", "model"])["mase"].mean().unstack("model")
+    d = d[[m for m in ORDER if m in d.columns]]
+    fig, ax = plt.subplots(figsize=(6.4, max(3.0, 0.22 * len(d) + 1.2)))
+    im = ax.imshow(d.to_numpy(), cmap="YlGnBu", aspect="auto")
+    fs = 6 if len(d) > 15 else 7
+    for i in range(d.shape[0]):
+        for j in range(d.shape[1]):
+            ax.text(j, i, f"{d.iloc[i, j]:.2f}", ha="center", va="center", fontsize=fs)
+    ax.set_xticks(range(d.shape[1]), [LABELS[m] for m in d.columns], rotation=30, ha="right")
+    ax.set_yticks(range(d.shape[0]), [str(s) for s in d.index], fontsize=fs)
+    ax.set_xlabel("Model")
+    ax.set_ylabel("Series (store)")
+    ax.grid(False)
+    fig.colorbar(im, ax=ax, label="Test MASE (dimensionless)", fraction=0.04, pad=0.02)
+    return save(fig, f"res_{name}_mase_by_store")
+
+
+def fig_tuning(name: str):
+    """Best-so-far validation loss against trial number for each tuned model kind."""
+    fig, ax = plt.subplots(figsize=(7.2, 3.0))
+    found = False
+    for kind in NEURAL:
+        src = config.METRIC_DIR / f"{name}_{kind}_tuning_trials.csv"
+        if not src.exists():
+            continue
+        t = pd.read_csv(src)
+        t = t[t["state"] == "COMPLETE"].sort_values("number") if "state" in t else t.sort_values("number")
+        if t.empty:
+            continue
+        found = True
+        ax.plot(t["number"] + 1, t["value"].cummin(), label=LABELS[kind], linewidth=1.1, markersize=3,
+                markevery=max(1, len(t) // 10), **STYLES[kind])
+    if not found:
+        plt.close(fig)
+        LOGGER.warning("tuning figure for %s skipped: no tuning-trial files", name)
+        return None
+    ax.set_xlabel("Tuning trial (number)")
+    ax.set_ylabel("Best validation MASE so far (dimensionless)")
+    ax.legend(ncol=3, fontsize=7, frameon=False)
+    return save(fig, f"res_{name}_tuning")
+
+
+def write_residual_diagnostics(prep, arts, name: str) -> pd.DataFrame:
+    """Ljung-Box and BDS p-values of the final-fit one-step ARIMA residuals (training period), per store."""
+    diag = ev.residual_diagnostics(arts.resid_final, list(prep.panel.series_ids), valid=prep.model_mask,
+                                   end=prep.plan.test_start)
+    diag.to_csv(TABLE_DIR / f"{name}_residual_diagnostics.csv", index=False)
+    return diag
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dataset", choices=["m5", "rossmann", "all"], default="all",
+                        help="dataset to evaluate (default: all; datasets with missing forecasts are skipped)")
+    args = parser.parse_args()
     utils.setup_logging()
     apply_style()
     TABLE_DIR.mkdir(parents=True, exist_ok=True)
     results = {}
-    for name in ("m5", "rossmann"):
+    for name in (("m5", "rossmann") if args.dataset == "all" else (args.dataset,)):
+        missing = missing_forecasts(name)
+        if missing:
+            LOGGER.warning("Skipping %s: forecast files missing: %s", name, ", ".join(missing))
+            continue
         prep = experiment.prepare(name)
         arts = experiment.load_stat_artifacts(prep)
         val, test = load_forecasts(name)
@@ -319,10 +483,19 @@ def main() -> None:
         cost.to_csv(TABLE_DIR / f"{name}_cost.csv", index=False)
         val_summary = ev.dataset_summary(val, ["model"])
         val_summary.to_csv(TABLE_DIR / f"{name}_validation_summary.csv", index=False)
+        dm_long = ev.dm_matrix(test, prep.plan.horizon, losses=("squared",), order=ORDER)
+        dm_long.to_csv(TABLE_DIR / f"{name}_dm_matrix.csv", index=False)
+        ev.hybrid_ablation(summary, dm_long).to_csv(TABLE_DIR / f"{name}_hybrid_ablation.csv", index=False)
+        write_residual_diagnostics(prep, arts, name)
         figs = {
             "by_horizon": fig_by_horizon(test, name),
             "seed_stability": fig_seed_stability(per_seed, name),
             "coverage": fig_coverage(test, name),
+            "dm_matrix": fig_dm_matrix(dm_long, name),
+            "accuracy_cost": fig_accuracy_cost(summary, cost, name),
+            "coverage_native_vs_conformal": fig_coverage_native_vs_conformal(summary, name),
+            "mase_by_store": fig_mase_by_store(name),
+            "tuning": fig_tuning(name),
         }
         ex_path, ex_sid, ex_origin = fig_example(test, name, primary or "lstm")
         figs["example"] = ex_path

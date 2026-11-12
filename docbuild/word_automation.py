@@ -30,6 +30,40 @@ WD_STATISTIC_PAGES = 2
 WD_STATISTIC_WORDS = 0
 
 
+def set_pdf_metadata(pdf_path: Path, identity_path: Path | None = None) -> bool:
+    """Rewrite the PDF Title/Author/Subject/Creator to the docx values (PyMuPDF; pypdf if present)."""
+    import json  # noqa: PLC0415
+
+    identity = json.loads((identity_path or Path(__file__).with_name("identity.json")).read_text(encoding="utf-8"))
+    meta = {"title": identity["title"], "author": identity["student_name"],
+            "subject": f"{identity['module']} ({identity['programme']})", "creator": "Microsoft Word"}
+    try:
+        import pymupdf as fitz  # noqa: PLC0415
+    except ImportError:
+        try:
+            import fitz  # noqa: PLC0415
+        except ImportError:
+            fitz = None
+    if fitz is not None:
+        pdf = fitz.open(str(pdf_path))
+        current = dict(pdf.metadata or {})
+        current.update(meta)
+        pdf.set_metadata(current)
+        pdf.saveIncr()
+        pdf.close()
+        return True
+    try:
+        from pypdf import PdfReader, PdfWriter  # noqa: PLC0415
+    except ImportError:
+        return False
+    writer = PdfWriter(clone_from=PdfReader(str(pdf_path)))
+    writer.add_metadata({"/Title": meta["title"], "/Author": meta["author"],
+                         "/Subject": meta["subject"], "/Creator": meta["creator"]})
+    with open(pdf_path, "wb") as handle:
+        writer.write(handle)
+    return True
+
+
 def update_and_export(docx_path: Path, pdf_path: Path | None = None) -> dict:
     docx_path = docx_path.resolve()
     pdf_path = (pdf_path or docx_path.with_suffix(".pdf")).resolve()
@@ -79,6 +113,7 @@ def update_and_export(docx_path: Path, pdf_path: Path | None = None) -> dict:
         )
         doc.Close(SaveChanges=False)
         info["pdf"] = str(pdf_path)
+        info["pdf_metadata_rewritten"] = set_pdf_metadata(pdf_path)
     finally:
         word.Quit()
         time.sleep(1)

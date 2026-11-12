@@ -1,0 +1,9 @@
+model,model_label,family
+snaive,Seasonal naive,Benchmark
+arima,ARIMA,Statistical
+ets,ETS,Statistical
+ffnn,FFNN,Neural
+lstm,LSTM,Neural
+hyb_d,"Hybrid (direct, one-step residuals)",Hybrid
+hyb_ms,"Hybrid (direct, multi-step errors)",Hybrid
+hyb_z,"Hybrid (recursive, one-step residuals)",Hybrid

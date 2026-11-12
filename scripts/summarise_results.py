@@ -100,12 +100,36 @@ def dataset_facts(name: str, evaluation: dict) -> dict:
     return facts
 
 
+def load_cost_table():
+    """Import ``cost_table`` from scripts/run_evaluation.py (same superseded/re-timing rules)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("run_evaluation", Path(__file__).resolve().parent / "run_evaluation.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.cost_table
+
+
+def compute_totals(datasets, cost_table) -> dict:
+    """V-1: total tuning + final compute over the datasets, from the cost tables.
+
+    Only phase tuning/final rows count, superseded rows are skipped and the ARIMA re-timing
+    (D-026) is applied, because that is what ``cost_table`` does; 'pipeline' wall-clock rows are
+    excluded. Hybrid ARIMA-stage costs are not added again.
+    """
+    seconds = energy = 0.0
+    for name in datasets:
+        table = cost_table(name)
+        if not table.empty:
+            seconds += float(table["total_seconds"].sum())
+            energy += float(table["energy_kwh_total"].sum())
+    return {"total_compute_runtime_hours": round(seconds / 3600, 2),
+            "total_compute_energy_kwh": round(energy, 3)}
+
+
 def main() -> None:
     evaluation = utils.load_json(config.METRIC_DIR / "evaluation_summary.json")
     facts = {name: dataset_facts(name, evaluation[name]) for name in ("m5", "rossmann") if name in evaluation}
-    log = pd.read_csv(config.EXPERIMENT_LOG)
-    facts["total_logged_runtime_hours"] = round(float(log["runtime_s"].sum()) / 3600, 2)
-    facts["total_logged_energy_kwh"] = round(float(pd.to_numeric(log["energy_est_kwh"], errors="coerce").sum()), 3)
+    facts.update(compute_totals([d for d in ("m5", "rossmann") if d in evaluation], load_cost_table()))
     utils.save_json(facts, config.METRIC_DIR / "result_facts.json")
     print(json.dumps(facts, indent=1, default=lambda o: o.item() if isinstance(o, np.generic) else str(o)))
 
