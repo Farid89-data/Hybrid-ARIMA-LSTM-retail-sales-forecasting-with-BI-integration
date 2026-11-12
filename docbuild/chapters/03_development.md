@@ -195,7 +195,7 @@ The hybrid follows the decomposition of a series into a linear component \(L_t\)
 
 $$y_t = L_t + N_t, \qquad \hat{y}^{\text{hyb}}_{o+h-1} = \hat{L}_{o+h-1 \mid o-1} + \hat{N}_{o+h-1}$$ {#eq:decomp}
 
-The review in {sec:hybridlit} showed that previous studies leave one design choice implicit: which residuals the network should learn. Three variants were therefore implemented and compared. All use the same LSTM architecture and the same ARIMA models.
+The review in {sec:hybridlit} showed that the reviewed studies (2023-2026) leave one design choice implicit: which residuals the network should learn. Three variants were therefore implemented and compared. All use the same LSTM architecture and the same ARIMA models.
 
 - **Direct one-step hybrid (hyb_d).** The network receives the past one-step residuals \(e_t = y_t - \hat{y}_{t \mid t-1}\) with the covariates. In one pass it predicts the next 28 one-step residuals, which are added to the ARIMA forecast path.
 - **Recursive one-step hybrid (hyb_z).** This is the classical formulation. The network predicts one residual ahead and is applied 28 times, with each prediction fed back as an input.
