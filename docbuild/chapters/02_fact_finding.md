@@ -2,7 +2,7 @@
 
 ## Review Approach {#sec:reviewmethod}
 
-The review is a narrative and integrative review with a documented search. It is not a systematic review. The proposal intended Google Scholar as the discovery tool, but automated querying of Google Scholar was not available in the development environment. With the agreement of the project owner, discovery therefore used the scholarly metadata services OpenAlex and Crossref. Queries were organised into twelve themes, from retail demand forecasting to the ethics and energy cost of deep learning, and restricted to publications dated 2023 to 2026.
+The review is a narrative and integrative review with a documented search. It is not a systematic review. The proposal intended Google Scholar as the discovery tool, but automated querying of Google Scholar was not available in the development environment. After the author approved the change, discovery therefore used the scholarly metadata services OpenAlex and Crossref. Queries were organised into twelve themes, from retail demand forecasting to the ethics and energy cost of deep learning, and restricted to publications dated 2023 to 2026.
 
 A source was included only if it met all of the following conditions:
 
