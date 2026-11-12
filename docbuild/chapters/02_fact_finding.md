@@ -79,7 +79,7 @@ No single error measure is sufficient, because each has a different weakness:
 - **RMSE** penalises large errors and is in the units of the series, but it is dominated by large series when averaged across a panel [@hewamalage2023].
 - **Mean absolute error (MAE)** is "more interpretable than MSE or RMSE", because squared measures "inflate unsystematic error by squaring deviations" [@robeson2023].
 - **MAPE** is intuitive for managers but produces "excessively large values" when actual values are close to zero [@hewamalage2023].
-- **MASE** scales the absolute error by the in-sample error of a naive benchmark. It is therefore scale-free and meaningful across series [@hewamalage2023].
+- **MASE** scales the absolute error by the in-sample error of a naive benchmark. It is therefore scale-free, and scale-free measures suit heterogeneous series [@hewamalage2023].
 
 Even scaled measures hide which series benefit from a model when they are averaged, because "important information is lost when current error metrics are averaged" [@strom2024]. This project therefore reports RMSE, MAPE and MASE, evaluates MAPE only on days with positive sales, and reports results by horizon and by series.
 

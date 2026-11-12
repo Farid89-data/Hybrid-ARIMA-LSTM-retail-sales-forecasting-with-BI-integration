@@ -236,7 +236,7 @@ For a series with \(n\) scored forecasts \(\hat{y}_t\), and training period \(\{
 
 $$\text{RMSE} = \sqrt{\frac{1}{n}\sum_t (y_t - \hat{y}_t)^2}, \quad \text{MAPE} = \frac{100}{n}\sum_t \left|\frac{y_t - \hat{y}_t}{y_t}\right|, \quad \text{MASE} = \frac{\frac{1}{n}\sum_t |y_t - \hat{y}_t|}{\frac{1}{T-7}\sum_{j=8}^{T} |y_j - y_{j-7}|}$$ {#eq:metrics}
 
-The MASE denominator is the in-sample error of the seasonal naive method on training days, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free and comparable across datasets [@hewamalage2023]. Results are also reported by horizon and by series.
+The MASE denominator is the in-sample error of the seasonal naive method on training days, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free, which suits heterogeneous series [@hewamalage2023]. Results are also reported by horizon and by series.
 
 ### Significance testing
 
