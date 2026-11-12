@@ -177,7 +177,7 @@ Both networks are global models: one network is trained on all series of a datas
 - the series identity;
 - the 28 target values.
 
-The feed-forward network (FFNN) flattens these inputs and passes them through one or two layers of rectified linear units. The LSTM network encodes the past block with an LSTM layer, whose cell is defined by {eq:lstm} to {eq:lstmout}:
+The feed-forward network (FFNN) flattens these inputs and passes them through one or two layers of rectified linear units with dropout and a linear output layer of 28 units. The LSTM network encodes the past block with an LSTM layer, whose cell is defined by {eq:lstm} to {eq:lstmout}:
 
 $$\mathbf{f}_t = \sigma(\mathbf{W}_f[\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_f), \quad \mathbf{i}_t = \sigma(\mathbf{W}_i[\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_i)$$ {#eq:lstm}
 
@@ -185,7 +185,7 @@ $$\mathbf{c}_t = \mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t \odot \tanh(
 
 $$\mathbf{o}_t = \sigma(\mathbf{W}_o[\mathbf{h}_{t-1}, \mathbf{x}_t] + \mathbf{b}_o), \quad \mathbf{h}_t = \mathbf{o}_t \odot \tanh(\mathbf{c}_t)$$ {#eq:lstmout}
 
-where \(\mathbf{f}_t\), \(\mathbf{i}_t\) and \(\mathbf{o}_t\) are the forget, input and output gates, \(\mathbf{c}_t\) is the cell state and \(\mathbf{h}_t\) the hidden state, as presented in @kim2025. The final hidden state is concatenated with the future block and the series identity and passed through a dense layer to the 28 outputs.
+where \(\mathbf{f}_t\), \(\mathbf{i}_t\) and \(\mathbf{o}_t\) are the forget, input and output gates, \(\mathbf{c}_t\) is the cell state and \(\mathbf{h}_t\) the hidden state, as presented in @kim2025. The final hidden state is concatenated with the future block and the series identity and passed through a dense layer of rectified linear units with dropout and a linear output layer of 28 units.
 
 Both networks were trained with the Adam optimiser on a masked mean squared error. Days that were closed, anomalous or undefined received zero weight in the loss. Training stopped when the loss on a later, separate block of training windows had not improved for six epochs, and the best weights were restored. This block comprised the last 10% of training origins, and the windows before it were cut back so that no training target overlapped it.
 
