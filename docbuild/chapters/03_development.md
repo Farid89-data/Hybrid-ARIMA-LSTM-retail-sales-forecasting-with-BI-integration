@@ -323,7 +323,7 @@ alt: Diagram of three dimension tables (date, series and model) linked by one-to
 The dashboard has three pages:
 
 - forecast versus actual with the 95% band for a selected store, model and origin;
-- model comparison by accuracy, horizon and cost;
+- model comparison by accuracy, horizon and cost, with a card naming the best model, which has the lowest store-average test MASE for the selected dataset;
 - a planning page with the indicators above.
 
 Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]:
