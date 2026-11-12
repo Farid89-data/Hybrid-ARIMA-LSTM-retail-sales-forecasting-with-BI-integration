@@ -252,7 +252,7 @@ Every model received a 95% prediction interval built in the same way. This allow
 
 ### Computational cost
 
-Training and fitting times were measured as wall-clock time, with experiments run one at a time on the same laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. Energy was estimated as time multiplied by the processor's 15 W thermal design power. This is an approximation for comparing models, not a measurement [@scala2025].
+Training and fitting times were measured as wall-clock time on one laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. The Rossmann statistical stage ran alone. The ARIMA search time of one store, which had absorbed a computer sleep, was re-timed on its own (decision D-026). The later stages ran in parallel lanes with thread limits (D-027, D-028), so their runtimes include contention. The cost total of a model is its tuning trials plus its final runs (five seeds for the networks); for the hybrids it also includes the ARIMA stage, and hyb_z reuses the hyb_d search. Energy is a runtime proxy, time multiplied by the processor's 15 W thermal design power, not a measurement [@scala2025].
 
 ## Software Implementation {#sec:software}
 
