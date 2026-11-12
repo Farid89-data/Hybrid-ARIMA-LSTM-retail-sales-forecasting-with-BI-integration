@@ -205,7 +205,7 @@ The residuals and forecast paths were produced by the causal Kalman filter with 
 
 ### Hyperparameter tuning {#sec:tuning}
 
-The hyperparameters of the networks were tuned with a tree-structured Parzen estimator in Optuna, using a fixed sampler seed of 2026. Each model received 15 trials per dataset. Each trial trained the network on data before the validation period with seed 1, and was scored by the mean per-series MASE over the five validation windows. The search space ({tbl:searchspace}) was deliberately small. Extensive tuning on a short validation period risks overfitting, offers small gains over sensible defaults [@tetko2024] and is a major driver of the energy cost of training [@rafat2023]. The recursive hybrid reused the configuration selected for the direct hybrid, because the two share the same inputs.
+The hyperparameters of the networks were tuned with a tree-structured Parzen estimator in Optuna, using a fixed sampler seed of 2026. Each model received 15 trials per dataset. Each trial trained the network on data before the validation period with seed 1, and was scored by the mean per-series MASE over the five validation windows. The search space ({tbl:searchspace}) was deliberately small. Extensive tuning on a short validation period risks overfitting, offers small gains over sensible defaults [@tetko2024] and was the main source of excess emissions in one study [@rafat2023]. The recursive hybrid reused the configuration selected for the direct hybrid, because the two share the same inputs.
 
 ::: table id=tbl:searchspace widths=4.0,5.4,6.2 size=8.5
 caption: Hyperparameter search space
