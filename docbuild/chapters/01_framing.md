@@ -17,7 +17,7 @@ The literature reviewed in {sec:factfinding} shows four weaknesses that limit wh
 1. Gains are often claimed without a test of statistical significance, without a naive benchmark, or with validation schemes that do not respect time order, which can inflate accuracy [@hewamalage2023; @beck2025].
 2. Hybrids are typically trained on the in-sample residuals of the statistical model and evaluated over short horizons, often one step ahead [@si2024; @wan2023], whereas replenishment and revenue planning require forecasts several weeks ahead. How residual correction behaves over a multi-week horizon is rarely examined.
 3. Uncertainty and computational cost are seldom reported, although decision-makers need intervals to set safety stock and the energy cost of training neural networks is a growing concern [@zhang2025; @rafat2023].
-4. In the reviewed studies, forecasts are rarely carried through to a decision-support artefact. Dashboard work shows how such artefacts can be validated with users [@hammad2026], and accessibility guidance sets the principles to test against [@choiseo2024].
+4. In the reviewed studies, forecasts are rarely carried through to a decision-support artefact. Dashboard studies show validation with users [@hammad2026], and accessibility guidance sets principles to test against [@choiseo2024].
 
 This project addresses these weaknesses with a reproducible benchmark on two public retail datasets, a strict chronological evaluation with significance testing and interval calibration, and a Power BI data model that turns the forecasts into planning indicators. Each of these elements is designed in {sec:development} and assessed in {sec:evaluation}.
 

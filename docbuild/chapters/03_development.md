@@ -4,7 +4,7 @@
 
 The project combined the cross-industry standard process for data mining (CRISP-DM) with short, iterative development increments. CRISP-DM provided the analytical life cycle: business understanding, data understanding, data preparation, modelling, evaluation and deployment. It was chosen because it is the established reference model for data projects and makes the data preparation effort explicit, which was the most labour-intensive phase in one application [@doede2025]. Reported weaknesses are a linear, model-centric view and little built-in governance [@sousa2026]. These were mitigated in three ways. First, each phase was delivered as an increment that ended with a working, tested artefact. Second, decisions were recorded in a decisions log with their alternatives and justification. Third, the evaluation phase fed back into data preparation and modelling where a problem was found.
 
-A waterfall plan was rejected because the behaviour of the hybrid model could not be known in advance. A full Scrum process was also rejected, because it assumes a team, a product owner and regular stakeholder reviews, none of which exist in an individual MSc project. The resulting increments are listed in {tbl:increments}, and the project plan is compared with the actual increments in {app:H}.
+A waterfall plan was rejected because the behaviour of the hybrid model could not be known in advance. A full Scrum process was also rejected, because it assumes a team and a product owner, which an individual MSc project lacks. The resulting increments are listed in {tbl:increments}, and the project plan is compared with the actual increments in {app:H}.
 
 ::: table id=tbl:increments widths=1.6,4.0,5.2,4.6 size=8.5
 caption: Development increments and their outputs
@@ -30,7 +30,7 @@ Daily sales forecasts can inform three decisions of store managers and central p
 - how many staff to roster;
 - what revenue to expect in the coming weeks.
 
-A forecast horizon of 28 days covers four weekly ordering cycles and matches the official horizon of the M5 competition. The business questions were therefore framed as follows:
+A forecast horizon of 28 days covers four weekly ordering cycles and matches the official horizon of the M5 competition. The business questions were therefore:
 
 - How accurate are 28-day store-level forecasts?
 - How much safety margin do they require?
@@ -166,7 +166,7 @@ The model was implemented in the statsmodels state-space framework. The Kalman f
 
 ### Exponential smoothing
 
-The ETS benchmark is the linear state-space exponential smoothing model with additive errors and additive weekly seasonality. Three trend forms were compared by AICc: no trend, additive trend and damped additive trend. The concentrated initialisation was used because it was the only option in the library that handled missing observations correctly. This was established by testing the alternatives on series with closures.
+The ETS benchmark is the linear state-space exponential smoothing model with additive errors and additive weekly seasonality. Three trend forms were compared by AICc: no trend, additive trend and damped additive trend. The concentrated initialisation was used because it was the only option in the library that handled missing observations correctly.
 
 ### Feed-forward network and LSTM
 
@@ -221,7 +221,7 @@ source: Author's own work.
 | Maximum epochs; patience | 60; 6 | All networks (fixed) |
 :::
 
-After tuning, each network was retrained on all data before the test period with five seeds (1 to 5). It then forecast every test window. Reporting the mean and spread over seeds separates the effect of the model from the effect of random initialisation.
+After tuning, each network was retrained on all data before the test period with five seeds (1 to 5). It then forecast every test window. Reporting the mean and spread over seeds separates model effects from random initialisation.
 
 ## Evaluation Design {#sec:evaldesign}
 
@@ -344,6 +344,6 @@ Several problems arose during development. Each was resolved and recorded in the
 - **Multi-step paths for the hybrids.** Computing a 28-day ARIMA forecast at every training day by re-filtering the series would have taken days. The paths were instead derived in one pass from the filtered state and the transition matrix. An initial version failed on models whose design matrix varies over time. After the fix, an automatic check confirmed that the one-pass paths matched direct forecasts.
 - **Weekdays without history.** The seasonal naive method failed for Rossmann Sundays, which have no valid history. Such days are closures, so they were forecast as zero and excluded from scoring.
 - **Rossmann eligibility.** Eligibility first used all 942 days, including the test period. It now uses only earlier records, which raised the eligible stores from 836 to 850 and replaced five sampled stores; the stage was re-run and old outputs archived.
-- **Interrupted runs.** A long background run was stopped by the operating environment after a system clock change and lost 16 completed stores. Checkpoints were then added for each series, each tuning trial and each seed, so that every stage can resume.
+- **Interrupted runs.** A long background run was stopped after a system clock change and lost 16 completed stores. Checkpoints were then added for each series, each tuning trial and each seed, so that every stage can resume.
 - **Literature access.** Google Scholar could not be searched automatically, and several publishers refused automated access to full texts. Discovery moved to OpenAlex and Crossref after the author approved the change, and only articles whose full text could be read were included ({sec:reviewmethod}).
 - **Toolchain deviation.** R was not installed on the development machine, so the planned R cross-check of the statistical models was not performed. Python 3.13 was used instead of Python 3.11.
