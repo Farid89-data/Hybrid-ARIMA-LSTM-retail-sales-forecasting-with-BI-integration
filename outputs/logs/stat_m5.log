@@ -1,0 +1,36 @@
+
+===== 2026-11-11 03:01:51 attempt 1 =====
+
+===== 2026-11-11 11:30:32 lane B =====
+F:\_Arden (MSc Data Science)\6- Final Project\Calude Code\Code\.venv\Lib\site-packages\statsmodels\tsa\statespace\kalman_filter.py:954: RuntimeWarning: invalid value encountered in scalar divide
+  scale = np.sum(kfilter.scale[d:]) / nobs_k_endog
+F:\_Arden (MSc Data Science)\6- Final Project\Calude Code\Code\.venv\Lib\site-packages\statsmodels\tsa\statespace\kalman_filter.py:966: RuntimeWarning: invalid value encountered in log
+  loglike += -0.5 * nobs_k_endog * np.log(scale)
+11:43:08 INFO src.experiment: m5 CA_1: ARIMA(1, 0, 3)(2, 1, 2, 7), ETS(A,N,A) (693s ARIMA search)
+F:\_Arden (MSc Data Science)\6- Final Project\Calude Code\Code\.venv\Lib\site-packages\statsmodels\tsa\statespace\kalman_filter.py:966: RuntimeWarning: divide by zero encountered in log
+  loglike += -0.5 * nobs_k_endog * np.log(scale)
+C:\Users\Farid\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\scipy\optimize\_numdiff.py:686: RuntimeWarning: invalid value encountered in subtract
+  df = [f_eval - f0 for f_eval in f_evals]
+11:52:42 INFO src.experiment: m5 CA_2: ARIMA(2, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (497s ARIMA search)
+11:52:42 INFO run_statistical: paused at a series boundary (m5: paused before series 2); finished series are checkpointed
+
+===== 2026-11-11 14:30:38 lane B =====
+14:30:46 INFO src.experiment: m5 CA_1: loaded checkpoint
+14:30:46 INFO src.experiment: m5 CA_2: loaded checkpoint
+14:36:17 INFO src.experiment: m5 CA_3: ARIMA(2, 0, 1)(0, 1, 1, 7), ETS(A,N,A) (305s ARIMA search)
+14:47:45 INFO src.experiment: m5 CA_4: ARIMA(1, 0, 2)(2, 1, 2, 7), ETS(A,N,A) (624s ARIMA search)
+15:03:45 INFO src.experiment: m5 TX_1: ARIMA(3, 0, 3)(0, 1, 2, 7), ETS(A,N,A) (892s ARIMA search)
+15:11:42 INFO src.experiment: m5 TX_2: ARIMA(3, 0, 3)(1, 1, 1, 7), ETS(A,N,A) (427s ARIMA search)
+15:15:24 INFO src.experiment: m5 TX_3: ARIMA(2, 0, 2)(1, 1, 1, 7), ETS(A,N,A) (194s ARIMA search)
+15:20:21 INFO src.experiment: m5 WI_1: ARIMA(2, 0, 3)(1, 1, 2, 7), ETS(A,N,A) (241s ARIMA search)
+15:27:49 INFO src.experiment: m5 WI_2: ARIMA(3, 0, 3)(2, 1, 1, 7), ETS(A,N,A) (416s ARIMA search)
+15:36:48 INFO src.experiment: m5 WI_3: ARIMA(2, 0, 3)(2, 1, 2, 7), ETS(A,N,A) (479s ARIMA search)
+15:36:49 INFO run_statistical: 
+ model      stage       rmse        mae      mape     mase  coverage  width_scaled  winkler_scaled  mase_sd_across_series
+ arima       test 419.036016 311.020426  7.865410 0.837907  0.908440      3.682765        6.857910               0.319284
+ arima validation 393.704315 290.450299  9.881647 0.770710  0.920144      3.609987        5.965756               0.207107
+   ets       test 530.989973 406.964591 10.304110 1.036842  0.940153      5.411571        7.929552               0.269221
+   ets validation 476.664128 360.979719 11.615520 0.907518  0.956115      5.406757        7.165963               0.176038
+snaive       test 620.285214 467.462660 11.917650 1.196036       NaN           NaN             NaN               0.244506
+snaive validation 614.403254 460.564029 14.269238 1.172278       NaN           NaN             NaN               0.250308
+15:36:49 INFO run_statistical: Statistical stage finished in 3961.9 s

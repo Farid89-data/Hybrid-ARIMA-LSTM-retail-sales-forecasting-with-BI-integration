@@ -1,0 +1,8 @@
+{
+  "study": "rossmann-lstm",
+  "complete_trials": 15,
+  "failed_trials": 1,
+  "failed_reasons": [
+    "interrupted run (process stopped; trial started 11 Nov 2026 03:14)"
+  ]
+}

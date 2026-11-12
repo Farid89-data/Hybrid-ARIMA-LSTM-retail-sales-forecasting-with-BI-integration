@@ -1,0 +1,9 @@
+Model,Coverage (conformal),Scaled width (conformal),Interval score (conformal),Coverage (Gaussian),Scaled width (Gaussian),Interval score (Gaussian)
+Seasonal naive,93.9%,4.56,5.88,n/a,n/a,n/a
+ARIMA,95.7%,2.64,3.43,96.7%,2.15,2.70
+ETS,92.6%,4.32,5.85,98.9%,6.36,6.46
+FFNN,96.1%,2.32,2.88,n/a,n/a,n/a
+LSTM,96.3%,2.47,3.11,n/a,n/a,n/a
+Hybrid (direct),95.0%,2.42,3.34,n/a,n/a,n/a
+Hybrid (multi-step errors),94.0%,2.07,2.99,n/a,n/a,n/a
+Hybrid (recursive),94.5%,2.30,3.29,n/a,n/a,n/a

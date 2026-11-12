@@ -1,48 +1,48 @@
 Study,Journal,Focus,Cited in
-@ahmadov2023,Discover Artificial Intelligence,Deep learning for intermittent online sales; uninformative ARIMA intervals,
-@alkhatib2026,Scientific Reports,"ARIMA, ETS and machine learning compared; extrapolation limits of tree models",
-@alsaif2026,Frontiers in Artificial Intelligence,Retail demand forecasting benchmark including Rossmann; inventory-cost evaluation of forecast bias,
-@beck2025,Applied Intelligence,"Naive benchmark, Diebold-Mariano tests and tuning; machine learning degrades under volatility",
-@canedo2024,PLOS ONE,Holt-Winters and ARIMA against neural autoregression on quarterly data,
-@cheong2024,Frontiers in Human Dynamics,Transparency and accountability of algorithmic decision-making,
-@choi2024,PLOS ONE,Interactive planning dashboard backed by a random forest model,
-@choiseo2024,TechTrends,"Accessibility, usability and universal design; WAI principles",
-@doede2025,Production Engineering,Application of CRISP-DM with deployment as a dashboard,
-@du2025,Frontiers in Big Data,ARIMA-LSTM residual hybrid with implausibly low error; seasonal naive beat the single models,
-@duan2023,Scientific Reports,ARIMA for the linear part and CNN-LSTM for the non-linear part; no significance tests,
-@gerakoudi2026,Maritime Business Review,ARIMA-LSTM hybrid against statistical and machine learning benchmarks for shipping stocks,
-@gravert2025,Scientific Reports,"Multi-unit promotions, purchases and household food waste",
-@groene2024,Discover Artificial Intelligence,Adoption of AI sales forecasting in food and beverage outlets; trust,
-@hammad2026,PLOS One,Design of a key performance indicator dashboard and its SUS usability validation,
-@hewamalage2023,Data Mining and Knowledge Discovery,"Pitfalls in forecast evaluation: leakage, rolling origins, scaled errors, naive benchmarks and significance testing",
-@huang2025,International Journal of Computational Intelligence Systems,ARIMA with a CNN-LSTM correction of its residuals for daily tobacco sales,
-@kim2025,Artificial Intelligence Review,Survey of deep learning for time-series forecasting; strengths and costs of LSTM,
-@kurpiela2024,Information Systems and e-Business Management,Business analytics affordances and their decision outcomes,
-@linardatos2023,Scientific Reports,Averaging of ARIMA and transformer forecasts; Friedman tests with Holm correction,
-@mbodila2026,Frontiers in Big Data,"Gradient boosting, neural network and attention hybrid for retail sales; k-fold validation",
-@milli2025,Scientific Reports,LSTM learning the in-sample residuals of Prophet for air-quality forecasting,
-@nathan2026,Scientific Reports,Feature engineering against architectural complexity for intermittent demand,
-@nelli2024,PLOS ONE,Accessible colour palettes; colour-vision deficiency and greyscale checks,
-@neri2025,Frontiers in Communication,Visualisation in AI-assisted decision-making; dashboards and uncertainty display,
-@niako2024,BMC Medical Research Methodology,Missing values and imputation for ARIMA and LSTM; Kalman-based approaches,
-@nketiah2023,PLOS ONE,Multivariate LSTM forecasting; error growth with the horizon,
-@padilha2025,Revista de Gestão,Seasonal ARIMA against neural autoregression for daily fashion sales; structural breaks,
-@rafat2023,PLOS ONE,Energy use and carbon footprint of training and tuning deep learning models,
-@robeson2023,PLOS ONE,Interpretability of absolute-error measures compared with squared-error measures,
-@sasse2025,Journal of Big Data,"Data leakage in machine learning pipelines, including temporal leakage, and mitigations",
-@scala2025,Machine Learning,Efficient training and energy measurement for Green AI,
-@schlembach2025,Machine Learning,Conformal prediction for multi-step forecasts of non-exchangeable time series,
-@si2024,PLOS ONE,ARIMA with GRU or LSTM residual models; small gains without a significance test,
-@siamba2023,PLOS Digital Health,ARIMA with a neural network on its residuals; Diebold-Mariano test,
-@sousa2026,Information Systems and e-Business Management,Critique of CRISP-DM and a data-centric variant with dashboard delivery,
-@strom2024,Applied Intelligence,Limitations of averaged error measures for multi-step forecasting,
-@suresh2026,Scientific Reports,LSTM variant for retail point-of-sale data with a time-aware split,
-@tabbakh2024,Discover Sustainability,Green AI: energy efficiency and carbon footprint of AI systems,
-@tetko2024,Journal of Cheminformatics,Overfitting through hyperparameter optimisation; default settings versus tuning cost,
-@vallejo2025,PLOS ONE,ARIMA orders used to design neural network inputs (non-residual coupling),
-@wan2023,BMC Infectious Diseases,ARIMA residuals decomposed and modelled by LSTM; plain ARIMA-LSTM worse than ARIMA,
-@wang2026,Organization Management Journal,Algorithmic decision-making in organisations; tensions and human oversight,
-@winkler2023,International Journal of Physical Distribution &amp; Logistics Management,Prevention of food surplus in grocery retail; role of forecasting and ordering,
-@yamashita2026,PLOS One,Weekly television sales with irregular seasonality and floating holidays,
-@zanotti2026,PLOS One,Global forecasting models on M5; cost of ensembles and of frequent retraining,
-@zhang2025,PLOS One,Split conformal prediction intervals for an LSTM; coverage and width,
+@ahmadov2023,Discover Artificial Intelligence,Deep learning for intermittent online sales; uninformative ARIMA intervals,"2.3, 2.4"
+@alkhatib2026,Scientific Reports,"ARIMA, ETS and machine learning compared; extrapolation limits of tree models","1.1, 2.3"
+@alsaif2026,Frontiers in Artificial Intelligence,Retail demand forecasting benchmark including Rossmann; inventory-cost evaluation of forecast bias,"1.1, 2.2, 2.6"
+@beck2025,Applied Intelligence,"Naive benchmark, Diebold-Mariano tests and tuning; machine learning degrades under volatility","1.1, 1.2, 2.3, 2.6, 2.9"
+@canedo2024,PLOS ONE,Holt-Winters and ARIMA against neural autoregression on quarterly data,"1.1, 2.3, 2.9"
+@cheong2024,Frontiers in Human Dynamics,Transparency and accountability of algorithmic decision-making,"1.1, 2.8, 4.5, 5.6"
+@choi2024,PLOS ONE,Interactive planning dashboard backed by a random forest model,2.7
+@choiseo2024,TechTrends,"Accessibility, usability and universal design; WAI principles","1.2, 2.7, 2.10, 3.7, F.3"
+@doede2025,Production Engineering,Application of CRISP-DM with deployment as a dashboard,"2.7, 3.1"
+@du2025,Frontiers in Big Data,ARIMA-LSTM residual hybrid with implausibly low error; seasonal naive beat the single models,"2.5, 2.9"
+@duan2023,Scientific Reports,ARIMA for the linear part and CNN-LSTM for the non-linear part; no significance tests,2.5
+@gerakoudi2026,Maritime Business Review,ARIMA-LSTM hybrid against statistical and machine learning benchmarks for shipping stocks,2.5
+@gravert2025,Scientific Reports,"Multi-unit promotions, purchases and household food waste","2.2, 2.8, 4.5"
+@groene2024,Discover Artificial Intelligence,Adoption of AI sales forecasting in food and beverage outlets; trust,"1.1, 2.2, 5.6"
+@hammad2026,PLOS One,Design of a key performance indicator dashboard and its SUS usability validation,"1.2, 2.7, 2.9, 2.10, G.1"
+@hewamalage2023,Data Mining and Knowledge Discovery,"Pitfalls in forecast evaluation: leakage, rolling origins, scaled errors, naive benchmarks and significance testing","1.2, 2.5, 2.6, 3.3, 3.5"
+@huang2025,International Journal of Computational Intelligence Systems,ARIMA with a CNN-LSTM correction of its residuals for daily tobacco sales,"1.1, 2.5"
+@kim2025,Artificial Intelligence Review,Survey of deep learning for time-series forecasting; strengths and costs of LSTM,"1.1, 2.4, 3.4"
+@kurpiela2024,Information Systems and e-Business Management,Business analytics affordances and their decision outcomes,2.7
+@linardatos2023,Scientific Reports,Averaging of ARIMA and transformer forecasts; Friedman tests with Holm correction,"2.5, 2.6"
+@mbodila2026,Frontiers in Big Data,"Gradient boosting, neural network and attention hybrid for retail sales; k-fold validation","2.4, 2.5"
+@milli2025,Scientific Reports,LSTM learning the in-sample residuals of Prophet for air-quality forecasting,2.5
+@nathan2026,Scientific Reports,Feature engineering against architectural complexity for intermittent demand,"2.4, 2.5"
+@nelli2024,PLOS ONE,Accessible colour palettes; colour-vision deficiency and greyscale checks,"2.7, 2.10, 3.7, F.3"
+@neri2025,Frontiers in Communication,Visualisation in AI-assisted decision-making; dashboards and uncertainty display,"1.1, 2.7, 2.9"
+@niako2024,BMC Medical Research Methodology,Missing values and imputation for ARIMA and LSTM; Kalman-based approaches,"2.3, 3.3"
+@nketiah2023,PLOS ONE,Multivariate LSTM forecasting; error growth with the horizon,2.4
+@padilha2025,Revista de Gestão,Seasonal ARIMA against neural autoregression for daily fashion sales; structural breaks,"2.2, 2.3"
+@rafat2023,PLOS ONE,Energy use and carbon footprint of training and tuning deep learning models,"1.2, 2.6, 2.8, 2.9, 3.4, 4.5"
+@robeson2023,PLOS ONE,Interpretability of absolute-error measures compared with squared-error measures,2.6
+@sasse2025,Journal of Big Data,"Data leakage in machine learning pipelines, including temporal leakage, and mitigations",2.6
+@scala2025,Machine Learning,Efficient training and energy measurement for Green AI,"2.8, 3.5, 5.5"
+@schlembach2025,Machine Learning,Conformal prediction for multi-step forecasts of non-exchangeable time series,"2.6, 3.5, 4.4, 5.5"
+@si2024,PLOS ONE,ARIMA with GRU or LSTM residual models; small gains without a significance test,"1.1, 1.2, 2.5, 2.9"
+@siamba2023,PLOS Digital Health,ARIMA with a neural network on its residuals; Diebold-Mariano test,"1.1, 2.5, 2.6"
+@sousa2026,Information Systems and e-Business Management,Critique of CRISP-DM and a data-centric variant with dashboard delivery,"2.7, 3.1"
+@strom2024,Applied Intelligence,Limitations of averaged error measures for multi-step forecasting,2.6
+@suresh2026,Scientific Reports,LSTM variant for retail point-of-sale data with a time-aware split,2.4
+@tabbakh2024,Discover Sustainability,Green AI: energy efficiency and carbon footprint of AI systems,"2.8, 4.5"
+@tetko2024,Journal of Cheminformatics,Overfitting through hyperparameter optimisation; default settings versus tuning cost,"2.6, 3.4, 4.4"
+@vallejo2025,PLOS ONE,ARIMA orders used to design neural network inputs (non-residual coupling),2.5
+@wan2023,BMC Infectious Diseases,ARIMA residuals decomposed and modelled by LSTM; plain ARIMA-LSTM worse than ARIMA,"1.1, 1.2, 2.5, 2.9"
+@wang2026,Organization Management Journal,Algorithmic decision-making in organisations; tensions and human oversight,"2.8, 4.5"
+@winkler2023,International Journal of Physical Distribution &amp; Logistics Management,Prevention of food surplus in grocery retail; role of forecasting and ordering,"1.1, 2.2, 2.8, 4.5"
+@yamashita2026,PLOS One,Weekly television sales with irregular seasonality and floating holidays,2.2
+@zanotti2026,PLOS One,Global forecasting models on M5; cost of ensembles and of frequent retraining,"2.2, 4.5, 5.5"
+@zhang2025,PLOS One,Split conformal prediction intervals for an LSTM; coverage and width,"1.2, 2.6, 2.9, 3.5"

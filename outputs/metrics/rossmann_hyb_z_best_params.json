@@ -1,0 +1,11 @@
+{
+  "best_params": {
+    "lookback": 56,
+    "dropout": 0.19116929246600375,
+    "learning_rate": 0.000515656603325137,
+    "batch_size": 64,
+    "units": 32
+  },
+  "best_value": 0.4077622633333329,
+  "source": "hyb_d tuning (shared configuration)"
+}

@@ -1,0 +1,67 @@
+2026-11-11 11:19:50 marked trial 11 of study rossmann-ffnn (optuna_rossmann_ffnn.db) as FAIL: interrupted run (process stopped 11 Nov 2026 03:15)
+2026-11-11 11:19:51 marked trial 1 of study rossmann-lstm (optuna_rossmann_lstm.db) as FAIL: interrupted run (process stopped 11 Nov 2026 03:15)
+2026-11-11 11:20:38 runner started pid 19632, 4 logical cores
+2026-11-11 11:20:38 start lane A nn_rossmann_lstm pid 9612 threads 2
+2026-11-11 11:23:30 pause requested
+2026-11-11 11:28:30 removed stale pause flags ['PAUSE'] (a completed pause deletes them; likely a crash)
+2026-11-11 11:28:31 runner started pid 9748, 4 logical cores
+2026-11-11 11:28:31 start lane A nn_rossmann_lstm pid 18468 threads 2
+2026-11-11 11:30:32 start lane B stat_m5 pid 13128 threads 1
+2026-11-11 11:33:15 start lane C nn_m5_ffnn pid 17008 threads 1
+2026-11-11 11:38:51 memory low (14% available): asked lane C to pause at its unit boundary
+2026-11-11 11:39:21 finished lane C nn_m5_ffnn exit 75 after 366 s
+2026-11-11 11:43:39 pause requested
+2026-11-11 11:44:01 finished lane A nn_rossmann_lstm exit 75 after 930 s
+2026-11-11 13:33:43 removed stale pause flags ['PAUSE'] (a completed pause deletes them; likely a crash)
+2026-11-11 13:33:47 runner started pid 5668, 4 logical cores
+2026-11-11 13:33:47 start lane A nn_rossmann_lstm pid 3720 threads 2
+2026-11-11 13:50:57 finished lane A nn_rossmann_lstm exit 0 after 1029 s
+2026-11-11 13:50:57 start lane A nn_rossmann_hyb_d pid 15352 threads 2
+2026-11-11 14:12:08 finished lane A nn_rossmann_hyb_d exit 0 after 1271 s
+2026-11-11 14:12:08 start lane A nn_rossmann_hyb_z pid 12544 threads 2
+2026-11-11 14:23:12 finished lane A nn_rossmann_hyb_z exit 0 after 663 s
+2026-11-11 14:23:12 start lane A nn_rossmann_hyb_ms pid 15636 threads 2
+2026-11-11 14:30:38 start lane B stat_m5 pid 1732 threads 1
+2026-11-11 14:30:55 start lane C nn_m5_ffnn pid 8944 threads 1
+2026-11-11 14:37:55 finished lane C nn_m5_ffnn exit 0 after 420 s
+2026-11-11 14:37:55 start lane C nn_m5_lstm pid 9888 threads 1
+2026-11-11 14:59:10 finished lane A nn_rossmann_hyb_ms exit 0 after 2159 s
+2026-11-11 15:26:47 finished lane C nn_m5_lstm exit 0 after 2932 s
+2026-11-11 15:36:49 start lane D nn_m5_hyb_d pid 2900 threads 2
+2026-11-11 15:36:50 finished lane B stat_m5 exit 0 after 3972 s
+2026-11-11 16:18:49 finished lane D nn_m5_hyb_d exit 0 after 2520 s
+2026-11-11 16:18:49 start lane D nn_m5_hyb_z pid 19668 threads 2
+2026-11-11 16:35:20 finished lane D nn_m5_hyb_z exit 0 after 991 s
+2026-11-11 16:35:20 start lane D nn_m5_hyb_ms pid 19444 threads 2
+2026-11-11 16:51:21 marked trial 0 of study m5-hyb_ms (optuna_m5_hyb_ms.db) as FAIL: interrupted run (process stopped 11 Nov 2026 03:15)
+2026-11-11 16:51:22 runner started pid 10988, 4 logical cores
+2026-11-11 16:51:22 start lane D nn_m5_hyb_ms pid 15916 threads 2
+2026-11-11 17:08:48 finished lane D nn_m5_hyb_ms exit 0 after 1046 s
+2026-11-11 17:08:48 start lane E evaluation pid 6656 threads 4
+2026-11-11 17:09:38 finished lane E evaluation exit 0 after 49 s
+2026-11-11 17:09:38 start lane E export_dashboard pid 9788 threads 4
+2026-11-11 17:09:43 finished lane E export_dashboard exit 0 after 5 s
+2026-11-11 17:09:43 start lane E summarise_results pid 14684 threads 4
+2026-11-11 17:09:44 finished lane E summarise_results exit 0 after 1 s
+2026-11-11 17:09:44 start lane E pytest pid 8992 threads 4
+2026-11-11 17:10:03 finished lane E pytest exit 0 after 18 s
+2026-11-11 17:10:03 start lane E make_report_tables pid 7348 threads 4
+2026-11-11 17:10:05 finished lane E make_report_tables exit 0 after 2 s
+2026-11-11 17:10:05 start lane E make_notebooks pid 14732 threads 4
+2026-11-11 17:10:45 finished lane E make_notebooks exit 0 after 40 s
+2026-11-11 17:10:45 pipeline finished
+2026-11-12 21:45:00 relabelled failed_reason of trial 0 of study m5-hyb_ms (optuna_m5_hyb_ms.db): interrupted run (process stopped; trial started 11 Nov 2026 16:35)
+2026-11-12 21:45:02 relabelled failed_reason of trial 11 of study rossmann-ffnn (optuna_rossmann_ffnn.db): interrupted run (process stopped; trial started 10 Nov 2026 20:56)
+2026-11-12 21:45:03 relabelled failed_reason of trial 1 of study rossmann-lstm (optuna_rossmann_lstm.db): interrupted run (process stopped; trial started 11 Nov 2026 03:14)
+2026-11-12 21:54:20 runner started pid 3888, 4 logical cores
+2026-11-12 21:54:20 start lane E export_dashboard pid 5852 threads 4
+2026-11-12 21:54:35 finished lane E export_dashboard exit 0 after 15 s
+2026-11-12 21:54:35 start lane E summarise_results pid 19308 threads 4
+2026-11-12 21:54:40 finished lane E summarise_results exit 0 after 5 s
+2026-11-12 21:54:40 start lane E pytest pid 7348 threads 4
+2026-11-12 21:55:14 finished lane E pytest exit 0 after 34 s
+2026-11-12 21:55:14 start lane E make_report_tables pid 17604 threads 4
+2026-11-12 21:55:18 finished lane E make_report_tables exit 0 after 4 s
+2026-11-12 21:55:18 start lane E make_notebooks pid 7392 threads 4
+2026-11-12 21:56:25 finished lane E make_notebooks exit 0 after 67 s
+2026-11-12 21:56:25 pipeline finished
