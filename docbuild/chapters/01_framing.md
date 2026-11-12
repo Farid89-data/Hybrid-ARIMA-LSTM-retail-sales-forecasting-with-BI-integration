@@ -41,7 +41,7 @@ The five objectives approved in the proposal are reproduced below. Only punctuat
 
 The proposal did not state explicit research questions. The following four questions were derived from the aim and objectives so that the evaluation in {sec:evaluation} can answer them directly.
 
-- **RQ1.** To what extent does a hybrid ARIMA-LSTM residual model improve 28-day-ahead point accuracy (RMSE, mean absolute percentage error (MAPE) and mean absolute scaled error (MASE)) over ARIMA, ETS, a feed-forward neural network (FFNN), a standalone LSTM and a seasonal naive benchmark on daily store-level retail sales?
+- **RQ1.** To what extent does a hybrid ARIMA-LSTM residual model improve point accuracy over horizons of 1 to 28 days (RMSE, mean absolute percentage error (MAPE) and mean absolute scaled error (MASE)) over ARIMA, ETS, a feed-forward neural network (FFNN), a standalone LSTM and a seasonal naive benchmark on daily store-level retail sales?
 - **RQ2.** Are any differences statistically significant under the Diebold-Mariano test with a small-sample correction, and are they consistent across random seeds, series and the two datasets?
 - **RQ3.** How well calibrated are the models' 95% prediction intervals, and what accuracy is gained per unit of computational cost?
 - **RQ4.** How can the forecasts be integrated into a Power BI dashboard that meets the functional, non-functional and accessibility requirements of inventory and revenue planning?
