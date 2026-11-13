@@ -24,3 +24,6 @@ outputs/archive/*/interim/
 
 # Runner state: pause flags, RESUME.md, status, done markers (D-028)
 outputs/state/
+
+# Power BI files store the Kaggle sales data inside the file; never commit them
+*.pbix
