@@ -4,10 +4,10 @@
 
 The project compared a hybrid ARIMA-LSTM with four single models and a seasonal naive benchmark on daily store sales from two public datasets. Four findings stand out.
 
-- **A hybrid was the most accurate model on both datasets, but not the same one.** The recursive hybrid reduced MASE by 11.0% relative to ARIMA on M5 (0.746 against 0.838). The multi-step hybrid reduced it by 10.8% on Rossmann (0.320 against 0.359).
-- **The gain was robust on M5 only.** There the hybrid beat all seven alternatives in every seed and under both losses. On Rossmann its gain over ARIMA held in only three of five seeds, so it is not robust, and it could not be distinguished from the FFNN (MASE 0.328) or the LSTM. These statements rest on the primary family defined in Chapter 3 (the primary hybrid against the seven other models, Holm over seven).
+- **A hybrid had the lowest error on both datasets, but not the same one.** On M5, the recursive hybrid (hyb_z) was the most accurate model: MASE 0.746 against 0.838 for ARIMA, 11.0% lower. The multi-step hybrid (hyb_ms) was 1.1% worse than ARIMA on M5. On Rossmann, hyb_ms had the lowest MASE (0.320 against 0.359 for ARIMA, 10.8% lower).
+- **The gain was robust on M5 only, and M5 has only ten series.** There hyb_z beat all seven alternatives significantly in every seed and under both losses. On Rossmann, the gain over ARIMA held in only three of five seeds, so it is not robust, and no hybrid was significantly better than the FFNN (MASE 0.328), the LSTM or hyb_z. These statements rest on the primary family defined in Chapter 3 (the primary hybrid against the seven other models, Holm over seven).
 - **The residual design matters.** The multi-step hybrid was the best variant on Rossmann but slightly worse than ARIMA on M5. Validation picked the right variant on both datasets.
-- **Intervals and cost qualify the gain.** Conformal coverage ranged from 90.3% to 96.3% but fell well below 95% at some horizons. ARIMA's model search dominated the cost, so the hybrids were the most expensive models.
+- **Intervals and cost qualify the gain.** Conformal coverage ranged from 90.3% to 96.3%. It was below 95% for all eight models on M5 and for four of eight on Rossmann, and it fell well below 95% at some horizons (74.7% for the multi-step hybrid at horizon 22 on Rossmann). ARIMA's model search dominated the cost, so the hybrids were the most expensive models.
 
 ## Achievement of the Objectives {#sec:objachieved}
 

@@ -114,7 +114,7 @@ The rest is not complete. The Power BI file has not been assembled, so the funct
 
 **RQ2.** On M5, the hybrid's advantage was significant against all seven alternatives, under both losses and in all five seeds. On Rossmann, it was robust only against the seasonal naive method and ETS; against ARIMA it held in three of five seeds (squared loss: median adjusted p 0.044 in the primary family, 0.064 in the secondary 28-pair family), so it is not robust, and against the networks and the other hybrids in at most one seed. Ten M5 series is a small sample.
 
-**RQ3.** Conformal coverage was close to 95% on average (90.3% to 96.3%) but varied by horizon, and every M5 model under-covered. ARIMA dominated the cost, which made the hybrids the most expensive models. On Rossmann, the FFNN gave nearly the same accuracy for about a tenth of the cost.
+**RQ3.** Conformal coverage ranged from 90.3% to 96.3%. It was below 95% for all eight models on M5 and for four of eight on Rossmann (seasonal naive, ETS, multi-step and recursive hybrids), and it varied by horizon. ARIMA dominated the cost, which made the hybrids the most expensive models. On Rossmann, the FFNN gave nearly the same accuracy for about a tenth of the cost.
 
 **RQ4.** The data model, measures, acceptance values and test plan show how the forecasts can be integrated into Power BI. Whether the dashboard meets its functional, accessibility and usability requirements has not yet been tested.
 
