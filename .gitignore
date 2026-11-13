@@ -35,3 +35,8 @@ dashboard/data/fact_forecast.csv
 dashboard/Dashboard_screenshots.pdf
 outputs/forecasts/
 outputs/archive/*/*.csv.gz
+
+# Working files for the assistant: not part of the repository
+CLAUDE.md
+.claude/
+reports/review_queue.md
