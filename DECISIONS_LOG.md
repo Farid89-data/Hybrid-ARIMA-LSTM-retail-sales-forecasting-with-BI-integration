@@ -390,3 +390,8 @@ When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each
 - Refs pushed with `--force-with-lease`: `main` (4f755ca to 1aea0d9) and `audit-fixes` (d80b4a3 to f85c5e3). There were no tags and no other remote branches. All commit hashes changed from the first rewritten commit onwards; hashes in older notes, in `reports/review_queue.md` and in the `git_commit` column of `EXPERIMENT_LOG.csv` no longer exist.
 - Pull request #1 still holds its old head (779fc8d); only GitHub can remove it. `reports/github_support_request.md` has the text to send.
 - A fresh clone from GitHub was checked: no identity or trailer hits, no data-path objects, one author.
+
+## D-033 Dashboard PDF kept in the repository; CI dependencies (13 November 2026)
+
+- `reports/PowerBI/Dashboard.pdf` stays tracked: its three pages are the same as the `dash_built_*` images already committed in `outputs/figures/`, and it shows only a few aggregated daily values. The Power BI file (`*.pbix`) stays excluded and ignored, because it stores the Kaggle sales data. `README.md` and `data/README.md` say the same. This replaces the earlier ignoring of `dashboard/Dashboard_screenshots.pdf` (D-031), which remains ignored.
+- CI failed on a clean checkout because `python-docx`, `lxml`, `latex2mathml` and `psutil`, which the tests import through the build module and the pipeline runner, were not in `requirements.txt`. They are now pinned to the versions of the local environment. Tests that need the Word template skip when it is missing.
