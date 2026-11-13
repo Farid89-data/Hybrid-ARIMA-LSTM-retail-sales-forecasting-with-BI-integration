@@ -138,7 +138,7 @@ source: Author's own assessment against the evidence cited.
 | FR9 | Met | Experiment log with parameters, seed, runtime, energy estimate and metrics; rewritten with correct quoting after notes containing commas shifted the columns |
 | NFR1 | Met | Perturbation tests show no use of data after the cut-off, including store selection |
 | NFR2 | Partly met | Fixed seeds, deterministic operations, pinned versions and checkpoints. Not bit-for-bit reproducible: two concurrent copies of the Rossmann ARIMA run gave test MASE 0.3576 and 0.3588, and the thread count changed during tuning |
-| NFR3 | Met | Modular package with docstrings and 57 automated tests, all passing ({app:E}) |
+| NFR3 | Met | Modular package with docstrings and 71 automated tests, all passing ({app:E}) |
 | NFR4 | Met | All stages completed on the two-core laptop without a graphics processor; final experiments 7.1 hours in total ({tbl:cost}) |
 | NFR5 | Met | Runtime and estimated energy for every model ({tbl:cost}); runtimes affected by a shared processor ({sec:rescost}) |
 | NFR6 | Not assessed | User study approved but not yet conducted |

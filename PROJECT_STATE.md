@@ -34,7 +34,7 @@ Literature through scholarly APIs (OpenAlex, Crossref) with publisher verificati
 | Data | Prepared panels (M5: 10 stores; Rossmann: 20 sampled stores) and EDA | `outputs/interim/*_prepared.pkl`; `outputs/figures/eda_*` |
 | Literature | 47 verified journal articles (2023-2026) and 2 dataset pages; reading notes; second-pass verification | `..\Refrence\` |
 | Literature | Zotero exports: CSL-JSON, BibTeX, RIS, Zotero RDF | `..\Refrence\references.*` |
-| Code | Package `src/`, scripts, 40 unit tests (all passed on 10 Nov 2026) | `src/`, `scripts/`, `tests/` |
+| Code | Package `src/`, scripts, 71 unit tests (all passed on 13 Nov 2026) | `src/`, `scripts/`, `tests/` |
 | Report | Chapters 1-3 drafted and fact-checked; Chapter 4 non-result sections; appendices A-G drafted | `docbuild/chapters/` |
 | Dashboard | Data dictionary, Power Query, DAX, build guide, page specification, accessibility checklist, test plan, wireframes, star schema | `dashboard/`; `outputs/figures/dash_*` |
 | Repository | requirements (pinned), environment.yml, CI workflow, LICENSE (MIT), CITATION.cff, data README | repository root |

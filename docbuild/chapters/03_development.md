@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 40 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 71 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -291,9 +291,12 @@ source: Author's own work. Test files are in the tests folder of the repository.
 | Leakage | 4 | Training targets end before the cut-off; early-stopping block later and disjoint; windows and forecast inputs unchanged when future data are perturbed |
 | Models | 6 | Seasonal naive repeats the last valid week; interval ordering; one-pass paths equal per-origin forecasts; ETS with missing days; output shape; masked loss |
 | Hybrid | 5 | Residual alignment; burn-in and missing days masked; causal residuals; correct combination; multi-step targets equal actual minus path |
-| Evaluation | 8 | Metrics on known values; unscored days ignored; interval metrics; conformal rank; DM test on identical, clearly different and hand-computed cases; Holm adjustment |
+| Evaluation | 12 | Metrics on known values; unscored days ignored; interval metrics; conformal rank and unscored horizons; DM test on identical, clearly different and hand-computed cases; Holm adjustment; DM matrix symmetry; ablation percentages; residual diagnostics |
 | Data loading | 3 | Rossmann store eligibility unchanged when records on or after the test start are altered; rules still applied before it; test start matches the split plan |
-| Power BI export | 4 | Acceptance values equal a hand calculation; risk-day counts; store-average MASE differs from the pooled value; week start is a Monday and unique across years |
+| Power BI export | 6 | Acceptance values equal a hand calculation; risk-day counts; store-average MASE differs from the pooled value; MASE is the mean over seeds of the per-seed store average; a mismatch with the report is flagged; week start is a Monday and unique across years |
+| Citations | 10 | Reference formats for journal articles, chapters, web pages and books; in-text names; chronological order |
+| Pipeline runner | 9 | Pause flags; refusal to start while a pipeline runs; time estimates; outlier trimming; quoting in the experiment log; a paused statistical stage stops |
+| Build and result summaries | 6 | Document properties; missing figure placeholder; interrupted tuning trials marked as failed; cost and total tables skip superseded rows and apply the re-timing |
 | Title page | 4 | Identity configuration keys; title page matches the identity file; names appear only where expected; applying the identity twice changes nothing |
 :::
 
