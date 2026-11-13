@@ -22,7 +22,7 @@ source: Author's own assessment.
 | 2 | Prepare and explore a public retail dataset: missing values, seasonality, features | Met and extended to two datasets | {sec:data} and {sec:prep}: integrity check, closures, anomaly rule, covariates, splits |
 | 3 | Implement and benchmark ARIMA, ETS, a feed-forward network and an LSTM with RMSE, MAPE and MASE | Met | {sec:resaccuracy}, {tbl:crossdataset}: all models on both test periods, five seeds per network; best single model ARIMA on M5 (MASE 0.838) and the FFNN on Rossmann (0.328) |
 | 4 | Develop and tune a hybrid ARIMA-LSTM and compare it with the Diebold-Mariano test | Met | {sec:ressignificance}: three variants tuned and tested with Holm-adjusted DM tests; primary family of seven comparisons: the M5 hybrid significantly better than all seven alternatives in all five seeds; on Rossmann robust only against seasonal naive and ETS |
-| 5 | Deploy the best model in a Power BI dashboard and evaluate its usability with at least three users | Partly met | {sec:dashboard}: data model, measures, specification and test plan; the dashboard file and the user study are outstanding |
+| 5 | Deploy the best model in a Power BI dashboard and evaluate its usability with at least three users | Partly met | {sec:dashboard}, {sec:resdashboard}: data model, measures and a built three-page dashboard; its interactive tests and the user study are outstanding |
 :::
 
 ## Contribution {#sec:contributionfinal}

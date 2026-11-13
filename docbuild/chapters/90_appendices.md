@@ -248,36 +248,36 @@ source: Author's own test run (pytest).
 
 ## Dashboard functional tests
 
-{tbl:dashtests} is the functional test plan for the dashboard. The expected values are computed in Python and stored with the exported data, so that the dashboard measures can be checked against the figures in this report. The tests had not been run when this report was written, because the dashboard file had not yet been assembled in Power BI Desktop.
+{tbl:dashtests} is the functional test plan for the dashboard. The expected values are computed in Python and stored with the exported data, so that the dashboard measures can be checked against the figures in this report. The dashboard has been built. The last column of {tbl:dashtests} gives the status of each test. A check marked "screenshot" compares a value on the exported pages ({sec:appbuilt}) with the acceptance value; it was not a DAX query, because no live connection to the report was available. All other tests are to be run by the author.
 
-::: table id=tbl:dashtests widths=1.5,3.4,5.6,5.1 size=8
+::: table id=tbl:dashtests widths=1.2,2.6,3.8,4.0,4.4 size=7.5
 caption: Functional test plan for the dashboard
 source: Author's own work (dashboard/README.md).
-| ID | Test | Steps | Expected result |
-|---|---|---|---|
-| TP-01 | Data load | Refresh all queries | Six tables load without errors; row counts equal those printed by the export |
-| TP-02 | Relationships | Open the model view | Seven many-to-one, single-direction relationships |
-| TP-03 | Sort orders | Show weekday and month | Monday to Sunday; January to December |
-| TP-04 | Dataset slicer | Select M5, then Rossmann | Every visual changes; stores of one dataset never appear under the other |
-| TP-05 | Store slicer | Select one store | Page 1 shows that store only |
-| TP-06 | Model and origin slicers | Select one model and one origin | Page 1 shows 28 days from that origin |
-| TP-07 | Actual sales measure | One dataset and model, all stores and origins | Equals the acceptance value for total actual sales |
-| TP-08 | Forecast sales measure | As TP-07 | Equals the acceptance value for total forecast |
-| TP-09 | MAE measure | As TP-07 | Equals the acceptance value for mean absolute error |
-| TP-10 | Coverage measure | As TP-07 | Equals the acceptance value for interval coverage |
-| TP-11 | Mean absolute scaled error (MASE) measure | As TP-07 | Store-average MASE equals the acceptance value |
-| TP-12 | Best model card | Clear the model slicer | Shows the model with the lowest MASE |
-| TP-13 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days; stock-out and overstock risk days equal their acceptance values |
-| TP-14 | Accessibility | Checklist in {tbl:a11y} | All checks pass |
-| TP-15 | Drill-down | Drill from a week (week start date) to its days and back | Daily values sum to the weekly value |
-| TP-16 | Static review of measures | Compare each DAX measure with its Python definition | Same scored-day filter and formula |
+| ID | Test | Steps | Expected result | Status |
+|---|---|---|---|---|
+| TP-01 | Data load | Refresh all queries | Six tables load without errors; row counts equal those printed by the export | To be run by the author |
+| TP-02 | Relationships | Open the model view | Seven many-to-one, single-direction relationships | To be run by the author |
+| TP-03 | Sort orders | Show weekday and month | Monday to Sunday; January to December | To be run by the author |
+| TP-04 | Dataset slicer | Select M5, then Rossmann | Every visual changes; stores of one dataset never appear under the other | To be run by the author |
+| TP-05 | Store slicer | Select one store | Page 1 shows that store only | To be run by the author |
+| TP-06 | Model and origin slicers | Select one model and one origin | Page 1 shows 28 days from that origin | To be run by the author |
+| TP-07 | Actual sales measure | One dataset and model, all stores and origins | Equals the acceptance value for total actual sales | To be run by the author |
+| TP-08 | Forecast sales measure | As TP-07 | Equals the acceptance value for total forecast | To be run by the author |
+| TP-09 | MAE measure | As TP-07 | Equals the acceptance value for mean absolute error | To be run by the author |
+| TP-10 | Coverage measure | As TP-07 | Equals the acceptance value for interval coverage | Screenshot: six of eight models match (94.0, 92.6, 93.6, 92.8, 90.3 and 93.6%); the other two were not visible |
+| TP-11 | Mean absolute scaled error (MASE) measure | As TP-07 | Store-average MASE equals the acceptance value | Screenshot: seven of eight models match (all but the LSTM, which was not visible) |
+| TP-12 | Best model card | Clear the model slicer | Shows the model with the lowest MASE | Screenshot: Hybrid-Z, MASE 0.746, the lowest; matches |
+| TP-13 | Planning cards | One store and one origin | Safety stock proxy equals upper bound minus forecast over the 28 days; stock-out and overstock risk days equal their acceptance values | Not reconciled: with all models selected, the cards (forecast sales 70,733,426; 1,044.7 and 261.7 risk days) equal neither the sum nor the mean of the eight models' acceptance values. To be re-run with one model |
+| TP-14 | Accessibility | Checklist in {tbl:a11y} | All checks pass | Partly; see {tbl:a11y} |
+| TP-15 | Drill-down | Drill from a week (week start date) to its days and back | Daily values sum to the weekly value | To be run by the author |
+| TP-16 | Static review of measures | Compare each DAX measure with its Python definition | Same scored-day filter and formula | To be run by the author |
 :::
 
 # Appendix F: Dashboard Specification {#app:F .appendix letter=F}
 
 ## Pages
 
-The dashboard has three pages that share slicers for dataset, store, model and forecast origin. {fig:wireforecast}, {fig:wiremodels} and {fig:wireplanning} are design wireframes of the pages; they are drawings of the specification, not screenshots of a built report.
+The dashboard has three pages that share slicers for dataset, store, model and forecast origin. {fig:wireforecast}, {fig:wiremodels} and {fig:wireplanning} are design wireframes of the pages; they are drawings of the specification, not screenshots. The built pages are in {sec:appbuilt}.
 
 ::: figure id=fig:wireforecast file=outputs/figures/dash_wireframe_forecast.png width=15
 caption: Design wireframe of the forecast page
@@ -296,6 +296,53 @@ caption: Design wireframe of the planning page
 source: Author's own design.
 alt: Wireframe with four cards for forecast sales, safety stock proxy, stock-out risk days and overstock risk days, a weekly column chart of forecast and upper bound, and a bar chart of bias by store.
 :::
+
+## Built dashboard {#sec:appbuilt}
+
+{fig:builtforecast}, {fig:builtmodels} and {fig:builtplanning} are screenshots of the three pages of the built Power BI report (M5, all stores, all models, all origins). They are the author's PDF export of the report; the wireframes above remain the design.
+
+::: figure id=fig:builtforecast file=outputs/figures/dash_built_forecast.png width=15
+caption: Built dashboard: forecast page
+source: Author's own work (Power BI Desktop screenshot).
+alt: Screenshot of the forecast page with four slicers, a line chart of daily actual and forecast sales with a dotted 95% interval, cards for mean absolute scaled error (MASE), interval coverage, mean absolute error and bias, a column chart of error by days ahead and a table of daily detail.
+:::
+
+::: figure id=fig:builtmodels file=outputs/figures/dash_built_models.png width=15
+caption: Built dashboard: model comparison page
+source: Author's own work (Power BI Desktop screenshot).
+alt: Screenshot of the model comparison page with a best-model card, four metric buttons, a bar chart of store-average MASE by model, interval coverage by model, a line chart of MASE by days ahead and a table of MASE by store and model.
+:::
+
+::: figure id=fig:builtplanning file=outputs/figures/dash_built_planning.png width=15
+caption: Built dashboard: planning page
+source: Author's own work (Power BI Desktop screenshot).
+alt: Screenshot of the planning page with cards for forecast sales, safety stock proxy, stock-out risk days and overstock risk days, a weekly chart of forecast and upper bound, a bar chart of bias by store and a table of stores by stock-out risk.
+:::
+
+Differences between the built pages and the design, from a comparison of the screenshots with the wireframes:
+
+- Forecast page: two further cards (mean absolute error and bias) and, in the detail table, the horizon and an inside-the-interval flag. The slicer is labelled "Forecast origin (number)".
+- Model page: a metric switch (MASE, RMSE, MAE, MAPE) was added. Models are labelled Hybrid-D, Hybrid-MS and Hybrid-Z, whereas the report calls them the direct, multi-step errors and recursive hybrids.
+- Planning page: a table of stores by stock-out risk was added. With all models selected, the risk-day counts are fractional, because they are averaged over seeds.
+- All pages: the footer text is shown inside quotation marks.
+- With no model selected, the cards show values for all models together, which have no counterpart in the acceptance values; a single model should be selected when checking them.
+
+The export script wrote three dimension tables (1,941 dates, 30 series and eight models) and three fact tables (38,250 actuals, 62,720 forecast rows and 240 metric rows), and acceptance values for every dataset and model. The export uses seed 1 for the networks, so its network MASE values differ slightly from the five-seed means (for example, 0.881 against 0.864 for the M5 FFNN).
+
+## Design decisions {#sec:appdesign}
+
+The dashboard was designed for accessibility and for safe reading of the numbers. The points below are design decisions; the checks that have recorded results are in {tbl:a11y}.
+
+- **Palette.** The report theme uses dark blue (#1F4E79), green (#548235), orange (#C55A11) and purple (#7030A0) as the main colours, with grey for the other series. It is not the Okabe-Ito palette. Whether it is distinguishable under colour-vision deficiencies has not yet been checked (A2).
+- **Redundant encoding.** Models are designed to differ by line style and marker as well as colour; cards carry a coloured bar and a text label; the best model and the others are distinguished by colour and by order.
+- **Contrast.** Body text is dark grey or black on white or light grey (7.9:1 to 17.7:1 in the theme). The orange and green card labels are large bold text, designed for the 3:1 threshold for large text, not 4.5:1 (A1).
+- **Font sizes.** The theme sets 10 points for labels, 12 for headers and 14 for titles. Some notes and subtitles in the report file are set at 8 and 9 points, below the specification (A7).
+- **Alt text and tab order.** Every visual in the report file has alt text and an explicit tab-order value (A4, A5).
+- **Single-dataset guard.** M5 sales are units and Rossmann sales are turnover in euros, so measures that sum sales return blank unless one dataset is selected, to prevent the two being mixed.
+- **Dynamic titles.** Titles and subtitles name the selection and the units.
+- **Field parameter.** The metric switch on the model page is designed as a field parameter, so that one chart serves four measures.
+- **Reference lines.** The coverage chart is designed with a reference line at 95%, and the MASE card shows the seasonal naive value as a benchmark.
+- **Drill-down.** The weekly chart is designed to drill from week to day.
 
 ## Measures
 
@@ -334,19 +381,19 @@ The complete set of measures, including the lower bound, the stock-out count and
 
 ## Accessibility checklist
 
-::: table id=tbl:a11y widths=1.2,7.4,7.0 size=8.5
+::: table id=tbl:a11y widths=1.0,4.6,4.4,5.6 size=8
 caption: Accessibility checklist for the dashboard
 source: Author's own work, based on @choiseo2024 and @nelli2024.
-| # | Check | How it is verified |
-|---|---|---|
-| A1 | Text contrast at least 4.5:1 against the background | Theme colours checked in a contrast checker |
-| A2 | Every chart readable in greyscale | Greyscale export or a colour-vision simulator |
-| A3 | No information carried by colour alone | Models differ by line style or marker as well as colour |
-| A4 | Alternative text on every visual | Format pane of each visual |
-| A5 | Logical keyboard tab order | Tab through each page |
-| A6 | All slicers usable with the keyboard | Operate each slicer with Tab, arrow keys and Enter |
-| A7 | Minimum font sizes of 12 points for text and 10 points for axis labels | Visual formatting |
-| A8 | Report usable with a high-contrast theme | Reopen the report under a high-contrast theme |
+| # | Check | How it is verified | Result |
+|---|---|---|---|
+| A1 | Text contrast at least 4.5:1 against the background | Theme colours checked in a contrast checker | Partly (static check of the report file): dark text 7.9:1 to 17.7:1; orange and green card labels 3.9:1 to 4.5:1 (large bold text) |
+| A2 | Every chart readable in greyscale | Greyscale export or a colour-vision simulator | To be run by the author |
+| A3 | No information carried by colour alone | Models differ by line style or marker as well as colour | To be run by the author |
+| A4 | Alternative text on every visual | Format pane of each visual | Pass (static check of the report file): 77 of 77 visuals have alt text |
+| A5 | Logical keyboard tab order | Tab through each page | Tab-order values are set for 77 of 77 visuals; the order was not walked through; to be run by the author |
+| A6 | All slicers usable with the keyboard | Operate each slicer with Tab, arrow keys and Enter | To be run by the author |
+| A7 | Minimum font sizes of 12 points for text and 10 points for axis labels | Visual formatting | Not met (static check of the report file): 8 and 9 points are used in 30 settings |
+| A8 | Report usable with a high-contrast theme | Reopen the report under a high-contrast theme | To be run by the author |
 :::
 
 # Appendix G: User Study Materials {#app:G .appendix letter=G}

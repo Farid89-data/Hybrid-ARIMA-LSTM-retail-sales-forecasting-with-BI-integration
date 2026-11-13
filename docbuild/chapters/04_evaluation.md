@@ -102,11 +102,11 @@ All final experiments took 25,649 seconds (7.1 hours), or about 0.11 kWh. Energy
 
 ### Decision support (RQ4) {#sec:resdashboard}
 
-The data side of the dashboard is complete. The export script wrote the star schema of {fig:schema}: three dimension tables (1,941 dates, 30 series and eight models) and three fact tables (38,250 actuals, 62,720 forecast rows and 240 metric rows). It also wrote acceptance values for every dataset and model, including coverage, store-average MASE and the stock-out and overstock risk days. The measures and build instructions are in {app:F}, and the functional test plan is in {app:E}. The export uses seed 1 for the networks, so its network MASE values differ slightly from the five-seed means (for example, 0.881 against 0.864 for the M5 FFNN).
+The dashboard was built in Power BI Desktop from the star schema of {fig:schema}. Its three pages follow the wireframes: forecast versus actual ({fig:builtforecast}), model comparison ({fig:builtmodels}) and planning ({fig:builtplanning}). The model page adds a switch between four accuracy measures. {sec:appbuilt} lists the differences from the design. The Best Model card names the recursive hybrid (MASE 0.746), and the model-page values that were checked against the acceptance values agreed with them ({app:E}).
 
-The rest is not complete. The Power BI file has not been assembled, so the functional tests in {app:E} and the accessibility checks in {tbl:a11y} have not been run; they are to be run by the author. The user study has not been conducted. RQ4 is therefore answered by design, not by evidence of use.
+It was designed for accessibility: a palette of blue, green, orange and purple, line styles and markers as well as colour, dark text, alt text on every visual and a logical tab order [@choiseo2024; @nelli2024]. These points are specified in {app:F}; most are not yet tested.
 
-[[PENDING: dashboard screenshots and executed functional test results, to be added by the author once the .pbix is assembled in Power BI Desktop]]
+The slicer, drill-down and accessibility tests and the user study have not been run, so RQ4 is answered by design and by partial measure checks, not by evidence of use.
 
 ### Answers to the research questions {#sec:rqanswers}
 
@@ -116,11 +116,11 @@ The rest is not complete. The Power BI file has not been assembled, so the funct
 
 **RQ3.** Conformal coverage ranged from 90.3% to 96.3%. It was below 95% for all eight models on M5 and for five of eight on Rossmann (seasonal naive, ETS and the three hybrids; the direct hybrid at 94.96%, shown as 95.0% in the table), and it varied by horizon. ARIMA dominated the cost, which made the hybrids the most expensive models. On Rossmann, the FFNN gave nearly the same accuracy for about a tenth of the cost.
 
-**RQ4.** The data model, measures, acceptance values and test plan show how the forecasts can be integrated into Power BI. Whether the dashboard meets its functional, accessibility and usability requirements has not yet been tested.
+**RQ4.** The built dashboard shows how the forecasts can be integrated into Power BI. Whether it meets its functional, accessibility and usability requirements has not yet been tested.
 
 ## Evaluation against the Requirements {#sec:reqeval}
 
-{tbl:reqstatus} traces each requirement of {tbl:requirements} to the evidence that it has been met. Most functional and data requirements are met and verified by automated tests or generated reports. The main gaps concern the user-facing part of the artefact: the dashboard file has not been assembled, so its functional and accessibility checks have not been run, and the usability requirement cannot be assessed without the user study.
+{tbl:reqstatus} traces each requirement of {tbl:requirements} to the evidence that it has been met. Most functional and data requirements are met and verified by automated tests or generated reports. The main gaps concern the user-facing part of the artefact: the dashboard has been built, but its slicer, drill-down and accessibility checks have not been run, and the usability requirement cannot be assessed without the user study.
 
 ::: table id=tbl:reqstatus widths=1.5,2.4,11.7 size=8.5
 caption: Status of the requirements
@@ -133,16 +133,16 @@ source: Author's own assessment against the evidence cited.
 | FR4 | Met | Conformal 95% intervals for every model; conformal rank unit-tested; test coverage 90.3% to 96.3% ({sec:resintervals}) |
 | FR5 | Met | Metrics, DM test and Holm adjustment checked against hand calculations; tables by model, series and horizon, and DM tables ({sec:results}, {app:D}) |
 | FR6 | Met | Tuning uses data before the validation period only; leakage tests pass |
-| FR7 | Met | Star schema of three dimension and three fact tables exported with acceptance values ({sec:resdashboard}) |
-| FR8 | Not yet met | Pages specified and wireframed ({app:F}); dashboard file not assembled |
+| FR7 | Met | Star schema exported with acceptance values and loaded into the built dashboard ({sec:resdashboard}, {app:F}) |
+| FR8 | Partly met | Three pages built ({fig:builtforecast}, {fig:builtmodels}, {fig:builtplanning}); slicer and drill-down tests not yet run ({app:E}) |
 | FR9 | Met | Experiment log with parameters, seed, runtime, energy estimate and metrics; rewritten with correct quoting after notes containing commas shifted the columns |
 | NFR1 | Met | Perturbation tests show no use of data after the cut-off, including store selection |
 | NFR2 | Partly met | Fixed seeds, deterministic operations, pinned versions and checkpoints. Not bit-for-bit reproducible: two concurrent copies of the Rossmann ARIMA run gave test MASE 0.3576 and 0.3588, and the thread count changed during tuning |
 | NFR3 | Met | Modular package with docstrings and 71 automated tests, all passing ({app:E}) |
 | NFR4 | Met | All stages completed on the two-core laptop without a graphics processor; final experiments 7.1 hours in total ({tbl:cost}) |
 | NFR5 | Met | Runtime and estimated energy for every model ({tbl:cost}); runtimes affected by a shared processor ({sec:rescost}) |
-| NFR6 | Not assessed | User study approved but not yet conducted |
-| NFR7 | Partly met | Greyscale-safe figures and checklist specified ({tbl:a11y}); not yet checked in Power BI |
+| NFR6 | Not assessed | A dashboard now exists for the user study; the study is approved but not yet conducted |
+| NFR7 | Partly met | Designed for accessibility ({app:F}); static checks of the report file in {tbl:a11y}; checks in Power BI not yet run |
 | DR1 | Met | M5: 1,941 days; Rossmann: 942 days ({tbl:datasummary}) |
 | DR2 | Met | Covariates restricted to calendar, event and promotion information known in advance ({tbl:covariates}) |
 | DR3 | Met | Store-level data only; data dictionary contains no personal data |
@@ -170,7 +170,7 @@ The weaknesses of CRISP-DM noted in {sec:bilit} also appeared. The process model
 - **Literature access.** Automated searching of Google Scholar was not possible, and several large publishers refused automated access to full texts. The review therefore rests on 47 articles from a narrower set of publishers than intended, below the 60 to 80 sources that had been planned.
 - **Toolchain deviations.** The planned R implementation and cross-check were not carried out, and Python 3.13 replaced Python 3.11.
 - **Interrupted computation.** A background run was stopped by the operating environment and its progress was lost, which led to the checkpointing described in {sec:issues}.
-- **User evaluation.** Ethical approval for the user study was granted, but the study could not be conducted within the time available, and the dashboard file was not assembled in Power BI Desktop. Objective 5 is therefore only partly met.
+- **User evaluation.** Ethical approval for the user study was granted, but the study could not be conducted within the time available. Objective 5 is therefore only partly met.
 
 ### What would be done differently
 
