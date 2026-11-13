@@ -27,3 +27,11 @@ outputs/state/
 
 # Power BI files store the Kaggle sales data inside the file; never commit them
 *.pbix
+
+# Kaggle-derived data: daily store-level sales and forecasts that carry the actual sales (DATA-1).
+# Regenerate: run the pipeline (Resume-Pipeline.bat), then python scripts/export_dashboard.py
+dashboard/data/fact_actuals.csv
+dashboard/data/fact_forecast.csv
+dashboard/Dashboard_screenshots.pdf
+outputs/forecasts/
+outputs/archive/*/*.csv.gz
