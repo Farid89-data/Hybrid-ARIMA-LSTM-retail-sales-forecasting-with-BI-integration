@@ -1280,6 +1280,10 @@ def main_word_count(word_counts: dict) -> int:
 
 
 def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
+    from check_test_count import problems as test_count_problems  # noqa: PLC0415
+    mismatches = test_count_problems()
+    if mismatches:
+        raise RuntimeError("Test count differs between the JUnit file and the report: " + "; ".join(mismatches))
     chapters = load_chapters()
     front = [c for c in chapters if c[0].startswith("00")]
     main = [c for c in chapters if c[0][:2].isdigit() and 1 <= int(c[0][:2]) < 90]
