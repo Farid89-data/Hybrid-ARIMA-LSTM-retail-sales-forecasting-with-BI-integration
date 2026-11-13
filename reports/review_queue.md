@@ -6,7 +6,7 @@ Decisions taken without asking. Edit or reverse any row. The AUTHOR items come f
 
 | # | Item | Action |
 |---|---|---|
-| AUTHOR-1 | Clean the history before going public (DATA-1) | Before the repository is made public again, run `reports/history_cleanup.md` (mirror backup, `git filter-repo`, `--force-with-lease` push, fresh-clone check). It changes all commit hashes. |
+| ~~AUTHOR-1~~ | History cleanup (done 13 Nov 2026, D-032) | Done: history rewritten once, force-pushed, fresh clone verified. **Still to do:** send `reports/github_support_request.md` to GitHub Support, because pull request #1 still points at the old history and GitHub may cache the old contributors list. Keep the two `repo_backup_*.git` folders until GitHub confirms, then delete them (they contain the removed data). |
 | AUTHOR-1b | Public after submission | Make the repository public right after submission so the cited URL works for the marker; keep it private until then to avoid a Turnitin match with your own text. |
 | AUTHOR-2 | Merge and tag | Merge `audit-fixes` into `main` (after the cleanup) and create the tag `v1.0-submission`, so the cited URL shows the submitted version. Update the access date of the repository reference (`negahbani2026`, now 13 November 2026) at that time. |
 | AUTHOR-1c | Kaggle dataset (PUB-1) | Publish the Kaggle dataset (`Kaggle/UPLOAD_STEPS.md`) **before the `--final` build**, so the cited URL works, and check that the final slug equals `hybrid-arima-lstm-retail-forecast-results` (reference `negahbani2026kaggle`); update its access date (now 13 November 2026, not yet published) and re-read the two competition rules first. |
