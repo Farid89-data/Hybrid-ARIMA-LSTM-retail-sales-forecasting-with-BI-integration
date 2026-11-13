@@ -23,7 +23,12 @@ from pathlib import Path
 CODE = Path(__file__).resolve().parents[1]
 REPO = "Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration"
 GH = f"https://github.com/{REPO}"
-KAGGLE = "https://www.kaggle.com/datasets/Farid89-data/hybrid-arima-lstm-retail-forecast-results"
+KAGGLE = "https://www.kaggle.com/datasets/frd894563524452/retail-sales-forecasts-hybrid-arima-lstm-results"
+PROFILES = [("Kaggle dataset", KAGGLE),
+            ("LinkedIn", "https://www.linkedin.com/in/farid-negahbani/"),
+            ("GitHub", "https://github.com/Farid89-data"),
+            ("Portfolio", "https://www.datascienceportfol.io/frdngbsn"),
+            ("XING", "https://www.xing.com/profile/Farid_Negahbani")]
 NAMES = {"snaive": "Seasonal naive", "arima": "ARIMA", "ets": "ETS", "ffnn": "Feed-forward network (FFNN)", "lstm": "LSTM",
          "hyb_d": "Hybrid, direct (hyb_d)", "hyb_z": "Hybrid, recursive (hyb_z)", "hyb_ms": "Hybrid, multi-step errors (hyb_ms)"}
 BENCH = ["snaive", "arima", "ets", "ffnn", "lstm"]
@@ -139,8 +144,8 @@ def build() -> str:
              f"![unit tests](https://img.shields.io/badge/unit%20tests-{test_badge}) "
              f"![Python](https://img.shields.io/badge/python-{py}-blue) "
              f"![Licence](https://img.shields.io/badge/licence-{lic}-lightgrey) "
-             f"[![Kaggle dataset](https://img.shields.io/badge/Kaggle-derived%20results%20(planned)-20BEFF)]({KAGGLE}) "
-             f"![Dissertation](https://img.shields.io/badge/dissertation-after%20submission-lightgrey)\n")
+             f"[![Kaggle dataset](https://img.shields.io/badge/Kaggle-derived%20results-20BEFF)]({KAGGLE}) "
+             f"![Dissertation](https://img.shields.io/badge/dissertation-on%20request-lightgrey)\n")
     s.append("## Results at a glance\n")
     s.append("Test period, 28-day horizon, rolling origins. MASE is the mean absolute scaled error (below 1 beats the in-sample seasonal naive error); lower is better. "
              "Networks use five seeds.\n")
@@ -208,7 +213,7 @@ def build() -> str:
             "tests": "pytest suite, including the leakage tests",
             "notebooks": "Walkthrough notebooks that read the pipeline outputs",
             "dashboard": "Power BI data model documents, DAX measures, theme, measure checklist and page images",
-            "docbuild": "Builds the dissertation Word file from Markdown chapters, with the build checks",
+            "docbuild": "Build scripts and checks for the dissertation Word file (the dissertation text itself is not in the repository)",
             "data": "Instructions for obtaining the Kaggle files and their reference checksums (no raw data)",
             "outputs": "Metrics, tables, figures and logs written by the pipeline (forecasts are not tracked)",
             "reports": "Verification and clean-up reports",
@@ -222,7 +227,7 @@ def build() -> str:
     s.append("## Reproducibility and data policy\n")
     s.append("The original M5 and Rossmann data are not redistributed, in line with the competition rules, and neither are the actual daily sales or files derived from them "
              "(the forecast files and the dashboard fact tables are not tracked). The author's own derived results (forecasts without the actual sales, accuracy measures, tests, model settings and costs) "
-             f"are planned as a [Kaggle dataset]({KAGGLE}); each file there maps to the tables written by this pipeline (`outputs/tables/`, `outputs/metrics/`), and the dataset page explains how to rejoin the forecasts with the original data.\n")
+             f"are published as a [Kaggle dataset]({KAGGLE}); each file there maps to the tables written by this pipeline (`outputs/tables/`, `outputs/metrics/`), and the dataset page explains how to rejoin the forecasts with the original data.\n")
     s.append("## Limitations\n")
     for b in [
         f"M5 has only {n_series('m5')} series here (ten stores), so conclusions about the hybrid on M5 may not carry over to other retailers; Rossmann uses a sample of {n_series('rossmann')} stores.",
@@ -236,7 +241,12 @@ def build() -> str:
     s.append("```bibtex\n@software{negahbani2026,\n  author = {Negahbani, Farid},\n  title = {Hybrid ARIMA-LSTM Retail Sales Forecasting with BI Integration},\n"
              f"  year = {{2026}},\n  url = {{{GH}}}\n}}\n```\n")
     s.append("Citation metadata: [`CITATION.cff`](CITATION.cff). Licence: " + lic + " ([`LICENSE`](LICENSE)).\n")
-    s.append(f"Author: Farid Negahbani. GitHub: [Farid89-data](https://github.com/Farid89-data). LinkedIn: _link to be added_.\n")
+    s.append("The dissertation text is available on request or after publication.\n")
+    s.append("## Contact and profiles\n")
+    s.append("Author: Farid Negahbani.\n")
+    for label, url in PROFILES:
+        s.append(f"- {label}: <{url}>")
+    s.append("")
     return "\n".join(s)
 
 
@@ -264,9 +274,6 @@ def check(text: str) -> list[str]:
             ids |= set(re.findall(r"\b([A-Z])\[", l))
         if len(ids) < 2:
             problems.append("mermaid: fewer than two nodes")
-    banned = re.findall(r"\b(claude|anthropic|chatgpt|copilot|openai)\b", text, re.I)
-    if banned:
-        problems.append(f"banned words: {banned}")
     if re.search(r"[\U0001F300-\U0001FAFF☀-➿]", text):
         problems.append("emoji found")
     return problems

@@ -11,14 +11,14 @@ $remoteRef = "origin/$branch"
 if (git rev-parse --verify --quiet $remoteRef) {
     $base = git merge-base HEAD $remoteRef 2>$null
     if (-not $base) {
-        Write-Host "STOP: local history is unrelated to GitHub. Do not pull. Ask Claude Code to reset this folder to origin/$branch." -ForegroundColor Red
+        Write-Host "STOP: local history is unrelated to GitHub. Do not pull. Reset this folder to origin/$branch before continuing." -ForegroundColor Red
         exit 1
     }
     $counts = (git rev-list --left-right --count "HEAD...$remoteRef") -split "\s+"
     $ahead = [int]$counts[0]; $behind = [int]$counts[1]
     "Ahead: $ahead  Behind: $behind"
     if ($ahead -gt 0 -and $behind -gt 0) {
-        Write-Host "STOP: local and GitHub have both changed. Do not pull. Ask Claude Code to reconcile." -ForegroundColor Red
+        Write-Host "STOP: local and GitHub have both changed. Do not pull. Reconcile the two histories before continuing." -ForegroundColor Red
         exit 1
     }
     if ($behind -gt 0) { git pull --ff-only origin $branch }

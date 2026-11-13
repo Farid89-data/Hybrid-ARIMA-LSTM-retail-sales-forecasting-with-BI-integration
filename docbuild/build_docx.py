@@ -1203,7 +1203,7 @@ def load_identity(path: Path = IDENTITY_JSON) -> dict:
 
 
 SUBJECT_KEYWORDS = "ARIMA; LSTM; hybrid forecasting; retail sales; Power BI"
-_BANNED_CORE = ("claude", "anthropic", "jshort", "frd ngb", "gpt", "copilot")
+_BANNED_CORE = ("jshort", "frd ngb")
 
 
 def _set_core_properties(document, identity: dict) -> None:

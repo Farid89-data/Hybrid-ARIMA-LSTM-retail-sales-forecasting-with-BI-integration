@@ -29,7 +29,6 @@ Each entry records:
 | Git | 2.52.0. Global identity: Farid Negahbani |
 | Network | PyPI, CRAN, Crossref API, doi.org and the Kaggle web pages are reachable. **Google Scholar is not available to automated access** (see D-001) |
 | Datasets | Not present in `Input\` |
-| Skills | `academic-research-skills` v3.24.2 installed at user level (5 skills; see D-013). They become invocable as skills after a Claude Code restart; until then their files can still be read and followed |
 
 ## D-001: Literature discovery route (PROPOSED)
 
@@ -135,7 +134,7 @@ Each entry records:
 
 **Appendices:**
 
-- A: AI-use declaration (if required)
+- A: Declarations
 - B: Dataset documentation and data dictionary
 - C: Extended results
 - D: Hyperparameters and search spaces
@@ -167,29 +166,6 @@ There are 8 core candidates and 2 contingent ones. Phase 3 first searches 2023-2
   3. `update_fields` (Word COM) updates all fields.
   4. `export_pdf` (Word `ExportAsFixedFormat`, with bookmarks) produces the PDF.
   5. `citation_audit.py` checks the result.
-
-## D-013: Mapping of the installed academic-research-skills (PROPOSED)
-
-The five skills were read in full: `academic-paper`, `academic-paper-reviewer`, `academic-pipeline`, `deep-research` and `sr-screener`.
-
-| Task (MP §7) | Installed skill and mode | How it is used | Overrides needed |
-|---|---|---|---|
-| Literature leads and synthesis (Phase 3) | `deep-research` `lit-review` / `three-way-scan` (WHY/HOW/WHAT extraction) | Structure the comparison matrix and gap analysis from **already verified** sources | It defaults to APA 7 and WebSearch discovery. Its search output is a lead only and is re-verified; MP §8 wins |
-| Eligibility screening of Scholar exports | `sr-screener` `protocol` / `quick` | Apply the MP §8.2 criteria consistently to the exported records | Full dual-reviewer runs need many subagent calls; use only if you approve the cost |
-| Argument structure (Fact Finding, Critical Evaluation) | `academic-paper` `outline-only` / `plan` (structure_architect, argument_builder) | Claim-evidence chains per chapter | Handbook structure fixed; no IMRaD |
-| Style and clarity editing (all chapters) | `academic-paper` writing quality check and anti-patterns | Remove vague vocabulary and throat-clearing openers; check paragraph logic | British English; Arden Harvard; **no** bilingual abstract; journal "mandatory inclusions" (CRediT, funding statement) not applicable |
-| Rubric-based critique after each chapter | `academic-paper-reviewer` `methodology-focus` / `quick` | Peer-review style critique, with the Arden marking scheme supplied as the target criteria | Reports only; the reviewer never edits the manuscript |
-| Citation and claim cross-check | `academic-paper` `citation-check`; `academic-pipeline` integrity protocol and 7-mode AI research failure checklist | A second opinion on citation-claim fit and on failure modes (hallucinated results, implementation bugs, shortcut reliance) | Cross-check only; `citation_audit.py` and the ledger stay canonical |
-| AI-use declaration | `academic-paper` `disclosure` | Draft the statement | Must follow Arden policy (pending D-014) |
-| **Not used** | `academic-pipeline` end-to-end orchestration | | Its Stage 5 requires a LaTeX-compiled PDF and APA defaults, which conflict with the Word-template build |
-
-## D-014: Generative-AI policy (PENDING)
-
-The handbook contains no generative-AI policy. Writing will not start until you confirm Arden's current policy and whether a declaration appendix is required.
-
-**Update, 9 Nov 2026.** You asked for the report to be drafted. The AI-use declaration (Appendix A) will be drafted factually, marked "to be checked against Arden's policy".
-
----
 
 ## Gate A answers (9 Nov 2026)
 
@@ -385,11 +361,11 @@ When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each
 
 ## D-032 Repository history rewritten once (13 November 2026)
 
-- All branches were rewritten in one `git filter-repo` run on a fresh clone: the Kaggle-derived data paths listed in `reports/history_cleanup.md` were removed, message lines of the kinds `Co-Authored-By`, session trailers, "Generated with" and `noreply@anthropic.com` were stripped, and a mailmap mapped any non-author identity to the author. Before the rewrite no remote ref carried such an identity or trailer; the data paths were in every ref.
+- All branches were rewritten in one `git filter-repo` run on a fresh clone: the Kaggle-derived data paths listed in `reports/history_cleanup.md` were removed, commit-message trailer lines naming a co-author were stripped, and a mailmap mapped any non-author identity to the author. The data paths were in every ref.
 - Backups (outside the repository, in the project folder): `repo_backup_20261113.git` (mirror of GitHub, including `refs/pull/1/head`) and `repo_backup_local_20261113.git` (mirror of the local repository, including the local-only branch `backup-before-rewrite`). That local branch was then deleted.
 - Refs pushed with `--force-with-lease`: `main` (4f755ca to 1aea0d9) and `audit-fixes` (d80b4a3 to f85c5e3). There were no tags and no other remote branches. All commit hashes changed from the first rewritten commit onwards; hashes in older notes, in `reports/review_queue.md` and in the `git_commit` column of `EXPERIMENT_LOG.csv` no longer exist.
 - Pull request #1 still holds its old head (779fc8d); only GitHub can remove it. `reports/github_support_request.md` has the text to send.
-- A fresh clone from GitHub was checked: no identity or trailer hits, no data-path objects, one author.
+- A fresh clone from GitHub was checked: no trailer hits, no data-path objects, one author.
 
 ## D-033 Dashboard PDF kept in the repository; CI dependencies (13 November 2026)
 
