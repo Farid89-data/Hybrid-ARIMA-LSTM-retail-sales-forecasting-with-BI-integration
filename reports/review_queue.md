@@ -20,6 +20,7 @@ Decisions taken without asking. Edit or reverse any row. The AUTHOR items come f
 | AUTHOR-11 | Fact tables in the repository (PBI-5) | Decide whether `dashboard/data/fact_*.csv` (store-level daily sales derived from Kaggle) should stay in the repository. |
 | AUTHOR-12 | Table caption position (FMT-2) | The guide says captions go under figures and counts tables as figures; the tables here have captions above, as you asked. Confirm with your supervisor. |
 | AUTHOR-13 | Limitations sentence (R-5) | Decide whether to add a sentence that the five seeds measure only network-initialisation variance, not the variance of a single test period. |
+| AUTHOR-14 | Updated dashboard (PBI-6 skipped) | The PDF in `PowerBI\` (13 Nov 06:51) is not newer than the page images (07:01), although the .pbix was saved later (07:23). Apply `theme.json`, fonts of at least 10 pt and the contrast fixes, a single-select model slicer on the Planning page, then re-export the PDF. |
 
 ## Resolved in the final pass (FIN-1)
 
