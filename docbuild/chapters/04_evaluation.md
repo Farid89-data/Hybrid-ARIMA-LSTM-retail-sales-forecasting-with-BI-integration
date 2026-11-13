@@ -102,7 +102,7 @@ All final experiments took 25,649 seconds (7.1 hours), or about 0.11 kWh. Energy
 
 ### Decision support (RQ4) {#sec:resdashboard}
 
-The dashboard was built in Power BI Desktop from the star schema of {fig:schema}. Its three pages follow the wireframes: forecast versus actual ({fig:builtforecast}), model comparison ({fig:builtmodels}) and planning ({fig:builtplanning}). The model page adds a switch between four accuracy measures. {sec:appbuilt} lists the differences from the design. The Best Model card names the recursive hybrid (MASE 0.746), and the model-page values that were checked against the acceptance values agreed with them ({app:E}).
+The dashboard was built in Power BI Desktop from the star schema of {fig:schema} (theme, checklist and screenshots in dashboard/ of the repository [@negahbani2026]). Its three pages follow the wireframes: forecast versus actual ({fig:builtforecast}), model comparison ({fig:builtmodels}) and planning ({fig:builtplanning}). The model page adds a switch between four accuracy measures. {sec:appbuilt} lists the differences from the design. The Best Model card names the recursive hybrid (MASE 0.746), and the model-page values that were checked against the acceptance values agreed with them ({app:E}).
 
 It was designed for accessibility: a palette of blue, green, orange and purple, line styles and markers as well as colour, dark text, alt text on every visual and a logical tab order [@choiseo2024; @nelli2024]. These points are specified in {app:F}; most are not yet tested.
 

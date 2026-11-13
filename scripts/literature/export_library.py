@@ -35,6 +35,12 @@ def year(e: dict) -> str:
     return str(e["issued"]["date-parts"][0][0])
 
 
+def web_author(e: dict) -> str:
+    """Organisation name, or Surname, I. for a personal author of a web page."""
+    a = e["author"][0]
+    return a.get("literal") or f"{a['family']}, {a.get('given', '')}".strip()
+
+
 def bib_escape(text: str) -> str:
     return text.replace("&", r"\&").replace("%", r"\%").replace("_", r"\_").replace("#", r"\#")
 
@@ -62,7 +68,7 @@ def to_bibtex(entries: list[dict]) -> str:
                       ("pages", str(e.get("page", "")).replace("-", "--")), ("doi", e["DOI"]), ("url", e["URL"])]
             kind = "incollection"
         else:
-            fields = [("author", "{" + e["author"][0]["literal"] + "}"), ("title", "{" + bib_escape(e["title"]) + "}"),
+            fields = [("author", "{" + (e["author"][0].get("literal") or e["author"][0]["family"] + ", " + e["author"][0].get("given", "")) + "}"), ("title", "{" + bib_escape(e["title"]) + "}"),
                       ("year", year(e)), ("howpublished", r"\url{" + e["URL"] + "}"),
                       ("publisher", bib_escape(e.get("publisher", ""))), ("url", e["URL"])]
             kind = "misc"
@@ -104,7 +110,7 @@ def to_ris(entries: list[dict]) -> str:
                       f"SP  - {start}", f"EP  - {end}", f"PB  - {e.get('publisher', '')}",
                       f"DO  - {e['DOI']}", f"UR  - {e['URL']}"]
         else:
-            lines += ["TY  - ELEC", f"AU  - {e['author'][0]['literal']}", f"TI  - {e['title']}", f"PY  - {year(e)}",
+            lines += ["TY  - ELEC", f"AU  - {web_author(e)}", f"TI  - {e['title']}", f"PY  - {year(e)}",
                       f"UR  - {e['URL']}", f"PB  - {e.get('publisher', '')}"]
         lines += [f"ID  - {e['id']}", "ER  - "]
         out.append("\n".join(lines))
@@ -163,7 +169,7 @@ def to_zotero_rdf(entries: list[dict]) -> str:
         else:
             item = (f'  <bib:Document rdf:about="{x(e["URL"])}">\n'
                     f"    <z:itemType>webpage</z:itemType>\n"
-                    f"    <bib:authors><rdf:Seq><rdf:li><foaf:Organization><foaf:name>{x(e['author'][0]['literal'])}"
+                    f"    <bib:authors><rdf:Seq><rdf:li><foaf:Organization><foaf:name>{x(web_author(e))}"
                     f"</foaf:name></foaf:Organization></rdf:li></rdf:Seq></bib:authors>\n"
                     f"    <dc:title>{x(e['title'])}</dc:title>\n"
                     f"    <dc:date>{year(e)}</dc:date>\n"

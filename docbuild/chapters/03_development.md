@@ -258,7 +258,7 @@ Training and fitting times were measured as wall-clock time on one laptop: a dua
 
 ### Architecture
 
-The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}). Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
+The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}; code in the repository [@negahbani2026]). Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
 
 ::: table id=tbl:modules widths=4.4,11.2 size=8.5
 caption: Modules of the forecasting package
@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 71 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 71 automated tests written with pytest, grouped in {tbl:tests} (tests/ in the repository [@negahbani2026]). The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -311,7 +311,7 @@ The dashboard is the deployment step of CRISP-DM and answers RQ4. It was designe
 - **store managers**, who need the next four weeks of forecasts for their own store with a realistic range;
 - **planners**, who compare stores and models and set safety stock.
 
-The export script writes a star schema of three dimension tables and three fact tables ({fig:schema}): dates, series and models as dimensions, and actuals, forecasts with intervals and per-series metrics as facts. It also writes a file of acceptance values that the dashboard's measures must reproduce. The Data Analysis Expressions (DAX) measures compute the accuracy measures, interval coverage and four planning indicators:
+The export script (scripts/export_dashboard.py in the repository [@negahbani2026]) writes a star schema of three dimension tables and three fact tables ({fig:schema}): dates, series and models as dimensions, and actuals, forecasts with intervals and per-series metrics as facts. It also writes a file of acceptance values that the dashboard's measures must reproduce. The Data Analysis Expressions (DAX) measures compute the accuracy measures, interval coverage and four planning indicators:
 
 - **forecast sales**, the sum of point forecasts over the selected days, which gives the expected volume (M5) or turnover (Rossmann);
 - **safety stock proxy**, the gap between the upper bound of the 95% interval and the point forecast, a simple indication of the stock needed above the forecast;
