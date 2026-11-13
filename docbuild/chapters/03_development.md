@@ -302,7 +302,7 @@ source: Author's own work. Test files are in the tests folder of the repository.
 
 ### Reproducibility
 
-Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The reproduction guide is in {app:I}.
+Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The reproduction guide is in {app:I}. The author's derived results (forecasts without the actual sales, accuracy measures, tests and model settings) are published as a Kaggle dataset [@negahbani2026kaggle]; it does not contain the original competition data.
 
 ## Dashboard Design {#sec:dashboard}
 

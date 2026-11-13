@@ -483,7 +483,7 @@ source: Author's own work.
 
 ## Reproduction
 
-The results can be reproduced with Python 3.13 and the package versions pinned in the repository. The steps are:
+The results can be reproduced with Python 3.13 and the package versions pinned in the repository. The forecasts, measures and tests can also be read without running anything from the Kaggle dataset [@negahbani2026kaggle], which holds the author's derived results and not the original M5 and Rossmann data; the original files must be downloaded from the competitions to rejoin them with the actual sales. The steps are:
 
 1. Create a virtual environment and install the pinned requirements.
 2. Download the two Kaggle datasets, place them as described in the data folder and confirm their checksums with the data-check script.

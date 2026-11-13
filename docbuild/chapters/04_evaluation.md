@@ -4,7 +4,7 @@
 
 ### Accuracy (RQ1) {#sec:resaccuracy}
 
-{tbl:crossdataset} compares the models on both datasets over the test period, and {fig:m5horizon} and {fig:rmhorizon} show how the mean absolute scaled error (MASE) changes with the forecast horizon.
+{tbl:crossdataset} compares the models on both datasets over the test period (derived results in the Kaggle dataset [@negahbani2026kaggle]), and {fig:m5horizon} and {fig:rmhorizon} show how the mean absolute scaled error (MASE) changes with the forecast horizon.
 
 ::: table id=tbl:crossdataset csv=outputs/tables/report_cross_dataset.csv size=8
 caption: Test-period accuracy of all models on both datasets
