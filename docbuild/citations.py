@@ -147,7 +147,7 @@ def reference_runs(entry: Entry) -> list[tuple[str, dict]]:
     imprint = f"{place}: {pub}" if place and pub else (pub or "")
     if typ in ("article-journal", "paper-conference", "article"):
         # Guide 5.2.1: no URL or accessed date for online journal articles.
-        runs.append((f"{title}. ", {}))
+        runs.append((title + ("" if title.endswith(("?", "!")) else ".") + " ", {}))
         runs.append((journal_name(d.get("container-title", "")), {"italic": True}))
         detail = " [online]"
         vol, iss = d.get("volume"), d.get("issue")
