@@ -443,7 +443,19 @@ As stated in the proposal, participants provide written informed consent. Interv
 
 # Appendix H: Project Plan and Increments {#app:H .appendix letter=H}
 
-[[PENDING: project plan table to be completed from the decisions and experiment logs]]
+{tbl:plan} compares the plan of the approved proposal, which gave a deadline in weeks for each objective, with the dated record of the project. The record is the decisions log, the experiment log (times in UTC) and the commit history; the proposal's week numbers cannot be turned into dates, because no start date was recorded. The deviations from the proposal are in the decisions log (D-021).
+
+::: table id=tbl:plan widths=3.8,2.4,6.4,3.4 size=8
+caption: Project plan against the dated record
+source: Author's own work, from the proposal, DECISIONS_LOG.md, EXPERIMENT_LOG.csv and the commit history.
+| Objective | Proposal | Record | Status |
+|---|---|---|---|
+| 1 Literature review | End of week 3 | 47 articles verified by 9 November 2026 (reference ledger); Chapter 2 drafted before the results | Done |
+| 2 Data preparation and exploration | End of week 5 | Raw files checked on 8 November 2026; prepared panels and exploratory analysis 9 to 10 November (D-015, D-025) | Done |
+| 3 Benchmark models | End of week 8 | Rossmann statistical stage from 10 November; final runs of all models logged from 10 November 19:44 to 11 November 16:08 UTC | Done, on two datasets |
+| 4 Hybrid models and Diebold-Mariano tests | End of week 10 | Hybrid tuning and final runs 10 to 11 November; evaluation script run on 12 November | Done |
+| 5 Dashboard and usability evaluation | End of week 12 | Data model exported on 12 November; Power BI report built on 13 November; user study approved, not conducted | Partly done |
+:::
 
 # Appendix I: Repository and Reproduction Guide {#app:I .appendix letter=I}
 
