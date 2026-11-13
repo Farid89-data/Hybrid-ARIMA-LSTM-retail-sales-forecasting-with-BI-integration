@@ -42,7 +42,7 @@ Audience: store managers.
 | Visual | Fields | Notes |
 |---|---|---|
 | Line chart | Axis `dim_date[date]`; values `Actual Sales (scored)`, `Forecast Sales (scored)`, `Forecast Lower 95% (scored)`, `Forecast Upper 95% (scored)` | Actual as a solid dark line, forecast as a dashed line, bounds as thin dotted lines. Use **Error bars** or the bound lines to show the band |
-| Card | `MASE` | Title "Accuracy (MASE; below 1 beats the naive in-sample error)" |
+| Card | `MASE` | Title "Accuracy (mean absolute scaled error, MASE; below 1 beats the naive in-sample error)" |
 | Card | `Interval Coverage %` | Title "Share of days inside the 95% interval" |
 | Column chart | Axis `fact_forecast[horizon]`; value `MASE` | Shows how error grows with the horizon |
 | Table | Date, actual, forecast, lower, upper | For export to ordering systems |

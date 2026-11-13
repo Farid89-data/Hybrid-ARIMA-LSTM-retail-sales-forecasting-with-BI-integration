@@ -236,7 +236,7 @@ All forecasts were clipped at zero before scoring. For a series with \(n\) score
 
 $$\text{RMSE} = \sqrt{\frac{1}{n}\sum_t (y_t - \hat{y}_t)^2}, \quad \text{MAPE} = \frac{100}{n}\sum_t \left|\frac{y_t - \hat{y}_t}{y_t}\right|, \quad \text{MASE} = \frac{\frac{1}{n}\sum_t |y_t - \hat{y}_t|}{\frac{1}{T-7}\sum_{j=8}^{T} |y_j - y_{j-7}|}$$ {#eq:metrics}
 
-The MASE denominator is the in-sample error of the seasonal naive method on training days, using only pairs of valid days from the training period of the respective stage, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free, which suits heterogeneous series [@hewamalage2023]. Results are also reported by horizon and by series.
+The denominator of the mean absolute scaled error (MASE) is the in-sample error of the seasonal naive method on training days, using only pairs of valid days from the training period of the respective stage, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free, which suits heterogeneous series [@hewamalage2023]. Results are also reported by horizon and by series.
 
 ### Significance testing
 
@@ -323,7 +323,7 @@ alt: Diagram of three dimension tables (date, series and model) linked by one-to
 The dashboard has three pages:
 
 - forecast versus actual with the 95% band for a selected store, model and origin;
-- model comparison by accuracy, horizon and cost, with a card naming the model of lowest store-average test MASE for the selected dataset;
+- model comparison by accuracy, horizon and cost, with a card naming the model of lowest store-average test mean absolute scaled error (MASE) for the selected dataset;
 - a planning page with the indicators above.
 
 Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]:

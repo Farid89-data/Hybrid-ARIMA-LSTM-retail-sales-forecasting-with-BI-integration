@@ -10,7 +10,7 @@ These are the measures of the forecasting dashboard. Create them in a dedicated 
 | One dataset at a time | M5 sales are units and Rossmann sales are turnover, so every measure that **sums sales** returns BLANK unless exactly one dataset is selected (`HASONEVALUE ( dim_series[dataset] )`). Scale-free measures (MASE, coverage, risk-day counts) work across datasets. |
 | Slicers | All measures respond to the slicers for dataset, store (`dim_series`), model (`dim_model`), forecast origin and date. |
 | Seeds | `fact_forecast` and `fact_metrics` hold every seed (column `seed`: 0 for the three statistical models, 1 to 5 for the five network models), so the dashboard reproduces the report's five-seed means (A-F-8). Row-averaging measures (MAE, MAPE, MASE, coverage, interval width) weight the seeds equally. Measures that add up sales or count days are divided by `Seeds` (the number of seeds in the selection), i.e. they return the mean over seeds. Select one model, or models with the same number of seeds, when you read them; the checks below use one model. |
-| Which MASE | The report's MASE is the **mean of the per-store MASE values**. The dashboard measure `MASE (store average)` reproduces it. The measure `MASE` pools all scored days of the current selection and equals the per-store value when one store is selected. |
+| Which MASE | The report's mean absolute scaled error (MASE) is the **mean of the per-store MASE values**. The dashboard measure `MASE (store average)` reproduces it. The measure `MASE` pools all scored days of the current selection and equals the per-store value when one store is selected. |
 
 ## Base volume measures (one dataset only)
 
@@ -47,7 +47,7 @@ IF (
 
 ## Accuracy measures
 
-Python definitions (`src/evaluation.py`, per store, scored days only): MAE = mean |actual - forecast|; RMSE = sqrt(mean (actual - forecast)^2); MAPE = mean |actual - forecast| / actual; MASE = mean |actual - forecast| / scale. The report then averages the per-store values.
+Python definitions (`src/evaluation.py`, per store, scored days only): MAE = mean |actual - forecast|; RMSE = sqrt(mean (actual - forecast)^2); MAPE = mean |actual - forecast| / actual; mean absolute scaled error (MASE) = mean |actual - forecast| / scale. The report then averages the per-store values.
 
 ```dax
 Forecast Error =
@@ -82,13 +82,14 @@ AVERAGEX (
     DIVIDE ( ABS ( fact_forecast[actual] - fact_forecast[forecast] ), fact_forecast[actual] )
 )
 
+-- Mean absolute scaled error (MASE), pooled over the scored days of the current selection.
 MASE =
 AVERAGEX (
     FILTER ( fact_forecast, fact_forecast[scored] = 1 ),
     DIVIDE ( ABS ( fact_forecast[actual] - fact_forecast[forecast] ), fact_forecast[scale] )
 )
 
--- Equals the report's test MASE: the mean over seeds of the per-seed store average.
+-- Mean absolute scaled error (MASE), store average. Equals the report's test MASE: the mean over seeds of the per-seed store average.
 -- Every seed of a model has the same stores, so the plain average over all rows is that value.
 MASE (store average) =
 AVERAGE ( fact_metrics[mase] )
@@ -155,7 +156,7 @@ DIVIDE (
 )
 ```
 
-**Best Model (MASE):** the model with the lowest store-average MASE in the current filter context.
+**Best Model (MASE):** the model with the lowest store-average mean absolute scaled error (MASE) in the current filter context.
 
 ```dax
 Best Model (MASE) =
