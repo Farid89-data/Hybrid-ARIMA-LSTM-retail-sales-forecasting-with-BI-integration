@@ -1,0 +1,1833 @@
+[
+ {
+  "id": "hewamalage2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Hewamalage",
+    "given": "Hansika"
+   },
+   {
+    "family": "Ackermann",
+    "given": "Klaus"
+   },
+   {
+    "family": "Bergmeir",
+    "given": "Christoph"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Forecast evaluation for data scientists: common pitfalls and best practices",
+  "container-title": "Data Mining and Knowledge Discovery",
+  "volume": "37",
+  "issue": "2",
+  "page": "788-832",
+  "DOI": "10.1007/s10618-022-00894-5",
+  "URL": "https://doi.org/10.1007/s10618-022-00894-5",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "huang2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Huang",
+    "given": "Shiyu"
+   },
+   {
+    "family": "Zhou",
+    "given": "Lili"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "A Residual-Corrected Hybrid ARIMA–CNN–LSTM Framework for High-Accuracy Tobacco Sales Forecasting in Regulated Markets",
+  "container-title": "International Journal of Computational Intelligence Systems",
+  "volume": "18",
+  "number": "194",
+  "DOI": "10.1007/s44196-025-00930-4",
+  "URL": "https://doi.org/10.1007/s44196-025-00930-4",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "gerakoudi2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Gerakoudi",
+    "given": "Kelly"
+   },
+   {
+    "family": "Georgoulas",
+    "given": "Dimitrios"
+   },
+   {
+    "family": "Stavroulakis",
+    "given": "Peter J."
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "A novel hybrid ARIMA-LSTM model for maritime shipping stock forecasting: comparative evidence against statistical and machine learning benchmarks",
+  "container-title": "Maritime Business Review",
+  "volume": "11",
+  "issue": "1",
+  "page": "2-20",
+  "DOI": "10.1108/mabr-04-2024-0035",
+  "URL": "https://doi.org/10.1108/mabr-04-2024-0035",
+  "publisher": "Emerald",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "zanotti2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Zanotti",
+    "given": "Marco"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "The cost of ensembling: Is it always worth combining global retail forecasting models?",
+  "container-title": "PLOS One",
+  "volume": "21",
+  "issue": "9",
+  "number": "e0336281",
+  "DOI": "10.1371/journal.pone.0336281",
+  "URL": "https://doi.org/10.1371/journal.pone.0336281",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "alsaif2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Alsaif",
+    "given": "Suleiman Ali"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "A systematic benchmarking pipeline for demand forecasting and inventory-aware supply chain decision support",
+  "container-title": "Frontiers in Artificial Intelligence",
+  "volume": "9",
+  "number": "1936360",
+  "DOI": "10.3389/frai.2026.1936360",
+  "URL": "https://doi.org/10.3389/frai.2026.1936360",
+  "publisher": "Frontiers Media SA",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "si2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Si",
+    "given": "Yuancheng"
+   },
+   {
+    "family": "Nadarajah",
+    "given": "Saralees"
+   },
+   {
+    "family": "Zhang",
+    "given": "Zongxin"
+   },
+   {
+    "family": "Xu",
+    "given": "Chunmin"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Modeling opening price spread of Shanghai Composite Index based on ARIMA-GRU/LSTM hybrid model",
+  "container-title": "PLOS ONE",
+  "volume": "19",
+  "issue": "3",
+  "number": "e0299164",
+  "DOI": "10.1371/journal.pone.0299164",
+  "URL": "https://doi.org/10.1371/journal.pone.0299164",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "siamba2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Siamba",
+    "given": "Stephen"
+   },
+   {
+    "family": "Otieno",
+    "given": "Argwings"
+   },
+   {
+    "family": "Koech",
+    "given": "Julius"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Application of ARIMA, and hybrid ARIMA Models in predicting and forecasting tuberculosis incidences among children in Homa Bay and Turkana Counties, Kenya",
+  "container-title": "PLOS Digital Health",
+  "volume": "2",
+  "issue": "2",
+  "number": "e0000084",
+  "DOI": "10.1371/journal.pdig.0000084",
+  "URL": "https://doi.org/10.1371/journal.pdig.0000084",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "du2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Du",
+    "given": "Xiaoxiao"
+   },
+   {
+    "family": "Yu",
+    "given": "Haomiao"
+   },
+   {
+    "family": "Zhang",
+    "given": "Hao"
+   },
+   {
+    "family": "Liu",
+    "given": "Xiangyun"
+   },
+   {
+    "family": "Yu",
+    "given": "Xinling"
+   },
+   {
+    "family": "Xie",
+    "given": "Tao"
+   },
+   {
+    "family": "Diao",
+    "given": "Wenli"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Application and comparison of ARIMA, LSTM, and ARIMA-LSTM models for predicting foodborne diseases in Liaoning Province",
+  "container-title": "Frontiers in Big Data",
+  "volume": "8",
+  "number": "1666962",
+  "DOI": "10.3389/fdata.2025.1666962",
+  "URL": "https://doi.org/10.3389/fdata.2025.1666962",
+  "publisher": "Frontiers Media SA",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "vallejo2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Vallejo",
+    "given": "Fidel"
+   },
+   {
+    "family": "Yánez",
+    "given": "Diana"
+   },
+   {
+    "family": "Viñán-Guerrero",
+    "given": "Patricia"
+   },
+   {
+    "family": "Díaz-Robles",
+    "given": "Luis A."
+   },
+   {
+    "family": "Oyaneder",
+    "given": "Marcelo"
+   },
+   {
+    "family": "Reinoso",
+    "given": "Nicolás"
+   },
+   {
+    "family": "Billartello",
+    "given": "Luna"
+   },
+   {
+    "family": "Espinoza-Pérez",
+    "given": "Andrea"
+   },
+   {
+    "family": "Espinoza-Pérez",
+    "given": "Lorena"
+   },
+   {
+    "family": "Pino-Cortés",
+    "given": "Ernesto"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Enhancing air quality predictions in Chile: Integrating ARIMA and Artificial Neural Network models for Quintero and Coyhaique cities",
+  "container-title": "PLOS ONE",
+  "volume": "20",
+  "issue": "1",
+  "number": "e0314278",
+  "DOI": "10.1371/journal.pone.0314278",
+  "URL": "https://doi.org/10.1371/journal.pone.0314278",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "zhang2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Zhang",
+    "given": "Xiangyue"
+   },
+   {
+    "family": "Kang",
+    "given": "Yuyun"
+   },
+   {
+    "family": "Li",
+    "given": "Chao"
+   },
+   {
+    "family": "Wang",
+    "given": "Wenjing"
+   },
+   {
+    "family": "Wang",
+    "given": "Keqing"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "LSTM-conformal forecasting-based bitcoin forecasting method for enhancing reliability",
+  "container-title": "PLOS One",
+  "volume": "20",
+  "issue": "5",
+  "number": "e0319008",
+  "DOI": "10.1371/journal.pone.0319008",
+  "URL": "https://doi.org/10.1371/journal.pone.0319008",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "neri2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Neri",
+    "given": "Giulia"
+   },
+   {
+    "family": "Marshall",
+    "given": "Shevyn"
+   },
+   {
+    "family": "Chan",
+    "given": "Harry Kai-Ho"
+   },
+   {
+    "family": "Yaghi",
+    "given": "Abdallah"
+   },
+   {
+    "family": "Tabor",
+    "given": "Dash"
+   },
+   {
+    "family": "Sinha",
+    "given": "Rahul"
+   },
+   {
+    "family": "Mazumdar",
+    "given": "Suvodeep"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Data visualization in AI-assisted decision-making: a systematic review",
+  "container-title": "Frontiers in Communication",
+  "volume": "10",
+  "number": "1605655",
+  "DOI": "10.3389/fcomm.2025.1605655",
+  "URL": "https://doi.org/10.3389/fcomm.2025.1605655",
+  "publisher": "Frontiers Media SA",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "nelli2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Nelli",
+    "given": "Luca"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Color Quest: An interactive tool for exploring color palettes and enhancing accessibility in data visualization",
+  "container-title": "PLOS ONE",
+  "volume": "19",
+  "issue": "3",
+  "number": "e0290923",
+  "DOI": "10.1371/journal.pone.0290923",
+  "URL": "https://doi.org/10.1371/journal.pone.0290923",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "canedo2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Cañedo",
+    "given": "Mayara Carolina"
+   },
+   {
+    "family": "Lopes",
+    "given": "Thiago Inácio Barros"
+   },
+   {
+    "family": "Rossato",
+    "given": "Luana"
+   },
+   {
+    "family": "Nunes",
+    "given": "Isadora Batista"
+   },
+   {
+    "family": "Faccin",
+    "given": "Izadora Dillis"
+   },
+   {
+    "family": "Salomé",
+    "given": "Túlio Máximo"
+   },
+   {
+    "family": "Simionatto",
+    "given": "Simone"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Impact of COVID-19 pandemic in the Brazilian maternal mortality ratio: A comparative analysis of Neural Networks Autoregression, Holt-Winters exponential smoothing, and Autoregressive Integrated Moving Average models",
+  "container-title": "PLOS ONE",
+  "volume": "19",
+  "issue": "1",
+  "number": "e0296064",
+  "DOI": "10.1371/journal.pone.0296064",
+  "URL": "https://doi.org/10.1371/journal.pone.0296064",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "kim2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Kim",
+    "given": "Jongseon"
+   },
+   {
+    "family": "Kim",
+    "given": "Hyungjoon"
+   },
+   {
+    "family": "Kim",
+    "given": "HyunGi"
+   },
+   {
+    "family": "Lee",
+    "given": "Dongjun"
+   },
+   {
+    "family": "Yoon",
+    "given": "Sungroh"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "A comprehensive survey of deep learning for time series forecasting: architectural diversity and open challenges",
+  "container-title": "Artificial Intelligence Review",
+  "volume": "58",
+  "number": "216",
+  "DOI": "10.1007/s10462-025-11223-9",
+  "URL": "https://doi.org/10.1007/s10462-025-11223-9",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "sasse2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Sasse",
+    "given": "L."
+   },
+   {
+    "family": "Nicolaisen-Sobesky",
+    "given": "E."
+   },
+   {
+    "family": "Dukart",
+    "given": "J."
+   },
+   {
+    "family": "Eickhoff",
+    "given": "S. B."
+   },
+   {
+    "family": "Götz",
+    "given": "M."
+   },
+   {
+    "family": "Hamdan",
+    "given": "S."
+   },
+   {
+    "family": "Komeyer",
+    "given": "V."
+   },
+   {
+    "family": "Kulkarni",
+    "given": "A."
+   },
+   {
+    "family": "Lahnakoski",
+    "given": "J. M."
+   },
+   {
+    "family": "Love",
+    "given": "B. C."
+   },
+   {
+    "family": "Raimondo",
+    "given": "F."
+   },
+   {
+    "family": "Patil",
+    "given": "Kaustubh R."
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Overview of leakage scenarios in supervised machine learning",
+  "container-title": "Journal of Big Data",
+  "volume": "12",
+  "number": "135",
+  "DOI": "10.1186/s40537-025-01193-8",
+  "URL": "https://doi.org/10.1186/s40537-025-01193-8",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "tabbakh2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Tabbakh",
+    "given": "Abdulaziz"
+   },
+   {
+    "family": "Al Amin",
+    "given": "Lisan"
+   },
+   {
+    "family": "Islam",
+    "given": "Mahbubul"
+   },
+   {
+    "family": "Mahmud",
+    "given": "G. M. Iqbal"
+   },
+   {
+    "family": "Chowdhury",
+    "given": "Imranul Kabir"
+   },
+   {
+    "family": "Mukta",
+    "given": "Md Saddam Hossain"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Towards sustainable AI: a comprehensive framework for Green AI",
+  "container-title": "Discover Sustainability",
+  "volume": "5",
+  "number": "408",
+  "DOI": "10.1007/s43621-024-00641-4",
+  "URL": "https://doi.org/10.1007/s43621-024-00641-4",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "schlembach2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Schlembach",
+    "given": "Filip"
+   },
+   {
+    "family": "Smirnov",
+    "given": "Evgueni"
+   },
+   {
+    "family": "Koprinska",
+    "given": "Irena"
+   },
+   {
+    "family": "Winands",
+    "given": "Mark H. M."
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Conformal multistep-ahead multivariate time-series forecasting",
+  "container-title": "Machine Learning",
+  "volume": "114",
+  "number": "165",
+  "DOI": "10.1007/s10994-024-06722-9",
+  "URL": "https://doi.org/10.1007/s10994-024-06722-9",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "beck2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Beck",
+    "given": "Nico"
+   },
+   {
+    "family": "Dovern",
+    "given": "Jonas"
+   },
+   {
+    "family": "Vogl",
+    "given": "Stefanie"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Mind the naive forecast! a rigorous evaluation of forecasting models for time series with low predictability",
+  "container-title": "Applied Intelligence",
+  "volume": "55",
+  "number": "395",
+  "DOI": "10.1007/s10489-025-06268-w",
+  "URL": "https://doi.org/10.1007/s10489-025-06268-w",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "duan2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Duan",
+    "given": "Jiahui"
+   },
+   {
+    "family": "Gong",
+    "given": "Yaping"
+   },
+   {
+    "family": "Luo",
+    "given": "Jun"
+   },
+   {
+    "family": "Zhao",
+    "given": "Zhiyao"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Air-quality prediction based on the ARIMA-CNN-LSTM combination model optimized by dung beetle optimizer",
+  "container-title": "Scientific Reports",
+  "volume": "13",
+  "number": "12127",
+  "DOI": "10.1038/s41598-023-36620-4",
+  "URL": "https://doi.org/10.1038/s41598-023-36620-4",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "linardatos2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Linardatos",
+    "given": "Pantelis"
+   },
+   {
+    "family": "Papastefanopoulos",
+    "given": "Vasilis"
+   },
+   {
+    "family": "Panagiotakopoulos",
+    "given": "Theodor"
+   },
+   {
+    "family": "Kotsiantis",
+    "given": "Sotiris"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "CO2 concentration forecasting in smart cities using a hybrid ARIMA–TFT model on multivariate time series IoT data",
+  "container-title": "Scientific Reports",
+  "volume": "13",
+  "number": "17266",
+  "DOI": "10.1038/s41598-023-42346-0",
+  "URL": "https://doi.org/10.1038/s41598-023-42346-0",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "milli2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Milli",
+    "given": "Musa"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Designing a residual-enhanced hybrid Prophet–LSTM framework for urban air pollution forecasting in Beijing",
+  "container-title": "Scientific Reports",
+  "volume": "15",
+  "number": "43646",
+  "DOI": "10.1038/s41598-025-27510-y",
+  "URL": "https://doi.org/10.1038/s41598-025-27510-y",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "wan2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Wan",
+    "given": "Yiran"
+   },
+   {
+    "family": "Song",
+    "given": "Ping"
+   },
+   {
+    "family": "Liu",
+    "given": "Jiangchen"
+   },
+   {
+    "family": "Xu",
+    "given": "Ximing"
+   },
+   {
+    "family": "Lei",
+    "given": "Xun"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "A hybrid model for hand-foot-mouth disease prediction based on ARIMA-EEMD-LSTM",
+  "container-title": "BMC Infectious Diseases",
+  "volume": "23",
+  "number": "879",
+  "DOI": "10.1186/s12879-023-08864-y",
+  "URL": "https://doi.org/10.1186/s12879-023-08864-y",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "strom2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Strøm",
+    "given": "Eivind"
+   },
+   {
+    "family": "Gundersen",
+    "given": "Odd Erik"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Performance metrics for multi-step forecasting measuring win-loss, seasonal variance and forecast stability: an empirical study",
+  "container-title": "Applied Intelligence",
+  "volume": "54",
+  "issue": "21",
+  "page": "10490-10515",
+  "DOI": "10.1007/s10489-024-05715-4",
+  "URL": "https://doi.org/10.1007/s10489-024-05715-4",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "mbodila2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Mbodila",
+    "given": "Munienge"
+   },
+   {
+    "family": "Esan",
+    "given": "Omobayo Ayokunle"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "A cognitively inspired feature-level fusion framework for interpretable retail sales forecasting using integration of extreme gradient boost machine, artificial neural network and attention mechanism model",
+  "container-title": "Frontiers in Big Data",
+  "volume": "9",
+  "number": "1889044",
+  "DOI": "10.3389/fdata.2026.1889044",
+  "URL": "https://doi.org/10.3389/fdata.2026.1889044",
+  "publisher": "Frontiers Media SA",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "winkler2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Winkler",
+    "given": "Tobias"
+   },
+   {
+    "family": "Ostermeier",
+    "given": "Manuel"
+   },
+   {
+    "family": "Hübner",
+    "given": "Alexander"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Proactive food waste prevention in grocery retail supply chains – An exploratory study",
+  "container-title": "International Journal of Physical Distribution &amp; Logistics Management",
+  "volume": "53",
+  "issue": "11",
+  "page": "125-156",
+  "DOI": "10.1108/ijpdlm-12-2022-0383",
+  "URL": "https://doi.org/10.1108/ijpdlm-12-2022-0383",
+  "publisher": "Emerald",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "cheong2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Cheong",
+    "given": "Ben Chester"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Transparency and accountability in AI systems: safeguarding wellbeing in the age of algorithmic decision-making",
+  "container-title": "Frontiers in Human Dynamics",
+  "volume": "6",
+  "number": "1421273",
+  "DOI": "10.3389/fhumd.2024.1421273",
+  "URL": "https://doi.org/10.3389/fhumd.2024.1421273",
+  "publisher": "Frontiers Media SA",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "wang2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Wang",
+    "given": "Yinying"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Algorithmic decision-making in organizations: a systematic review toward an integrated tension alignment framework",
+  "container-title": "Organization Management Journal",
+  "volume": "23",
+  "issue": "1",
+  "page": "115-131",
+  "DOI": "10.1108/omj-11-2024-2342",
+  "URL": "https://doi.org/10.1108/omj-11-2024-2342",
+  "publisher": "Emerald",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "hammad2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Hammad",
+    "given": "Muhammad"
+   },
+   {
+    "family": "Arif",
+    "given": "Rasikh"
+   },
+   {
+    "family": "Khan",
+    "given": "Ali Zeb"
+   },
+   {
+    "family": "Nasir",
+    "given": "Ali"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Design and validation of a key performance indicator dashboard for equity in community and retail pharmacy services in Pakistan",
+  "container-title": "PLOS One",
+  "volume": "21",
+  "issue": "7",
+  "number": "e0349972",
+  "DOI": "10.1371/journal.pone.0349972",
+  "URL": "https://doi.org/10.1371/journal.pone.0349972",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "choi2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Choi",
+    "given": "Seung Jun"
+   },
+   {
+    "family": "Jiao",
+    "given": "Junfeng"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Developing a transit desert interactive dashboard: Supervised modeling for forecasting transit deserts",
+  "container-title": "PLOS ONE",
+  "volume": "19",
+  "issue": "7",
+  "number": "e0306782",
+  "DOI": "10.1371/journal.pone.0306782",
+  "URL": "https://doi.org/10.1371/journal.pone.0306782",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "ahmadov2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Ahmadov",
+    "given": "Yashar"
+   },
+   {
+    "family": "Helo",
+    "given": "Petri"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Deep learning-based approach for forecasting intermittent online sales",
+  "container-title": "Discover Artificial Intelligence",
+  "volume": "3",
+  "number": "45",
+  "DOI": "10.1007/s44163-023-00085-1",
+  "URL": "https://doi.org/10.1007/s44163-023-00085-1",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "nathan2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Nathan",
+    "given": "B. Sendhil"
+   },
+   {
+    "family": "Aravinth",
+    "given": "P. M."
+   },
+   {
+    "family": "Reddy",
+    "given": "B. Veera Siva"
+   },
+   {
+    "family": "Sastry",
+    "given": "C. Chandrasekhara"
+   },
+   {
+    "family": "Salunkhe",
+    "given": "Sachin"
+   },
+   {
+    "family": "Cep",
+    "given": "Robert"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Primacy of feature engineering over architectural complexity for intermittent demand forecasting",
+  "container-title": "Scientific Reports",
+  "volume": "16",
+  "number": "4792",
+  "DOI": "10.1038/s41598-026-35197-y",
+  "URL": "https://doi.org/10.1038/s41598-026-35197-y",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "suresh2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Suresh",
+    "given": "B. S."
+   },
+   {
+    "family": "Suresh",
+    "given": "M."
+   },
+   {
+    "family": "Kang",
+    "given": "Dae-Ki"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Meta-LLSTM: meta-learning enhanced learnable LSTM for retail sales forecasting",
+  "container-title": "Scientific Reports",
+  "volume": "16",
+  "number": "23928",
+  "DOI": "10.1038/s41598-026-54836-y",
+  "URL": "https://doi.org/10.1038/s41598-026-54836-y",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "groene2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Groene",
+    "given": "Nicole"
+   },
+   {
+    "family": "Zakharov",
+    "given": "Sergii"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Introduction of AI-based sales forecasting: how to drive digital transformation in food and beverage outlets",
+  "container-title": "Discover Artificial Intelligence",
+  "volume": "4",
+  "number": "1",
+  "DOI": "10.1007/s44163-023-00097-x",
+  "URL": "https://doi.org/10.1007/s44163-023-00097-x",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "sousa2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Sousa",
+    "given": "Beatriz"
+   },
+   {
+    "family": "Guerreiro",
+    "given": "Gracinda R."
+   },
+   {
+    "family": "Espadinha-Cruz",
+    "given": "Pedro"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "From fragmented data to business intelligence: a data-centric CRISP-DM framework for delegated insurance",
+  "container-title": "Information Systems and e-Business Management",
+  "DOI": "10.1007/s10257-026-00729-6",
+  "URL": "https://doi.org/10.1007/s10257-026-00729-6",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED",
+  "note": "Advance online publication"
+ },
+ {
+  "id": "yamashita2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Yamashita Rios de Sousa",
+    "given": "Arthur Matsuo"
+   },
+   {
+    "family": "Ando",
+    "given": "Daisuke"
+   },
+   {
+    "family": "Ozaki",
+    "given": "Junichi"
+   },
+   {
+    "family": "Shida",
+    "given": "Yohei"
+   },
+   {
+    "family": "Wu",
+    "given": "Qianyun"
+   },
+   {
+    "family": "Zheng",
+    "given": "Yixuan Y."
+   },
+   {
+    "family": "Zhong",
+    "given": "Zhihua"
+   },
+   {
+    "family": "Maskawa",
+    "given": "Rie"
+   },
+   {
+    "family": "Jiang",
+    "given": "Jiwei J."
+   },
+   {
+    "family": "Nagayama",
+    "given": "Kay"
+   },
+   {
+    "family": "Takayasu",
+    "given": "Hideki"
+   },
+   {
+    "family": "Takayasu",
+    "given": "Misako"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Weekly sales forecasting using time series decomposition with irregular seasonality: A case study of Sony TV sales in the United States",
+  "container-title": "PLOS One",
+  "volume": "21",
+  "issue": "11",
+  "number": "e0344222",
+  "DOI": "10.1371/journal.pone.0344222",
+  "URL": "https://doi.org/10.1371/journal.pone.0344222",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "padilha2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Padilha",
+    "given": "André Garcia"
+   },
+   {
+    "family": "Pereira",
+    "given": "Veridiana Rotondaro"
+   },
+   {
+    "family": "Albarracin",
+    "given": "Orlando Yesid Esparza"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Forecasting fashion retail sales in Brazil: a case study before, during and after COVID-19",
+  "container-title": "Revista de Gestão",
+  "volume": "32",
+  "issue": "4",
+  "page": "345-360",
+  "DOI": "10.1108/rege-01-2025-0007",
+  "URL": "https://doi.org/10.1108/rege-01-2025-0007",
+  "publisher": "Emerald",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "rafat2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Rafat",
+    "given": "Kazi"
+   },
+   {
+    "family": "Islam",
+    "given": "Sadia"
+   },
+   {
+    "family": "Mahfug",
+    "given": "Abdullah Al"
+   },
+   {
+    "family": "Hossain",
+    "given": "Md. Ismail"
+   },
+   {
+    "family": "Rahman",
+    "given": "Fuad"
+   },
+   {
+    "family": "Momen",
+    "given": "Sifat"
+   },
+   {
+    "family": "Rahman",
+    "given": "Shafin"
+   },
+   {
+    "family": "Mohammed",
+    "given": "Nabeel"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Mitigating carbon footprint for knowledge distillation based deep learning model compression",
+  "container-title": "PLOS ONE",
+  "volume": "18",
+  "issue": "5",
+  "number": "e0285668",
+  "DOI": "10.1371/journal.pone.0285668",
+  "URL": "https://doi.org/10.1371/journal.pone.0285668",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "nketiah2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Nketiah",
+    "given": "Edward Appau"
+   },
+   {
+    "family": "Chenlong",
+    "given": "Li"
+   },
+   {
+    "family": "Yingchuan",
+    "given": "Jing"
+   },
+   {
+    "family": "Aram",
+    "given": "Simon Appah"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Recurrent neural network modeling of multivariate time series and its application in temperature forecasting",
+  "container-title": "PLOS ONE",
+  "volume": "18",
+  "issue": "5",
+  "number": "e0285713",
+  "DOI": "10.1371/journal.pone.0285713",
+  "URL": "https://doi.org/10.1371/journal.pone.0285713",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "robeson2023",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Robeson",
+    "given": "Scott M."
+   },
+   {
+    "family": "Willmott",
+    "given": "Cort J."
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Decomposition of the mean absolute error (MAE) into systematic and unsystematic components",
+  "container-title": "PLOS ONE",
+  "volume": "18",
+  "issue": "2",
+  "number": "e0279774",
+  "DOI": "10.1371/journal.pone.0279774",
+  "URL": "https://doi.org/10.1371/journal.pone.0279774",
+  "publisher": "Public Library of Science (PLoS)",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "tetko2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Tetko",
+    "given": "Igor V."
+   },
+   {
+    "family": "van Deursen",
+    "given": "Ruud"
+   },
+   {
+    "family": "Godin",
+    "given": "Guillaume"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Be aware of overfitting by hyperparameter optimization!",
+  "container-title": "Journal of Cheminformatics",
+  "volume": "16",
+  "number": "139",
+  "DOI": "10.1186/s13321-024-00934-w",
+  "URL": "https://doi.org/10.1186/s13321-024-00934-w",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "niako2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Niako",
+    "given": "Nicholas"
+   },
+   {
+    "family": "Melgarejo",
+    "given": "Jesus D."
+   },
+   {
+    "family": "Maestre",
+    "given": "Gladys E."
+   },
+   {
+    "family": "Vatcheva",
+    "given": "Kristina P."
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Effects of missing data imputation methods on univariate blood pressure time series data analysis and forecasting with ARIMA and LSTM",
+  "container-title": "BMC Medical Research Methodology",
+  "volume": "24",
+  "number": "320",
+  "DOI": "10.1186/s12874-024-02448-3",
+  "URL": "https://doi.org/10.1186/s12874-024-02448-3",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "scala2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Scala",
+    "given": "Francesco"
+   },
+   {
+    "family": "Flesca",
+    "given": "Sergio"
+   },
+   {
+    "family": "Pontieri",
+    "given": "Luigi"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "An efficient model training framework for green AI",
+  "container-title": "Machine Learning",
+  "volume": "114",
+  "number": "275",
+  "DOI": "10.1007/s10994-025-06907-w",
+  "URL": "https://doi.org/10.1007/s10994-025-06907-w",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "doede2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Doede",
+    "given": "Nils"
+   },
+   {
+    "family": "Merkel",
+    "given": "Paulina"
+   },
+   {
+    "family": "Kriwall",
+    "given": "Mareile"
+   },
+   {
+    "family": "Stonis",
+    "given": "Malte"
+   },
+   {
+    "family": "Behrens",
+    "given": "Bernd-Arno"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Implementation of an intelligent process monitoring system for screw presses using the CRISP-DM standard",
+  "container-title": "Production Engineering",
+  "volume": "19",
+  "issue": "1",
+  "page": "77-88",
+  "DOI": "10.1007/s11740-024-01298-8",
+  "URL": "https://doi.org/10.1007/s11740-024-01298-8",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "gravert2025",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Gravert",
+    "given": "Christina"
+   },
+   {
+    "family": "Mormann",
+    "given": "Milica"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "In-store food promotions increase sales as well as household food waste",
+  "container-title": "Scientific Reports",
+  "volume": "15",
+  "number": "18035",
+  "DOI": "10.1038/s41598-025-01800-x",
+  "URL": "https://doi.org/10.1038/s41598-025-01800-x",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "alkhatib2026",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Al khatib",
+    "given": "Abdullah Mohammad Ghazi"
+   },
+   {
+    "family": "Alshaib",
+    "given": "Bayan Mohamad"
+   },
+   {
+    "family": "Mishra",
+    "given": "Pradeep"
+   },
+   {
+    "family": "Tiwari",
+    "given": "Shiwani"
+   },
+   {
+    "family": "Alshalaby",
+    "given": "Motee Asaad"
+   },
+   {
+    "family": "Kumari",
+    "given": "Binita"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "Forecasting tomato production in major Asian producers: a comparative study of ARIMA, exponential smoothing, score-driven models, and XGBoost",
+  "container-title": "Scientific Reports",
+  "volume": "16",
+  "number": "15722",
+  "DOI": "10.1038/s41598-026-46110-y",
+  "URL": "https://doi.org/10.1038/s41598-026-46110-y",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "choiseo2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Choi",
+    "given": "Gi Woong"
+   },
+   {
+    "family": "Seo",
+    "given": "JooYoung"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Accessibility, Usability, and Universal Design for Learning: Discussion of Three Key LX/UX Elements for Inclusive Learning Design",
+  "container-title": "TechTrends",
+  "volume": "68",
+  "issue": "5",
+  "page": "936-945",
+  "DOI": "10.1007/s11528-024-00987-6",
+  "URL": "https://doi.org/10.1007/s11528-024-00987-6",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "kurpiela2024",
+  "type": "article-journal",
+  "author": [
+   {
+    "family": "Kurpiela",
+    "given": "Steffen"
+   },
+   {
+    "family": "Teuteberg",
+    "given": "Frank"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Linking business analytics affordances to corporate strategic planning and decision making outcomes",
+  "container-title": "Information Systems and e-Business Management",
+  "volume": "22",
+  "issue": "1",
+  "page": "33-60",
+  "DOI": "10.1007/s10257-023-00661-z",
+  "URL": "https://doi.org/10.1007/s10257-023-00661-z",
+  "publisher": "Springer Science and Business Media LLC",
+  "ledger_status": "VERIFIED"
+ },
+ {
+  "id": "kaggle2020m5",
+  "type": "webpage",
+  "author": [
+   {
+    "literal": "Kaggle"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2020
+    ]
+   ]
+  },
+  "title": "M5 Forecasting - Accuracy: competition data",
+  "publisher": "Kaggle (data provided by Walmart through the M5 competition)",
+  "URL": "https://www.kaggle.com/competitions/m5-forecasting-accuracy/data",
+  "ledger_status": "TECHNICAL_DOC"
+ },
+ {
+  "id": "kaggle2015rossmann",
+  "type": "webpage",
+  "author": [
+   {
+    "literal": "Kaggle"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2015
+    ]
+   ]
+  },
+  "title": "Rossmann Store Sales: competition data",
+  "publisher": "Kaggle (data provided by Rossmann)",
+  "URL": "https://www.kaggle.com/competitions/rossmann-store-sales/data",
+  "ledger_status": "TECHNICAL_DOC"
+ },
+ {
+  "id": "brooke1996",
+  "type": "chapter",
+  "author": [
+   {
+    "family": "Brooke",
+    "given": "John"
+   }
+  ],
+  "editor": [
+   {
+    "family": "Jordan",
+    "given": "Patrick W."
+   },
+   {
+    "family": "Thomas",
+    "given": "B."
+   },
+   {
+    "family": "McClelland",
+    "given": "Ian Lyall"
+   },
+   {
+    "family": "Weerdmeester",
+    "given": "Bernard"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     1996
+    ]
+   ]
+  },
+  "title": "SUS: a 'quick and dirty' usability scale",
+  "container-title": "Usability Evaluation in Industry",
+  "publisher": "CRC Press",
+  "page": "207-212",
+  "DOI": "10.1201/9781498710411-35",
+  "URL": "https://doi.org/10.1201/9781498710411-35",
+  "ledger_status": "EXCEPTION_APPROVED",
+  "note": "Standard pre-2023 instrument; exception approved by the student on 10 Nov 2026 (audit finding A21)"
+ }
+]
