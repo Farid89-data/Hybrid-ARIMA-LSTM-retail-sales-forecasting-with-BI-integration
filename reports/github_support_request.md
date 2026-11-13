@@ -1,34 +1,43 @@
-# Text for GitHub Support
+# Text for GitHub Support (Option A)
 
-Send at https://support.github.com (Contact support, then a repository or "Remove cached data" / contributors topic). Send it while the repository is private. Attach nothing; the hashes below are enough.
+Send at https://support.github.com (Contact support, then a repository or "Remove cached data" topic). Attach nothing; the hashes below are enough.
 
 ---
 
-**Subject:** Please refresh the contributors list and remove cached/unreachable data from a private repository after a history rewrite
+**Subject:** Please remove cached pull request refs and unreachable data after a history rewrite, and refresh the contributors list
 
-**Repository:** Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration (currently private)
+**Repository:** Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration
 
 Hello,
 
-On 13 November 2026 I rewrote the history of this repository with `git filter-repo` and force-pushed `main` and `audit-fixes`. The rewrite removed (1) commit message trailers from an AI coding tool that had listed the tool as a co-author, so that the tool no longer appears as a contributor, and (2) data files that I am not allowed to redistribute (competition data derived from Kaggle). No other change was made to the commits. A full backup of the old history is kept outside GitHub.
+On 13 November 2026 I rewrote the history of this repository twice with `git filter-repo` and force-pushed `main` and `audit-fixes` each time. The rewrites removed (1) commit-message trailers that named a co-author, (2) data files derived from Kaggle competition data that I may not redistribute, and (3) the directory `docbuild/chapters/` (unpublished dissertation text). The current `main` is 59a4fe36e45b708f956e526737388f7d2d2ae7db and `audit-fixes` is 6deacc85047bc37fba020204ccd93d07d10ca65b. A fresh clone shows no trace of those paths and one author.
 
-The repository now has these refs:
-- `main` at 1aea0d9ed667653a01a1f83e762c4a7bac4c96d2
-- `audit-fixes` at f85c5e326ace8292676a49e51dd69231620b8dec
-- `refs/pull/1/head` (pull request #1) still points to the old commit 779fc8dafdf8d0e080bcbd889636539062bf0bb9
+These refs still hold the old history and cannot be changed by me:
+- `refs/pull/1/head` (pull request #1), commit 779fc8dafdf8d0e080bcbd889636539062bf0bb9
+- `refs/pull/2/head` (pull request #2), merged, whose commits contain `docbuild/chapters/`
+- `refs/pull/3/head` (pull request #3), merged, whose commits contain `docbuild/chapters/`
 
-Old commit hashes involved:
-- old `main` tip: 4f755ca5cebe609a4552bacd83f44460b0dba4df
-- old `audit-fixes` tip: d80b4a36b2f86da2b113ba463bfeb2b59d51d0bd
-- pull request #1 head: 779fc8dafdf8d0e080bcbd889636539062bf0bb9
-- old root commit: bd1641bdde8007221ebd477ac43b3bd49e969f1b
-- commits that contained the data files: 7ad32209aeb4f311cc5df66621090c2f56347720, d145a0be1b1abc1c6bafe0ed2d6323ec27378e58, 779fc8dafdf8d0e080bcbd889636539062bf0bb9
-- commits from an earlier version of the history that carried the AI co-author trailer and may have been pushed earlier: ac424a7987b043266ef92840c05b59142716e9f5 and 104e497057c7d83eb50f06af7b8ea68a9cf72ee1
+Pre-rewrite tips: `main` 61c01c3a49880cd74508f5573eda7f9a187bc967; `audit-fixes` f187d224993b85f32a192d3184978e76bc831ace.
 
 Could you please:
-1. refresh the contributors list and the contributors graph, which may still show the AI tool as a contributor;
-2. remove `refs/pull/1/head` (or the pull request's cached commits) and any other unreachable commits and cached views that still hold the old history, and run garbage collection on the repository, so that the data files are no longer retrievable by their old commit hashes;
+1. remove `refs/pull/1/head`, `refs/pull/2/head` and `refs/pull/3/head` (or the cached commits of those pull requests), and any other unreachable commits and cached views that hold the old history, and run garbage collection, so that the old commits are no longer retrievable by hash;
+2. refresh the contributors list and graph so that they match the current history (one contributor);
 3. confirm when this is done.
 
 Thank you.
 Farid Negahbani
+
+---
+
+# Option B (not run): delete and recreate the repository
+
+Do this only if GitHub Support cannot clear the pull request refs, or the contributors page still shows another name after Option A.
+
+1. Backup: `git clone --mirror https://github.com/Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration.git backup_before_recreate.git` (keep it outside the repository).
+2. What will be lost: pull requests #1 to #3 and their discussion, the Actions run history and badges history, stars and watchers (none to be assumed), any Pages settings, branch protection rules and repository settings (description, topics, secrets). Issues: none are known; check first.
+3. Note the description, topics and visibility from the repository page.
+4. `gh repo delete Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration --yes` (needs the `delete_repo` scope).
+5. `gh repo create Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration --public --description "<same description>"` (use `--private` if the visibility was private).
+6. From the clean local repository: `git remote set-url origin <url>`, `git push origin main audit-fixes`, and `git push origin --tags` once tags exist.
+7. Re-enable GitHub Pages and branch protection if they were used; re-add topics.
+8. Check that the URL opens, the Actions run is green and the contributors list shows only Farid Negahbani.

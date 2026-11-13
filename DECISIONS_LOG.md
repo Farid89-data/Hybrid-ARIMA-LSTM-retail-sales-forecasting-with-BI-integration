@@ -377,3 +377,10 @@ When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each
 - `docbuild/chapters/`, `docbuild/build/` and built `.docx` files are ignored; the build scripts stay tracked. The README says the dissertation text is available on request or after publication.
 - Source lines under tables and figures now read "Source: <file path>" (the figure or table file, or the document the content comes from). Where a table has no data file, the nearest repository file is named. The Arden guide asks for own work to be marked "(personal collection)"; the author's instruction to use file paths took precedence.
 - Dashboard tests TP-01 to TP-16 and checks A2 and A3 are recorded as passed on the author's confirmation; A5, A6 and A8 have no recorded result.
+
+## D-035 Second history rewrite: dissertation sources removed (13 November 2026)
+
+- A read-only check of every remote ref (branches and `refs/pull/*`, 127 commits) found no author, committer or message line naming a co-author tool or its address; `docbuild/chapters/` was in 76 commits of every ref.
+- One `git filter-repo --invert-paths --path docbuild/chapters/` run on a fresh clone removed it from all history (78 commits remain). Backup: `repo_backup_chapters_20261113.git` (mirror, outside the repository; it still holds the old history, so never upload it).
+- `main` (61c01c3 to 59a4fe3) and `audit-fixes` (f187d22 to 6deacc8) were pushed with `--force-with-lease`. A fresh clone has no `docbuild/chapters` objects and one author. The contributors API lists one contributor.
+- `refs/pull/1`, `/2` and `/3` still hold the old history; only GitHub can remove them. `reports/github_support_request.md` has the request and the steps to recreate the repository.
