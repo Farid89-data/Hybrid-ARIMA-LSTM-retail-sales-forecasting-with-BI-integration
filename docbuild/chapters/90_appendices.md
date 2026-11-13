@@ -211,7 +211,7 @@ alt: Chart of validation error for the hyperparameter settings tried in the tuni
 
 ## Secondary analysis: all pairs and hybrid components {#sec:appsecondary}
 
-These analyses were added after the primary analysis of Chapter 3 was fixed, and they are exploratory. The matrices adjust the p-values over all 28 pairs of models for each seed, with squared loss, and show the mean statistic and the median adjusted p-value over seeds. Because the family is larger than the seven comparisons of the primary analysis, p-values near 0.05 can differ between the two. The ablation tables compare each hybrid variant with ARIMA and the LSTM in the same 28-pair family. The test statistics are also given as tables ({tbl:m5dmmat}, {tbl:rmdmmat}).
+These analyses were added after the primary analysis of {sec:development} was fixed, and they are exploratory. The matrices adjust the p-values over all 28 pairs of models for each seed, with squared loss, and show the mean statistic and the median adjusted p-value over seeds. Because the family is larger than the seven comparisons of the primary analysis, p-values near 0.05 can differ between the two. The ablation tables compare each hybrid variant with ARIMA and the LSTM in the same 28-pair family. The test statistics are also given as tables ({tbl:m5dmmat}, {tbl:rmdmmat}).
 
 ::: figure id=fig:m5dm file=outputs/figures/res_m5_dm_matrix.png width=15 generator=scripts/run_evaluation.py
 caption: M5: pairwise Diebold-Mariano test results between models (secondary, exploratory; Holm over 28 pairs)

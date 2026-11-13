@@ -39,7 +39,7 @@ alt: Line chart of daily sales from 9 November to 6 December 2015 for store CA_1
 
 ### Statistical significance and the hybrid's components (RQ2) {#sec:ressignificance}
 
-The significance analysis is the one fixed in Chapter 3 before any result was available. The primary hybrid (the variant with the best validation MASE: the recursive hybrid on M5 and the multi-step hybrid on Rossmann) is compared with each of the seven other models, and the Holm correction is applied over these seven comparisons for each seed and loss ({tbl:m5dm} and {tbl:rmdm} in {app:D}). Every statement of significance in this report rests on that family. The matrices of all 28 pairs and the comparison of the other hybrid variants with their components are secondary, exploratory analyses ({sec:appsecondary} in {app:D}). The residual diagnostics that test the hybrid premise are in {app:D} ({tbl:m5resid}, {tbl:rmresid}).
+The significance analysis is the one fixed in {sec:development} before any result was available. The primary hybrid (the variant with the best validation MASE: the recursive hybrid on M5 and the multi-step hybrid on Rossmann) is compared with each of the seven other models, and the Holm correction is applied over these seven comparisons for each seed and loss ({tbl:m5dm} and {tbl:rmdm} in {app:D}). Every statement of significance in this report rests on that family. The matrices of all 28 pairs and the comparison of the other hybrid variants with their components are secondary, exploratory analyses ({sec:appsecondary} in {app:D}). The residual diagnostics that test the hybrid premise are in {app:D} ({tbl:m5resid}, {tbl:rmresid}).
 
 A difference counts as robust only if it is significant in all five seeds. The p-values below are the median Holm-adjusted values over the five seeds.
 
@@ -114,7 +114,7 @@ The rest is not complete. The Power BI file has not been assembled, so the funct
 
 **RQ2.** On M5, the hybrid's advantage was significant against all seven alternatives, under both losses and in all five seeds. On Rossmann, it was robust only against the seasonal naive method and ETS; against ARIMA it held in three of five seeds (squared loss: median adjusted p 0.044 in the primary family, 0.064 in the secondary 28-pair family), so it is not robust, and against the networks and the other hybrids in at most one seed. Ten M5 series is a small sample.
 
-**RQ3.** Conformal coverage ranged from 90.3% to 96.3%. It was below 95% for all eight models on M5 and for four of eight on Rossmann (seasonal naive, ETS, multi-step and recursive hybrids), and it varied by horizon. ARIMA dominated the cost, which made the hybrids the most expensive models. On Rossmann, the FFNN gave nearly the same accuracy for about a tenth of the cost.
+**RQ3.** Conformal coverage ranged from 90.3% to 96.3%. It was below 95% for all eight models on M5 and for five of eight on Rossmann (seasonal naive, ETS and the three hybrids; the direct hybrid at 94.96%, shown as 95.0% in the table), and it varied by horizon. ARIMA dominated the cost, which made the hybrids the most expensive models. On Rossmann, the FFNN gave nearly the same accuracy for about a tenth of the cost.
 
 **RQ4.** The data model, measures, acceptance values and test plan show how the forecasts can be integrated into Power BI. Whether the dashboard meets its functional, accessibility and usability requirements has not yet been tested.
 
