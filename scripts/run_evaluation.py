@@ -240,7 +240,7 @@ def fig_by_horizon(test, name):
         ax.plot(curve.index, curve.values, label=LABELS[model], linewidth=1.1, markersize=3, markevery=3,
                 **STYLES[model])
     ax.set_xlabel("Forecast horizon (days ahead)")
-    ax.set_ylabel("Scaled absolute error (MASE units)")
+    ax.set_ylabel("Mean absolute scaled error (MASE)")
     ax.legend(ncol=4, fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.22))
     return save(fig, f"res_{name}_mase_by_horizon")
 

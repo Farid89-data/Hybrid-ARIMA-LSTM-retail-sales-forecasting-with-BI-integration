@@ -157,7 +157,7 @@ def main() -> int:
     lib_rows, lib_problems = library_checks(cited_keys)
     pdf = pdf_checks()
     notes = (REF_DIR / "search" / "reading_notes.md").read_text(encoding="utf-8")
-    no_notes = sorted(k for k in cited_keys if not k.startswith("kaggle") and f"## {k}:" not in notes)
+    no_notes = sorted(k for k in cited_keys if not k.startswith(("kaggle", "negahbani")) and f"## {k}:" not in notes)
 
     lines = ["# Citation audit report", "", f"Generated: {date.today().isoformat()} by `Code/docbuild/citation_audit.py`.",
              "", f"Document: `{DOCX.relative_to(PROJECT_ROOT)}`", ""]

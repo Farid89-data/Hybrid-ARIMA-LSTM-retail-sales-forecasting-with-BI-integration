@@ -43,7 +43,7 @@ Two public datasets were used. Both were downloaded by the author from the Kaggl
 - **M5 (Walmart).** Daily unit sales of 3,049 products in ten stores in California, Texas and Wisconsin, from 29 January 2011 to 22 May 2016. The data include a calendar with events and with days on which Supplemental Nutrition Assistance Program (SNAP) benefits are paid.
 - **Rossmann.** Daily sales (turnover) of 1,115 German drugstores, from 1 January 2013 to 31 July 2015. The data include opening status, promotions and school and state holidays.
 
-Before any modelling, every file was opened and checked: number of rows and columns, column names, missing cells and a SHA-256 checksum. All nine files were complete and readable. The integrity report is reproduced in {app:B}. The raw files are not redistributed with the code; the reproduction guide explains how to obtain them from the Kaggle pages.
+Before any modelling, every file was opened and checked: rows, columns, missing cells and a checksum. All nine files were complete and readable. The integrity report is reproduced in {app:B}. The raw files are not redistributed with the code; the reproduction guide explains how to obtain them from the Kaggle pages.
 
 ### Exploratory analysis
 
@@ -93,7 +93,7 @@ For Rossmann, a sample of 20 stores was drawn so that the experiments could be c
 - it had at most 35 closures on weekdays, which excludes long refurbishment closures;
 - it had no day recorded as open with zero sales, which would indicate a recording error.
 
-Of the 1,115 stores, 850 met these conditions. The sample was stratified by store type and assortment, with allocation proportional to stratum size and at least two stores per stratum, and drawn with a fixed random seed (2026). Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
+Of the 1,115 stores, 850 met these conditions. Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
 
 ### Closures, anomalies and missing values
 
@@ -236,7 +236,7 @@ All forecasts were clipped at zero before scoring. For a series with \(n\) score
 
 $$\text{RMSE} = \sqrt{\frac{1}{n}\sum_t (y_t - \hat{y}_t)^2}, \quad \text{MAPE} = \frac{100}{n}\sum_t \left|\frac{y_t - \hat{y}_t}{y_t}\right|, \quad \text{MASE} = \frac{\frac{1}{n}\sum_t |y_t - \hat{y}_t|}{\frac{1}{T-7}\sum_{j=8}^{T} |y_j - y_{j-7}|}$$ {#eq:metrics}
 
-The MASE denominator is the in-sample error of the seasonal naive method on training days, using only pairs of valid days from the training period of the respective stage, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free, which suits heterogeneous series [@hewamalage2023]. Results are also reported by horizon and by series.
+The denominator of the mean absolute scaled error (MASE) is the in-sample error of the seasonal naive method on training days, using only pairs of valid days from the training period of the respective stage, so a MASE below one means the forecast beats the naive method's in-sample accuracy. Metrics were computed per series and averaged with equal weight, so that large stores do not dominate. MASE is the primary measure because it is scale-free, which suits heterogeneous series [@hewamalage2023]. Results are also reported by horizon and by series.
 
 ### Significance testing
 
@@ -244,7 +244,7 @@ Accuracy differences were tested with the Diebold-Mariano (DM) test. For two for
 
 $$\text{DM} = \frac{\bar{d}}{\sqrt{\hat{\sigma}^2_{d}/n}}, \qquad \text{DM}^{*} = \text{DM}\sqrt{\frac{n + 1 - 2h + h(h-1)/n}{n}}$$ {#eq:dm}
 
-\(\hat{\sigma}^2_{d}\) is the long-run variance of \(d_t\), estimated with autocovariances up to lag \(h - 1\) with rectangular weights (Bartlett weights if the estimate is not positive), and \(\text{DM}^{*}\) is compared with Student's t distribution with \(n - 1\) degrees of freedom. The test was applied to the daily cross-series mean of losses scaled by each series' MASE denominator, so that every store contributes equally. Days on which no store traded, such as Rossmann Sundays, have no loss and are omitted, so the autocorrelation lags count trading days rather than calendar days. Both squared and absolute losses were used, with \(h = 28\). Pooling horizons 1 to 28 makes the test an approximation, because the error variance changes over the window and the correction assumes a fixed horizon. For networks, the test was repeated for each seed, and a difference was considered robust only if it held for all five seeds. As a descriptive complement, the test was also run separately for each series, on unscaled errors for seed 1 with unadjusted p-values. Holm correction was applied to each family of seven comparisons of the primary hybrid with the other models, per dataset, loss and seed. The pairwise matrix and ablation tables ({app:D}, {sec:evaluation}) are supplementary: Holm over all 28 pairs per seed, squared loss, mean statistic and median p-value across seeds.
+\(\hat{\sigma}^2_{d}\) is the long-run variance of \(d_t\), estimated with autocovariances up to lag \(h - 1\) with rectangular weights (Bartlett weights if the estimate is not positive), and \(\text{DM}^{*}\) is compared with Student's t distribution with \(n - 1\) degrees of freedom. The test was applied to the daily cross-series mean of losses scaled by each series' MASE denominator, so that every store contributes equally. Days on which no store traded, such as Rossmann Sundays, have no loss and are omitted, so the autocorrelation lags count trading days rather than calendar days. Both squared and absolute losses were used, with \(h = 28\). Pooling horizons 1 to 28 makes the test an approximation, because the error variance changes over the window and the correction assumes a fixed horizon. For networks, the test was repeated for each seed, and a difference was considered robust only if it held for all five seeds. As a descriptive complement, the test was also run separately for each series, on unscaled errors for seed 1 with unadjusted p-values. The approved proposal specified the Diebold-Mariano test for the differences between models. The comparison family and the Holm correction were defined in the first version of this chapter and of the evaluation script, before any result was available: the primary hybrid (the variant with the best validation MASE) is compared with each of the seven other models, and the Holm correction is applied over these seven comparisons, separately for each dataset, loss and seed. All claims of significance in {sec:evaluation} and {sec:conclusion} and in the abstract rest on this family. The matrix of all 28 pairs and the ablation tables were added afterwards. They are secondary, exploratory analyses in {app:D} (Holm over all 28 pairs per seed, squared loss, mean statistic and median p-value across seeds). Where the two families disagree, both p-values are reported and the result is described as not robust.
 
 ### Prediction intervals
 
@@ -252,13 +252,13 @@ Every model received a 95% prediction interval built in the same way. Split conf
 
 ### Computational cost
 
-Training and fitting times were measured as wall-clock time on one laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. The Rossmann statistical stage ran alone; the ARIMA search time of one store, which absorbed a computer sleep, was re-timed on its own (D-026). The later stages ran in parallel lanes with thread limits (D-027, D-028), so their runtimes include contention. A model's cost total is its tuning trials plus its final runs (five seeds for networks), and for hybrids the ARIMA stage; hyb_z reuses the hyb_d search. Energy is a runtime proxy, time multiplied by the processor's 15 W thermal design power, not a measurement [@scala2025].
+Training and fitting times were measured as wall-clock time on one laptop: a dual-core Intel Core i7-4510U processor with 5.9 GB of memory and no usable graphics processor. The Rossmann statistical stage was not timed in isolation: a duplicate run overlapped it for some stores, so their fit times may be inflated, and the ARIMA search time of one store, which absorbed a computer sleep, was re-timed on its own (D-026). The later stages ran in parallel lanes with thread limits (D-027, D-028), so their runtimes include contention, and the first eleven Rossmann FFNN trials used default threading. Runtimes are therefore indicative and not strictly comparable across stages. A model's cost total is its tuning trials plus its final runs (five seeds for networks), and for hybrids the ARIMA stage; hyb_z reuses the hyb_d search. Energy is a runtime proxy, time multiplied by the processor's 15 W thermal design power, not a measurement [@scala2025].
 
 ## Software Implementation {#sec:software}
 
 ### Architecture
 
-The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}). Command-line scripts run each stage and write every result to a file. The result tables and figures in this report are generated from these files rather than typed by hand, and the descriptive statistics quoted in the text are recorded in a file of their own. Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
+The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}; code in the repository [@negahbani2026]). Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
 
 ::: table id=tbl:modules widths=4.4,11.2 size=8.5
 caption: Modules of the forecasting package
@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 40 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 71 automated tests written with pytest, grouped in {tbl:tests} (tests/ in the repository [@negahbani2026]). The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -291,15 +291,18 @@ source: Author's own work. Test files are in the tests folder of the repository.
 | Leakage | 4 | Training targets end before the cut-off; early-stopping block later and disjoint; windows and forecast inputs unchanged when future data are perturbed |
 | Models | 6 | Seasonal naive repeats the last valid week; interval ordering; one-pass paths equal per-origin forecasts; ETS with missing days; output shape; masked loss |
 | Hybrid | 5 | Residual alignment; burn-in and missing days masked; causal residuals; correct combination; multi-step targets equal actual minus path |
-| Evaluation | 8 | Metrics on known values; unscored days ignored; interval metrics; conformal rank; DM test on identical, clearly different and hand-computed cases; Holm adjustment |
+| Evaluation | 12 | Metrics on known values; unscored days ignored; interval metrics; conformal rank and unscored horizons; DM test on identical, clearly different and hand-computed cases; Holm adjustment; DM matrix symmetry; ablation percentages; residual diagnostics |
 | Data loading | 3 | Rossmann store eligibility unchanged when records on or after the test start are altered; rules still applied before it; test start matches the split plan |
-| Power BI export | 4 | Acceptance values equal a hand calculation; risk-day counts; store-average MASE differs from the pooled value; week start is a Monday and unique across years |
+| Power BI export | 6 | Acceptance values equal a hand calculation; risk-day counts; store-average MASE differs from the pooled value; MASE is the mean over seeds of the per-seed store average; a mismatch with the report is flagged; week start is a Monday and unique across years |
+| Citations | 10 | Reference formats for journal articles, chapters, web pages and books; in-text names; chronological order |
+| Pipeline runner | 9 | Pause flags; refusal to start while a pipeline runs; time estimates; outlier trimming; quoting in the experiment log; a paused statistical stage stops |
+| Build and result summaries | 6 | Document properties; missing figure placeholder; interrupted tuning trials marked as failed; cost and total tables skip superseded rows and apply the re-timing |
 | Title page | 4 | Identity configuration keys; title page matches the identity file; names appear only where expected; applying the identity twice changes nothing |
 :::
 
 ### Reproducibility
 
-Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The repository contains the code, the tests, a continuous-integration workflow that runs the tests on every change, pinned package versions and a reproduction guide ({app:I}). The raw data are excluded, and a script checks a user's downloaded files against the recorded checksums.
+Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The reproduction guide is in {app:I}. The author's derived results (forecasts without the actual sales, accuracy measures, tests and model settings) are published as a Kaggle dataset [@negahbani2026kaggle]; it does not contain the original competition data.
 
 ## Dashboard Design {#sec:dashboard}
 
@@ -308,7 +311,7 @@ The dashboard is the deployment step of CRISP-DM and answers RQ4. It was designe
 - **store managers**, who need the next four weeks of forecasts for their own store with a realistic range;
 - **planners**, who compare stores and models and set safety stock.
 
-The export script writes a star schema of three dimension tables and three fact tables ({fig:schema}): dates, series and models as dimensions, and actuals, forecasts with intervals and per-series metrics as facts. It also writes a file of acceptance values that the dashboard's measures must reproduce. The Data Analysis Expressions (DAX) measures compute the accuracy measures, interval coverage and four planning indicators:
+The export script (scripts/export_dashboard.py in the repository [@negahbani2026]) writes a star schema of three dimension tables and three fact tables ({fig:schema}): dates, series and models as dimensions, and actuals, forecasts with intervals and per-series metrics as facts. It also writes a file of acceptance values that the dashboard's measures must reproduce. The Data Analysis Expressions (DAX) measures compute the accuracy measures, interval coverage and four planning indicators:
 
 - **forecast sales**, the sum of point forecasts over the selected days, which gives the expected volume (M5) or turnover (Rossmann);
 - **safety stock proxy**, the gap between the upper bound of the 95% interval and the point forecast, a simple indication of the stock needed above the forecast;
@@ -320,21 +323,7 @@ source: Author's own work.
 alt: Diagram of three dimension tables (date, series and model) linked by one-to-many relationships to three fact tables (actuals, forecasts and metrics).
 :::
 
-The dashboard has three pages:
-
-- forecast versus actual with the 95% band for a selected store, model and origin;
-- model comparison by accuracy, horizon and cost, with a card naming the model of lowest store-average test MASE for the selected dataset;
-- a planning page with the indicators above.
-
-Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]:
-
-- a colour palette that remains distinguishable under common colour-vision deficiencies;
-- line styles and data labels so that no information depends on colour alone;
-- alternative text on every visual;
-- a logical keyboard tab order;
-- minimum font sizes of 12 points for text and 10 points for axis labels.
-
-The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data; a static review (TP-16) covers the rest.
+The dashboard has three pages: forecast versus actual with the 95% band, model comparison, with a card naming the model of lowest store-average test mean absolute scaled error (MASE), and planning. Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]. The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data; a static review (TP-16) covers the rest.
 
 ## Issues and Troubleshooting {#sec:issues}
 
@@ -345,5 +334,4 @@ Several problems arose during development. Each was resolved and recorded in the
 - **Weekdays without history.** The seasonal naive method failed for Rossmann Sundays, which have no valid history. Such days are closures, so they were forecast as zero and excluded from scoring.
 - **Rossmann eligibility.** Eligibility first used all 942 days, including the test period. It now uses only earlier records, which raised the eligible stores from 836 to 850 and replaced five sampled stores; the stage was re-run and old outputs archived.
 - **Interrupted runs.** A long background run was stopped after a system clock change and lost 16 completed stores. Checkpoints were then added for each series, each tuning trial and each seed, so that every stage can resume.
-- **Literature access.** Google Scholar could not be searched automatically, and several publishers refused automated access to full texts. Discovery moved to OpenAlex and Crossref after the author approved the change, and only articles whose full text could be read were included ({sec:reviewmethod}).
 - **Toolchain deviation.** R was not installed on the development machine, so the planned R cross-check of the statistical models was not performed. Python 3.13 was used instead of Python 3.11.

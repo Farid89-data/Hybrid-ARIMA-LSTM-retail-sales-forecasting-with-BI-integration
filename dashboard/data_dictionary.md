@@ -53,9 +53,9 @@ One row per series, model, seed, forecast origin and horizon day (about 219,500 
 | actual | number | Recorded sales on the target day |
 | forecast | number | Point forecast (clipped at zero) |
 | lower, upper | number | 95% split-conformal interval |
-| scale | number | MASE denominator: in-sample seasonal-naive MAE of the series |
+| scale | number | Denominator of the mean absolute scaled error (MASE): in-sample seasonal-naive MAE of the series |
 | scored | int | 1 = trading day with positive sales; all accuracy measures use these rows only |
 
 ## fact_metrics
 
-Per-series test metrics: RMSE, MAE, MAPE (%), MASE, interval coverage and scaled interval width. One row per series, model and seed (`seed` as in `fact_forecast`). The mean of `mase` over all rows of a model equals the report's five-seed test MASE.
+Per-series test metrics: RMSE, MAE, MAPE (%), mean absolute scaled error (MASE), interval coverage and scaled interval width. One row per series, model and seed (`seed` as in `fact_forecast`). The mean of `mase` over all rows of a model equals the report's five-seed test MASE.
