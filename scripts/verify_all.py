@@ -135,7 +135,7 @@ def p4() -> None:
     rec("P4b", all(where.values()), f"cited in: {where}")
     q = (CODE / "reports" / "review_queue.md").read_text(encoding="utf-8")
     top = q[: q.index("## Resolved")] if "## Resolved" in q else q[:4000]
-    need = ["history_cleanup", "public", "v1.0-submission"]
+    need = ["github_support_request", "public", "v1.0-submission"]
     rec("P4c", all(n in top for n in need), f"AUTHOR items at the top mention: {[n for n in need if n in top]}")
 
 
