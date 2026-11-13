@@ -66,7 +66,7 @@ def p1() -> None:
     old = re.findall(r"scaled absolute error|Scaled absolute error", src)
     labels = re.findall(r"set_ylabel\(\"([^\"]*)\"", src)
     mase_label = [l for l in labels if "MASE" in l or "absolute scaled" in l]
-    figs = sorted((CODE / "outputs" / "figures").glob("res_*_by_horizon.png"))
+    figs = sorted((CODE / "outputs" / "figures").glob("res_*_mase_by_horizon.png"))
     newer = all(f.stat().st_mtime >= (CODE / "scripts" / "run_evaluation.py").stat().st_mtime for f in figs)
     rec("P1a", not old and bool(mase_label) and newer and len(figs) == 2,
         f"old-name hits {len(old)}; MASE y-labels {len(mase_label)}; by-horizon PNGs {len(figs)} newer than the script: {newer}")
@@ -98,8 +98,8 @@ def p2() -> None:
     rows = [l for l in ck.splitlines() if l.startswith("|") and "Acceptance" not in l and "---" not in l]
     unexplained = [l[:60] for l in rows if re.search(r"mismatch", l, re.I) and "not reconciled" not in l.lower()]
     unmarked = [l[:60] for l in rows if "not visible" in l and "to be run" not in l]
-    rec("P2b", "not** DAX" in ck.replace("not DAX", "not** DAX") and "not DAX" in ck and not unexplained and not unmarked,
-        f"checklist rows {len(rows)}; says screenshot not DAX: {'not DAX' in ck}; unexplained mismatch {len(unexplained)}; unmarked unseen {len(unmarked)}")
+    rec("P2b", bool(re.search(r"not\*{0,2} DAX", ck)) and not unexplained and not unmarked,
+        f"checklist rows {len(rows)}; says not DAX: {bool(re.search(r'not\*{0,2} DAX', ck))}; unexplained mismatch {len(unexplained)}; unmarked unseen {len(unmarked)}")
     e = text("90_appendices.md")
     tp = [l for l in e.splitlines() if re.match(r"\| TP-(01|02|03|04|05|06|07|08|09|15|16) ", l)]
     rec("P2c", len(tp) == 11 and all("To be run by the author" in l for l in tp), f"interactive TP rows marked to be run: {sum('To be run by the author' in l for l in tp)}/11")
