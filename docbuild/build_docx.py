@@ -15,8 +15,8 @@ What the builder does:
    roman page numbers) and main text (arabic numbers from 1).
 3. Writes the front matter with real Word fields (TOC, List of Figures, List
    of Tables), then the chapters parsed from ``docbuild/chapters/*.md``.
-4. Captions use ``STYLEREF``/``SEQ`` fields (table captions above tables,
-   figure captions below figures); cross-references are ``REF`` fields to
+4. Captions are centred and use ``STYLEREF``/``SEQ`` fields (table captions above tables,
+   figure captions below figures, a centred source line below the table or the figure caption); cross-references are ``REF`` fields to
    bookmarks; citations are internal hyperlinks to bookmarked reference-list
    entries generated from ``Refrence/references.json``.
 
@@ -325,12 +325,12 @@ def setup_styles(doc) -> int:
     cap = _ensure_style(doc, "Caption", base="Normal")
     _font(cap, 10, bold=True, colour="365F91")
     _spacing(cap, before=120, after=120, line=240)
-    cap.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    cap.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     src = _ensure_style(doc, "Source Note", base="Normal")
     _font(src, 9, italic=True)
     _spacing(src, before=60, after=240, line=240)
-    src.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    src.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     tt = _ensure_style(doc, "Table Text", base="Normal")
     _font(tt, 9.5)
@@ -849,6 +849,8 @@ class Builder:
         return p
 
     def _source(self, text: str, keep_next=False):
+        # Guide 3.4.3: own work carries the text "(personal collection)".
+        text = re.sub(r"^(Author's own \w+)(?! \(personal collection\))", lambda m: m.group(1) + " (personal collection)", text)
         p = self.doc.add_paragraph(style="Source Note")
         p.paragraph_format.keep_with_next = keep_next
         self.inline(p, text, {"size": 9, "italic": True})
@@ -910,7 +912,9 @@ class Builder:
                     shd.set(qn("w:color"), "auto")
                     shd.set(qn("w:fill"), "DBE5F1")
                     tcpr.append(shd)
-                if i < len(rows) - 1:
+                # Short tables stay on one page. For long tables only the first two and the last two rows
+                # are chained, so that the caption stays with the header and the source line with the end.
+                if len(rows) <= 20 or i < 2 or i >= len(rows) - 2:
                     para.paragraph_format.keep_with_next = True
                 if widths:
                     cell.width = Cm(widths[j])
@@ -1322,6 +1326,10 @@ def build(out_path: Path = OUT_DOCX, final: bool = False) -> dict:
     _set_core_properties(b.doc, load_identity())
     _set_app_properties(b.doc, load_identity())
     b.doc.save(str(out_path))
+    from check_captions import problems as caption_problems  # noqa: PLC0415
+    bad = caption_problems(out_path)
+    if bad:
+        raise RuntimeError("Caption layout check failed: " + "; ".join(bad[:10]))
     return {"out": str(out_path), "cited": b.cited, "word_counts": b.word_counts,
             "warnings": b.warnings, "labels": {k: v.number for k, v in b.labels.items()},
             "citations_by_part": b.citations_by_part, "cite_sections": b.cite_sections}
