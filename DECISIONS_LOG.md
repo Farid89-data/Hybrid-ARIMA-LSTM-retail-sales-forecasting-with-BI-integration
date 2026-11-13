@@ -376,3 +376,9 @@ When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each
 ## D-030 Power BI report built (13 November 2026)
 
 - The `.pbix` row of D-021 is out of date: the three-page Power BI report was built on 13 November 2026 (file saved 06:37 to 06:50). The file holds the Kaggle-derived data and is not committed (`*.pbix` in `.gitignore`); the theme, the measure checklist and the page screenshots are in `dashboard/`. Interactive tests and the user study remain to be done by the author.
+
+## D-031 Kaggle-derived data removed from version control (13 November 2026)
+
+- Tracked files that hold daily store-level sales or forecasts that carry the actual sales were untracked (`git rm --cached`) and kept on disk: `dashboard/data/fact_actuals.csv`, `dashboard/data/fact_forecast.csv`, all of `outputs/forecasts/`, `outputs/archive/rossmann_sample_v1/rossmann_statistical.csv.gz` and `dashboard/Dashboard_screenshots.pdf` (its detail table shows daily actuals). They are listed in `.gitignore`.
+- Kept: dimension tables (dates, series, models), `fact_metrics.csv` (per-series error measures), `acceptance_values.json`, the tables and metrics under `outputs/` (aggregates), the notebooks (outputs are summaries and plots; no row-level sales found) and the page images in `outputs/figures/` (they are figures of the report).
+- The files remain in the git history. The steps to remove them from all history before the repository is made public are in `reports/history_cleanup.md` and have not been run.

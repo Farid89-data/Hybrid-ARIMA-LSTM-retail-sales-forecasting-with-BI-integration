@@ -4,7 +4,7 @@ This folder holds everything needed to build the Power BI dashboard of the proje
 
 | File | Content |
 |---|---|
-| `data/` | CSV star schema and `acceptance_values.json`, written by `scripts/export_dashboard.py` |
+| `data/` | CSV star schema and `acceptance_values.json`, written by `scripts/export_dashboard.py` (which calls `src/export_powerbi.py`). `fact_actuals.csv` and `fact_forecast.csv` hold daily store-level sales derived from Kaggle data, so they are not in the repository: run the pipeline and the export script to create them |
 | `data_dictionary.md` | Columns of every table |
 | `power_query.md` | Power Query (M) scripts, relationships and sort orders |
 | `dax_measures.md` | DAX measures and how to check them |
