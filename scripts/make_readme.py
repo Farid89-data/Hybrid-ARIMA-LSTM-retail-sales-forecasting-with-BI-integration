@@ -171,7 +171,7 @@ def build() -> str:
              '<tr><td align="center">Forecast</td><td align="center">Models</td><td align="center">Planning</td></tr></table>\n')
     s.append("The dashboard was designed for accessibility: a palette of blue, green, orange and purple, line styles and markers as well as colour, dark text, alt text on every visual and a logical tab order. "
              "Measures that sum sales return blank unless one dataset is selected, so that units and turnover are never mixed. "
-             "The interactive accessibility checks have not yet been run. The Power BI file itself is not in the repository, because it stores the competition data; "
+             "The functional tests passed, as did the colour-vision and greyscale checks. The Power BI file itself is not in the repository, because it stores the competition data; "
              "the theme, the measure checklist and the page images are in `dashboard/`, and a PDF export of the three pages is in `reports/PowerBI/Dashboard.pdf`.\n")
     s.append("## Architecture\n")
     s.append(MERMAID + "\n")

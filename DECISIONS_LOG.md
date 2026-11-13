@@ -371,3 +371,9 @@ When the pipeline processes stopped at 03:15 on 11 November 2026, the trial each
 
 - `reports/PowerBI/Dashboard.pdf` stays tracked: its three pages are the same as the `dash_built_*` images already committed in `outputs/figures/`, and it shows only a few aggregated daily values. The Power BI file (`*.pbix`) stays excluded and ignored, because it stores the Kaggle sales data. `README.md` and `data/README.md` say the same. This replaces the earlier ignoring of `dashboard/Dashboard_screenshots.pdf` (D-031), which remains ignored.
 - CI failed on a clean checkout because `python-docx`, `lxml`, `latex2mathml` and `psutil`, which the tests import through the build module and the pipeline runner, were not in `requirements.txt`. They are now pinned to the versions of the local environment. Tests that need the Word template skip when it is missing.
+
+## D-034 Dissertation sources untracked; source lines use file paths (13 November 2026)
+
+- `docbuild/chapters/`, `docbuild/build/` and built `.docx` files are ignored; the build scripts stay tracked. The README says the dissertation text is available on request or after publication.
+- Source lines under tables and figures now read "Source: <file path>" (the figure or table file, or the document the content comes from). Where a table has no data file, the nearest repository file is named. The Arden guide asks for own work to be marked "(personal collection)"; the author's instruction to use file paths took precedence.
+- Dashboard tests TP-01 to TP-16 and checks A2 and A3 are recorded as passed on the author's confirmation; A5, A6 and A8 have no recorded result.

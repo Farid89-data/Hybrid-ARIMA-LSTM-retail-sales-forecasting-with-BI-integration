@@ -849,8 +849,9 @@ class Builder:
         return p
 
     def _source(self, text: str, keep_next=False):
-        # Guide 3.4.3: own work carries the text "(personal collection)".
-        text = re.sub(r"^(Author's own \w+)(?! \(personal collection\))", lambda m: m.group(1) + " (personal collection)", text)
+        # The source line names the file the content comes from.
+        if not text.startswith("Source:"):
+            text = "Source: " + text
         p = self.doc.add_paragraph(style="Source Note")
         p.paragraph_format.keep_with_next = keep_next
         self.inline(p, text, {"size": 9, "italic": True})
@@ -874,7 +875,7 @@ class Builder:
             self.figure_alts.append(alt)
         cap = self._caption("fig", b)
         cap.paragraph_format.keep_with_next = True
-        self._source(b.attrs.get("source", "Author's own work."))
+        self._source(b.attrs.get("source", b.attrs["file"]))
 
     def table(self, b: Block):
         rows = self._table_rows(b)
@@ -918,7 +919,7 @@ class Builder:
                     para.paragraph_format.keep_with_next = True
                 if widths:
                     cell.width = Cm(widths[j])
-        self._source(b.attrs.get("source", "Author's own work."))
+        self._source(b.attrs.get("source", b.attrs.get("csv", "README.md")))
 
     def _table_rows(self, b: Block) -> list[list[str]]:
         if "csv" in b.attrs:
