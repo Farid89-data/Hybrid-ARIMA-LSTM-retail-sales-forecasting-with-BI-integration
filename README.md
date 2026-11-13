@@ -2,7 +2,7 @@
 
 28-day store-level sales forecasts with calibrated prediction intervals, delivered to a Power BI planning dashboard.
 
-[![tests](https://github.com/Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration/actions/workflows/ci.yml) ![unit tests](https://img.shields.io/badge/unit%20tests-71%20passed-brightgreen) ![Python](https://img.shields.io/badge/python-3.13-blue) ![Licence](https://img.shields.io/badge/licence-MIT-lightgrey) [![Kaggle dataset](https://img.shields.io/badge/Kaggle-derived%20results%20(planned)-20BEFF)](https://www.kaggle.com/datasets/Farid89-data/hybrid-arima-lstm-retail-forecast-results) ![Dissertation](https://img.shields.io/badge/dissertation-after%20submission-lightgrey)
+[![tests](https://github.com/Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/Farid89-data/Hybrid-ARIMA-LSTM-retail-sales-forecasting-with-BI-integration/actions/workflows/ci.yml) ![unit tests](https://img.shields.io/badge/unit%20tests-71%20passed-brightgreen) ![Python](https://img.shields.io/badge/python-3.13-blue) ![Licence](https://img.shields.io/badge/licence-MIT-lightgrey) [![Kaggle dataset](https://img.shields.io/badge/Kaggle-derived%20results-20BEFF)](https://www.kaggle.com/datasets/frd894563524452/retail-sales-forecasts-hybrid-arima-lstm-results) ![Dissertation](https://img.shields.io/badge/dissertation-on%20request-lightgrey)
 
 ## Results at a glance
 
@@ -37,7 +37,7 @@ Test period, 28-day horizon, rolling origins. MASE is the mean absolute scaled e
 
 <table><tr><td><img src="outputs/figures/dash_built_forecast.png" alt="Forecast page: actual and forecast sales with the 95% interval, cards for MASE, coverage, MAE and bias" width="100%"></td><td><img src="outputs/figures/dash_built_models.png" alt="Model page: best model, MASE by model, coverage by model, MASE by horizon and a store by model table" width="100%"></td><td><img src="outputs/figures/dash_built_planning.png" alt="Planning page: forecast sales, safety stock proxy, stock-out and overstock risk days, weekly forecast and bias by store" width="100%"></td></tr><tr><td align="center">Forecast</td><td align="center">Models</td><td align="center">Planning</td></tr></table>
 
-The dashboard was designed for accessibility: a palette of blue, green, orange and purple, line styles and markers as well as colour, dark text, alt text on every visual and a logical tab order. Measures that sum sales return blank unless one dataset is selected, so that units and turnover are never mixed. The interactive accessibility checks have not yet been run. The Power BI file itself is not in the repository, because it stores the competition data; the theme, the measure checklist and the page images are in `dashboard/`, and a PDF export of the three pages is in `reports/PowerBI/Dashboard.pdf`.
+The dashboard was designed for accessibility: a palette of blue, green, orange and purple, line styles and markers as well as colour, dark text, alt text on every visual and a logical tab order. Measures that sum sales return blank unless one dataset is selected, so that units and turnover are never mixed. The functional tests passed, as did the colour-vision and greyscale checks. The Power BI file itself is not in the repository, because it stores the competition data; the theme, the measure checklist and the page images are in `dashboard/`, and a PDF export of the three pages is in `reports/PowerBI/Dashboard.pdf`.
 
 ## Architecture
 
@@ -118,7 +118,7 @@ pip install -r requirements.txt
 | `tests/` | pytest suite, including the leakage tests |
 | `notebooks/` | Walkthrough notebooks that read the pipeline outputs |
 | `dashboard/` | Power BI data model documents, DAX measures, theme, measure checklist and page images |
-| `docbuild/` | Builds the dissertation Word file from Markdown chapters, with the build checks |
+| `docbuild/` | Build scripts and checks for the dissertation Word file (the dissertation text itself is not in the repository) |
 | `data/` | Instructions for obtaining the Kaggle files and their reference checksums (no raw data) |
 | `outputs/` | Metrics, tables, figures and logs written by the pipeline (forecasts are not tracked) |
 | `reports/` | Verification and clean-up reports |
@@ -127,7 +127,7 @@ pip install -r requirements.txt
 
 ## Reproducibility and data policy
 
-The original M5 and Rossmann data are not redistributed, in line with the competition rules, and neither are the actual daily sales or files derived from them (the forecast files and the dashboard fact tables are not tracked). The author's own derived results (forecasts without the actual sales, accuracy measures, tests, model settings and costs) are planned as a [Kaggle dataset](https://www.kaggle.com/datasets/Farid89-data/hybrid-arima-lstm-retail-forecast-results); each file there maps to the tables written by this pipeline (`outputs/tables/`, `outputs/metrics/`), and the dataset page explains how to rejoin the forecasts with the original data.
+The original M5 and Rossmann data are not redistributed, in line with the competition rules, and neither are the actual daily sales or files derived from them (the forecast files and the dashboard fact tables are not tracked). The author's own derived results (forecasts without the actual sales, accuracy measures, tests, model settings and costs) are published as a [Kaggle dataset](https://www.kaggle.com/datasets/frd894563524452/retail-sales-forecasts-hybrid-arima-lstm-results); each file there maps to the tables written by this pipeline (`outputs/tables/`, `outputs/metrics/`), and the dataset page explains how to rejoin the forecasts with the original data.
 
 ## Limitations
 
@@ -149,4 +149,14 @@ The original M5 and Rossmann data are not redistributed, in line with the compet
 
 Citation metadata: [`CITATION.cff`](CITATION.cff). Licence: MIT ([`LICENSE`](LICENSE)).
 
-Author: Farid Negahbani. GitHub: [Farid89-data](https://github.com/Farid89-data). LinkedIn: _link to be added_.
+The dissertation text is available on request or after publication.
+
+## Contact and profiles
+
+Author: Farid Negahbani.
+
+- Kaggle dataset: <https://www.kaggle.com/datasets/frd894563524452/retail-sales-forecasts-hybrid-arima-lstm-results>
+- LinkedIn: <https://www.linkedin.com/in/farid-negahbani/>
+- GitHub: <https://github.com/Farid89-data>
+- Portfolio: <https://www.datascienceportfol.io/frdngbsn>
+- XING: <https://www.xing.com/profile/Farid_Negahbani>

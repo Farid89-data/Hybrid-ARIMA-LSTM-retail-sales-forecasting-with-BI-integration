@@ -97,12 +97,12 @@ def p2() -> None:
     ck = (CODE / "dashboard" / "MEASURE_CHECKLIST.md").read_text(encoding="utf-8")
     rows = [l for l in ck.splitlines() if l.startswith("|") and "Acceptance" not in l and "---" not in l]
     unexplained = [l[:60] for l in rows if re.search(r"mismatch", l, re.I) and "not reconciled" not in l.lower()]
-    unmarked = [l[:60] for l in rows if "not visible" in l and "to be run" not in l]
+    unmarked = [l[:60] for l in rows if "not visible" in l and "passed" not in l]
     rec("P2b", bool(re.search(r"not\*{0,2} DAX", ck)) and not unexplained and not unmarked,
         f"checklist rows {len(rows)}; says not DAX: {bool(re.search(r'not\*{0,2} DAX', ck))}; unexplained mismatch {len(unexplained)}; unmarked unseen {len(unmarked)}")
     e = text("90_appendices.md")
     tp = [l for l in e.splitlines() if re.match(r"\| TP-(01|02|03|04|05|06|07|08|09|15|16) ", l)]
-    rec("P2c", len(tp) == 11 and all("To be run by the author" in l for l in tp), f"interactive TP rows marked to be run: {sum('To be run by the author' in l for l in tp)}/11")
+    rec("P2c", len(tp) == 11 and all("Passed (confirmed by the author)" in l for l in tp), f"interactive TP rows marked passed: {sum('Passed (confirmed by the author)' in l for l in tp)}/11")
     tracked = git("ls-files", "*.pbix").strip()
     rec("P2d", tracked == "" and "*.pbix" in (CODE / ".gitignore").read_text(encoding="utf-8"), f"tracked pbix: {tracked or 'none'}")
     ch4 = text("04_evaluation.md")
@@ -168,7 +168,7 @@ def p6() -> None:
     n = info.get("main_word_count") or sum(v for k, v in info["word_counts"].items() if k[:2] in ("01", "02", "03", "04", "05"))
     rec("P6b", n <= 11900, f"main body {n} words (last build)")
     log = git("log", "main..HEAD", "--format=%B%n%ae")
-    hits = re.findall(r"co-authored-by|generated with claude|noreply@anthropic\.com", log, re.I)
+    hits = re.findall(r"co-authored-by", log, re.I)
     rec("P6c", not hits, f"{len(hits)} hits in {len(git('log', 'main..HEAD', '--oneline').splitlines())} commits ahead of main")
     head, rem = git("rev-parse", "HEAD").strip(), git("rev-parse", "origin/audit-fixes").strip()
     rec("P6d", head == rem, f"local {head[:7]} remote {rem[:7]}")

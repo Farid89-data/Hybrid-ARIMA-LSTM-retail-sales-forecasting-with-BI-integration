@@ -56,7 +56,7 @@ Literature through scholarly APIs (OpenAlex, Crossref) with publisher verificati
 | # | Issue |
 |---|---|
 | 1 | Arden Harvard guide not supplied: reference format is provisional (comment in the document) |
-| 2 | Arden generative-AI policy not supplied: Appendix A must be checked and completed by the student |
+| 2 | Arden declaration requirements not supplied: Appendix A must be checked and completed by the student |
 | 3 | Word-count policy not supplied |
 | 4 | Title page: Student Name row added (D01); "(Project Proposal)" and "1767" are replaced only in the final build (`build_docx.py --final`) |
 | 5 | Exception Register for pre-2023 sources not approved: no pre-2023 source is cited (SUS original source pending) |
