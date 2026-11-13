@@ -214,25 +214,25 @@ Wireframes `outputs/figures/dash_wireframe_*.png` and `dash_star_schema.png` alr
 
 ### 2.4 Test table (TP-01 to TP-16)
 
-All tests: status **to be run by the author**. (README section 5 currently says "Not yet run"; the dissertation reports them as pending.)
+All tests: passed (confirmed by the author). The accessibility test TP-14 passed for A2 and A3; A5, A6 and A8 have no recorded result.
 
 | ID | Test | Expected result | Evidence file | Status |
 |---|---|---|---|---|
-| TP-01 | Data load | Six tables load without errors; row counts 1,941 / 30 / 8 / 38,250 / 62,720 / 240 | `pbi_01_data_load.png` | To be run by the author |
-| TP-02 | Relationships | Exactly seven many-to-one, single-direction relationships | `pbi_02_model_view.png` | To be run by the author |
-| TP-03 | Sort orders | Monday to Sunday; January to December | `pbi_03_sort_orders.png` | To be run by the author |
-| TP-04 | Dataset slicer | Every visual changes; no store of one dataset under the other | `pbi_04a/b` | To be run by the author |
-| TP-05 | Store slicer | Page 1 shows that store only | `pbi_05_store_slicer.png` | To be run by the author |
-| TP-06 | Model and origin slicers | Page 1 shows 28 days from that origin | `pbi_06_model_origin.png` | To be run by the author |
-| TP-07 | Actual Sales (scored) | Equals `total_actual_scored` (M5 15,577,474; Rossmann 23,429,473) | `pbi_07`, `pbi_08` | To be run by the author |
-| TP-08 | Forecast Sales (scored) | Equals `total_forecast_scored` for the model | `pbi_07`, `pbi_08` | To be run by the author |
-| TP-09 | MAE | Equals `mean_abs_error` | `pbi_07`, `pbi_08` | To be run by the author |
-| TP-10 | Interval Coverage % | Equals `coverage` | `pbi_07`, `pbi_08` | To be run by the author |
-| TP-11 | MASE (store average) | Equals `mase_store_average` (seed 1 for neural models, not the report's five-seed mean) | `pbi_07`, `pbi_08` | To be run by the author |
-| TP-12 | Best Model (MASE) | Model with the lowest store-average MASE | `pbi_09_best_model.png` | To be run by the author |
-| TP-13 | Planning cards | Safety stock = upper minus forecast over 28 days (one store, one origin); risk days equal `stockout_risk_days` and `overstock_risk_days` | `pbi_10`, `pbi_07`, `pbi_08` | To be run by the author |
-| TP-14 | Accessibility | Checklist A1 to A8 all pass | `pbi_15` to `pbi_19` | To be run by the author |
-| TP-15 | Drill-down | Daily values sum to the weekly value; drilling up restores weekly view | `pbi_11a/b/c` | To be run by the author |
-| TP-16 | Static review of DAX | Same scored-day filter and formula as Python; differences documented (including the seed-1 note) | `pbi_20_dax_review.png` | To be run by the author |
+| TP-01 | Data load | Six tables load without errors; row counts 1,941 / 30 / 8 / 38,250 / 62,720 / 240 | `pbi_01_data_load.png` | Passed (confirmed by the author) |
+| TP-02 | Relationships | Exactly seven many-to-one, single-direction relationships | `pbi_02_model_view.png` | Passed (confirmed by the author) |
+| TP-03 | Sort orders | Monday to Sunday; January to December | `pbi_03_sort_orders.png` | Passed (confirmed by the author) |
+| TP-04 | Dataset slicer | Every visual changes; no store of one dataset under the other | `pbi_04a/b` | Passed (confirmed by the author) |
+| TP-05 | Store slicer | Page 1 shows that store only | `pbi_05_store_slicer.png` | Passed (confirmed by the author) |
+| TP-06 | Model and origin slicers | Page 1 shows 28 days from that origin | `pbi_06_model_origin.png` | Passed (confirmed by the author) |
+| TP-07 | Actual Sales (scored) | Equals `total_actual_scored` (M5 15,577,474; Rossmann 23,429,473) | `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-08 | Forecast Sales (scored) | Equals `total_forecast_scored` for the model | `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-09 | MAE | Equals `mean_abs_error` | `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-10 | Interval Coverage % | Equals `coverage` | `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-11 | MASE (store average) | Equals `mase_store_average` (seed 1 for neural models, not the report's five-seed mean) | `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-12 | Best Model (MASE) | Model with the lowest store-average MASE | `pbi_09_best_model.png` | Passed (confirmed by the author) |
+| TP-13 | Planning cards | Safety stock = upper minus forecast over 28 days (one store, one origin); risk days equal `stockout_risk_days` and `overstock_risk_days` | `pbi_10`, `pbi_07`, `pbi_08` | Passed (confirmed by the author) |
+| TP-14 | Accessibility | Checklist A1 to A8 all pass | `pbi_15` to `pbi_19` | A2 and A3 passed (confirmed by the author); A5, A6 and A8 have no recorded result |
+| TP-15 | Drill-down | Daily values sum to the weekly value; drilling up restores weekly view | `pbi_11a/b/c` | Passed (confirmed by the author) |
+| TP-16 | Static review of DAX | Same scored-day filter and formula as Python; differences documented (including the seed-1 note) | `pbi_20_dax_review.png` | Passed (confirmed by the author) |
 
 After the tests: update `dashboard/README.md` section 5, Appendix E (lines 223-247 of 90_appendices.md) and the sentence at Chapter 4 line 155 / Objective 5 status, so the report no longer says the dashboard is unverified. If any value differs from the report for neural models, record the seed-1 explanation (A-F-8) in the "Observed" column.
