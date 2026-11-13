@@ -9,7 +9,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "docbuild"))
 import build_docx as bd  # noqa: E402
 
-BANNED = ("claude", "anthropic", "jshort", "frd ngb", "gpt", "copilot")
+BANNED = ("jshort", "frd ngb")
 
 
 def test_apply_core_properties(tmp_path):

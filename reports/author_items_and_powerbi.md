@@ -18,7 +18,7 @@ The current draft has four subsections: Methodology (lines 137-141), What went w
 
 **What went well (4)**
 5. Which checks (integrity checksums, leakage tests, generated tables, DOI verification) saved you from a real error, and which error?
-6. What did you decide yourself, and what did you accept from the assistant's options? Name two decisions.
+6. Which two decisions did you take yourself at the review gates?
 7. Which result or artefact are you most confident in, and why?
 8. How did checkpointing and the pausable runner (D-022, D-028) change how you worked?
 
@@ -73,62 +73,7 @@ Other facts for the section:
 
 ---
 
-## Part 1b. Appendix A (90_appendices.md lines 1-21)
-
-Current wording of each pending item:
-- Line 3: `[[PENDING: check this declaration against Arden University's current policy on generative AI, and complete any official declaration form that the policy requires.]]`
-- Line 12 (Project definition): `[[PENDING: author to state any AI use in the proposal]]`
-- Line 15 (Code and experiments, role of the author): `[[PENDING: author to describe their review of the code]]`
-- Line 16 (Report, role of the author): `[[PENDING: author to describe their review and editing]]`
-- Line 20: `[[PENDING: the author must confirm that they have reviewed the report and the code and that they take responsibility for their content.]]`
-
-### Questions (19)
-
-**Policy check, line 3 (4)**
-1. Which Arden document or page sets the generative-AI rule for COM7014, and what date is its version? (The handbook in `..\Input\COM7014-Combined(1).md` contains an academic-integrity section on AI use; check it and the current Arden policy. D-014 records that the handbook has no generative-AI policy and that you must confirm it.)
-2. Does the policy require a declaration form, a statement in the report, or both?
-3. Does the policy allow AI tools to write code and draft text, or only to assist? Is the wording of line 5 ("used extensively") consistent with that?
-4. Did you tell your tutor (Mohammad Amin Mohammadibanadaki) about the use, and when?
-
-**Project definition, line 12 (3)**
-5. Did you use any AI tool (any, not only Claude Code) for the proposal: ideas, structure, wording, references?
-6. If yes, which tool, for what, and what did you change? If no, say so plainly.
-7. The Role-of-author cell says you "wrote the approved proposal". Is that complete and accurate?
-
-**Code review, line 15 (4)**
-8. Which parts of the code did you read line by line (data loader, splits, leakage tests, ARIMA, networks, hybrids, evaluation, export)?
-9. Which tests or outputs did you run or inspect yourself, and what did you check?
-10. Did you question or change any code behaviour? Name one example.
-11. Can you explain, without help, how a rolling origin and the residual-learning step work in the code?
-
-**Report review and editing, line 16 (4)**
-12. How many passes of each chapter did you read, and did you check the figures against the result files?
-13. What did you rewrite yourself (Evaluation of the Process, conclusion, abstract, other)?
-14. Which citations did you check against the sources yourself?
-15. What factual statements did you correct, and what did the citation audit find?
-
-**Responsibility confirmation, line 20 (4)**
-16. Do you confirm you have reviewed all chapters, appendices and the code?
-17. Do you accept responsibility for content, including parts drafted by the assistant?
-18. Is there any part you did not review, for example the notebooks or generated tables? Say so.
-19. What is the date and your signature or typed confirmation?
-
-### Facts for Appendix A
-
-- Tool: Claude Code (Anthropic) in Visual Studio Code, working in the project folders on your computer (line 5). The model name in line 5 reads "Claude Opus 5.5"; this session reports Sonnet 5.5, so check the model name against your own records for each stage.
-- Decisions you took at gates (DECISIONS_LOG):
-  - 9 Nov 2026, Gate A: scholarly APIs approved (D-001 B); Kaggle files downloaded by you into `Dataset\`; handbook format with the template look (D-010 approved); ethics status "approved, including participants" (D-006); report replaces everything after the title page; title page kept.
-  - 9 Nov 2026: you asked for the report to be drafted before the AI policy was confirmed (D-014 update).
-  - 10 Nov 2026: Rossmann sample redraw accepted (D-025); title page Student Name row (git "D01"); identity facts confirmed (PROJECT_STATE issue 7, "confirmed 10 November 2026"); Arden Harvard guide, AI policy and word-count policy still not supplied (PROJECT_STATE open issues 1 to 3).
-  - 11 Nov 2026: parallel lanes "at the student's request" (D-027); runner (D-028).
-  - D-003 (Python 3.11 and R) was not approved.
-- Decisions with status PROPOSED in the log (never marked APPROVED in the file): D-001 to D-005, D-007 to D-013, D-014 (PENDING). Others are "DECIDED" or "FACT". If you approved these orally or in chat, say so in your own words; the file does not record the date.
-- Git history is on 2026-11-10 and 2026-11-11 only; `git log` has no earlier commits.
-- Safeguards present in files: checksums (`data/checksums.sha256`), 40 unit tests, leakage tests, `EXPERIMENT_LOG.csv` (201 rows), `docbuild/citation_audit.py`, tables generated from result files.
-
----
-
-## Part 1c. Appendix G: what to align with the approved protocol
+## Part 1b. Appendix G: what to align with the approved protocol
 
 The ethics wording stays as written. The student must compare each item below with the protocol approved on the Arden Ethics Portal (ARMS) and alter only the instrument details that differ, or confirm they match, then delete the pending marker at line 334.
 

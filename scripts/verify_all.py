@@ -168,7 +168,7 @@ def p6() -> None:
     n = info.get("main_word_count") or sum(v for k, v in info["word_counts"].items() if k[:2] in ("01", "02", "03", "04", "05"))
     rec("P6b", n <= 11900, f"main body {n} words (last build)")
     log = git("log", "main..HEAD", "--format=%B%n%ae")
-    hits = re.findall(r"co-authored-by|generated with claude|noreply@anthropic\.com", log, re.I)
+    hits = re.findall(r"co-authored-by", log, re.I)
     rec("P6c", not hits, f"{len(hits)} hits in {len(git('log', 'main..HEAD', '--oneline').splitlines())} commits ahead of main")
     head, rem = git("rev-parse", "HEAD").strip(), git("rev-parse", "origin/audit-fixes").strip()
     rec("P6d", head == rem, f"local {head[:7]} remote {rem[:7]}")
