@@ -40,3 +40,5 @@ outputs/archive/*/*.csv.gz
 CLAUDE.md
 .claude/
 reports/review_queue.md
+
+*.pbix
