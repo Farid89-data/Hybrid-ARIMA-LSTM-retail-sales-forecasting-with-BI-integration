@@ -1,0 +1,59 @@
+{
+ "name": "ForecastTheme",
+ "dataColors": [
+  "#1F4E79",
+  "#548235",
+  "#C55A11",
+  "#7030A0",
+  "#595959",
+  "#2E75B6",
+  "#A9D18E",
+  "#F4B183",
+  "#B4A7D6",
+  "#7F7F7F"
+ ],
+ "foreground": "#111827",
+ "background": "#FFFFFF",
+ "tableAccent": "#1F4E79",
+ "good": "#548235",
+ "neutral": "#BF9000",
+ "bad": "#C55A11",
+ "textClasses": {
+  "title": {
+   "fontFace": "Segoe UI Semibold",
+   "fontSize": 14,
+   "color": "#111827"
+  },
+  "header": {
+   "fontFace": "Segoe UI Semibold",
+   "fontSize": 12,
+   "color": "#111827"
+  },
+  "label": {
+   "fontFace": "Segoe UI",
+   "fontSize": 10,
+   "color": "#374151"
+  },
+  "callout": {
+   "fontFace": "Segoe UI Semibold",
+   "fontSize": 28,
+   "color": "#111827"
+  }
+ },
+ "visualStyles": {
+  "page": {
+   "*": {
+    "background": [
+     {
+      "color": {
+       "solid": {
+        "color": "#F3F4F6"
+       }
+      },
+      "transparency": 0
+     }
+    ]
+   }
+  }
+ }
+}
