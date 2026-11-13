@@ -43,7 +43,7 @@ Two public datasets were used. Both were downloaded by the author from the Kaggl
 - **M5 (Walmart).** Daily unit sales of 3,049 products in ten stores in California, Texas and Wisconsin, from 29 January 2011 to 22 May 2016. The data include a calendar with events and with days on which Supplemental Nutrition Assistance Program (SNAP) benefits are paid.
 - **Rossmann.** Daily sales (turnover) of 1,115 German drugstores, from 1 January 2013 to 31 July 2015. The data include opening status, promotions and school and state holidays.
 
-Before any modelling, every file was opened and checked: number of rows and columns, column names, missing cells and a SHA-256 checksum. All nine files were complete and readable. The integrity report is reproduced in {app:B}. The raw files are not redistributed with the code; the reproduction guide explains how to obtain them from the Kaggle pages.
+Before any modelling, every file was opened and checked: rows, columns, missing cells and a checksum. All nine files were complete and readable. The integrity report is reproduced in {app:B}. The raw files are not redistributed with the code; the reproduction guide explains how to obtain them from the Kaggle pages.
 
 ### Exploratory analysis
 
@@ -93,7 +93,7 @@ For Rossmann, a sample of 20 stores was drawn so that the experiments could be c
 - it had at most 35 closures on weekdays, which excludes long refurbishment closures;
 - it had no day recorded as open with zero sales, which would indicate a recording error.
 
-Of the 1,115 stores, 850 met these conditions. The sample was stratified by store type and assortment, with allocation proportional to stratum size and at least two stores per stratum, and drawn with a fixed random seed (2026). Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
+Of the 1,115 stores, 850 met these conditions. Store type "b" does not appear in the sample, because all its stores trade on Sundays. The selected stores are listed in {app:B}.
 
 ### Closures, anomalies and missing values
 
@@ -258,7 +258,7 @@ Training and fitting times were measured as wall-clock time on one laptop: a dua
 
 ### Architecture
 
-The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}). Command-line scripts run each stage and write every result to a file. The result tables and figures in this report are generated from these files rather than typed by hand, and the descriptive statistics quoted in the text are recorded in a file of their own. Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
+The framework was implemented in Python as a package with one module per responsibility ({tbl:modules}). Statistical models used statsmodels, networks used TensorFlow and Keras, and tuning used Optuna.
 
 ::: table id=tbl:modules widths=4.4,11.2 size=8.5
 caption: Modules of the forecasting package
@@ -280,7 +280,7 @@ source: Author's own work.
 
 ### Testing and leakage prevention
 
-The package is covered by 40 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. They also check that the early-stopping block lies after the fitting windows and does not overlap them, and that residuals at day \(t\) do not change when later data change. Other tests compare the metrics and the DM statistic with manual calculations on known inputs. All tests pass. The full list of tests and their results is in {app:E}.
+The package is covered by 40 automated tests written with pytest, grouped in {tbl:tests}. The most important are the leakage tests. They perturb all data after a cut-off and check that the training windows and forecast inputs are unchanged. All tests pass. The full list of tests and their results is in {app:E}.
 
 ::: table id=tbl:tests widths=3.8,1.4,10.4 size=8.5
 caption: Automated tests by area
@@ -299,7 +299,7 @@ source: Author's own work. Test files are in the tests folder of the repository.
 
 ### Reproducibility
 
-Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The repository contains the code, the tests, a continuous-integration workflow that runs the tests on every change, pinned package versions and a reproduction guide ({app:I}). The raw data are excluded, and a script checks a user's downloaded files against the recorded checksums.
+Every source of randomness was seeded: the sample of stores, the tuning sampler and the network weights. TensorFlow was configured to use deterministic operations. Each stage writes checkpoints, so an interrupted run resumes without repeating finished work. Each experiment was logged with its parameters, seed, runtime, energy estimate and metrics. The reproduction guide is in {app:I}.
 
 ## Dashboard Design {#sec:dashboard}
 
@@ -320,21 +320,7 @@ source: Author's own work.
 alt: Diagram of three dimension tables (date, series and model) linked by one-to-many relationships to three fact tables (actuals, forecasts and metrics).
 :::
 
-The dashboard has three pages:
-
-- forecast versus actual with the 95% band for a selected store, model and origin;
-- model comparison by accuracy, horizon and cost, with a card naming the model of lowest store-average test mean absolute scaled error (MASE) for the selected dataset;
-- a planning page with the indicators above.
-
-Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]:
-
-- a colour palette that remains distinguishable under common colour-vision deficiencies;
-- line styles and data labels so that no information depends on colour alone;
-- alternative text on every visual;
-- a logical keyboard tab order;
-- minimum font sizes of 12 points for text and 10 points for axis labels.
-
-The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data; a static review (TP-16) covers the rest.
+The dashboard has three pages: forecast versus actual with the 95% band, model comparison, with a card naming the model of lowest store-average test mean absolute scaled error (MASE), and planning. Slicers for dataset, store, model and origin are shared across pages. Accessibility followed the principles reviewed in {sec:bilit} [@choiseo2024; @nelli2024]. The page specification, measures and accessibility checklist are in {app:F}, and the functional test plan is in {app:E}. The functional tests (TP-07 to TP-13) check the main measures against acceptance values computed in Python from the same data; a static review (TP-16) covers the rest.
 
 ## Issues and Troubleshooting {#sec:issues}
 
@@ -345,5 +331,4 @@ Several problems arose during development. Each was resolved and recorded in the
 - **Weekdays without history.** The seasonal naive method failed for Rossmann Sundays, which have no valid history. Such days are closures, so they were forecast as zero and excluded from scoring.
 - **Rossmann eligibility.** Eligibility first used all 942 days, including the test period. It now uses only earlier records, which raised the eligible stores from 836 to 850 and replaced five sampled stores; the stage was re-run and old outputs archived.
 - **Interrupted runs.** A long background run was stopped after a system clock change and lost 16 completed stores. Checkpoints were then added for each series, each tuning trial and each seed, so that every stage can resume.
-- **Literature access.** Google Scholar could not be searched automatically, and several publishers refused automated access to full texts. Discovery moved to OpenAlex and Crossref after the author approved the change, and only articles whose full text could be read were included ({sec:reviewmethod}).
 - **Toolchain deviation.** R was not installed on the development machine, so the planned R cross-check of the statistical models was not performed. Python 3.13 was used instead of Python 3.11.
